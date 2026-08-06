@@ -1,0 +1,32 @@
+{
+  "name": "dashboard-olympico",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Dashboard de atletas alimentado por uma planilha publica do Google Sheets",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "node server.js",
+    "start:open": "node server.js --open",
+    "build:win": "node scripts/create-portable-windows.js",
+    "build:portable": "npm run build:win",
+    "build:pkg": "pkg . --targets node22-win-x64 --output dist/Dashboard-Olympico.pkg.exe && node scripts/copy-dist-assets.js",
+    "export:athletes": "node scripts/export-athletes.js",
+    "reports:delivery": "node scripts/prepare-report-delivery.js",
+    "reports:kit": "node scripts/create-report-kit.js",
+    "report:fisio": "node scripts/create-physio-weekly-report.js",
+    "workbook:fisio": "node scripts/create-physio-google-workbook.js",
+    "workbook:psico": "node scripts/create-physio-google-workbook.js"
+  },
+  "bin": "server.js",
+  "pkg": {
+    "assets": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "manifest.webmanifest",
+      "service-worker.js",
+      "Olímpico_Clube_escudo.png",
+      "docs/**/*"
+    ]
+  }
+}

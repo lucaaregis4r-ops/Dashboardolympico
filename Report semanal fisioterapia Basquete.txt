@@ -1,0 +1,28 @@
+RELATORIO SEMANAL DE FISIOTERAPIA - BASQUETE
+
+Semana de referencia:
+Periodo:
+Responsavel:
+
+RESUMO GERAL
+- Total de atendimentos:
+- Total de atletas atendidos:
+- Novos casos:
+- Atletas liberados:
+- Casos em acompanhamento:
+
+ATLETAS QUE EXIGEM ATENCAO
+- Athlete ID:
+  Atleta:
+  Queixa principal:
+  Status:
+  Proximo passo:
+
+PROCEDIMENTOS MAIS UTILIZADOS
+- 
+
+OBSERVACOES GERAIS
+- 
+
+PRIORIDADES PARA A PROXIMA SEMANA
+- 

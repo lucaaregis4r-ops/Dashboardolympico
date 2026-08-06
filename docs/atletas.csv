@@ -1,0 +1,229 @@
+athlete_id,nome,categoria,modalidade_id,total_checkins,ultimo_checkin_iso,data_referida,status_id,status_label,media_carga,area_dor_mais_recente
+ath-basquete-sub17-adan-palhares,ADAN PALHARES,BASQUETE SUB17,basquete,19,2026-06-09T18:39:46.000Z,09/06/2026,stable,Estavel,2.4,0
+ath-volei-fem-sub17-adrielly-luana,ADRIELLY LUANA,VÔLEI FEM SUB17,volei-feminino,17,2026-06-03T21:16:57.000Z,03/06/2026,warning,Atencao,3,5
+ath-volei-fem-sub17-agata,AGATA,VÔLEI FEM SUB17,volei-feminino,33,2026-06-15T17:37:42.000Z,15/06/2026,critical,Critico,3.7,"Dedo do meio da mão esquerda,2,8"
+ath-basquete-sub-15-alexandre-lopes,ALEXANDRE LOPES,BASQUETE SUB 15,basquete,17,2026-06-16T19:56:11.000Z,16/06/2026,stable,Estavel,3,0
+ath-volei-fem-sub16-alexia,ALEXIA,VÔLEI FEM SUB16,volei-feminino,29,2026-06-15T20:07:54.000Z,15/06/2026,stable,Estavel,1.9,5
+ath-volei-fem-sub19-alice-silva-souza,ALICE SILVA SOUZA,VÔLEI FEM SUB19,volei-feminino,19,2026-06-17T19:20:09.000Z,17/06/2026,stable,Estavel,2.7,N
+ath-natacao-juv-ana-clara-rodrigues-lage-da-silva,ANA CLARA RODRIGUES LAGE DA SILVA,NATAÇÃO JUV,natacao,29,2026-06-11T17:36:49.000Z,11/06/2026,stable,Estavel,2.8,Nenhuma
+ath-volei-fem-sub17-ana-de-paiva,ANA DE PAIVA,VÔLEI FEM SUB17,volei-feminino,25,2026-06-15T17:49:51.000Z,15/06/2026,stable,Estavel,2.4,6
+ath-volei-fem-sub16-ana-julia-rocha-rodrigues,ANA JÚLIA ROCHA RODRIGUES,VÔLEI FEM SUB16,volei-feminino,36,2026-06-08T20:28:38.000Z,08/06/2026,stable,Estavel,2.8,0
+ath-volei-fem-sub15-ana-paula-rodrigues-vieira,ANA PAULA RODRIGUES VIEIRA,VÔLEI FEM SUB15,volei-feminino,22,2026-06-12T18:15:34.000Z,12/06/2026,stable,Estavel,2.2,0
+ath-futsal-sub17-anderson-fernandes-junior,ANDERSON FERNANDES JUNIOR,FUTSAL SUB17,futsal,19,2026-06-17T17:29:41.000Z,17/06/2026,warning,Atencao,2.2,"5 as duas- 4,8,3"
+ath-volei-fem-sub15-anna-beatriz-noce,ANNA BEATRIZ NOCE,VÔLEI FEM SUB15,volei-feminino,17,2026-06-15T18:56:17.000Z,15/06/2026,stable,Estavel,4.2,0
+ath-natacao-juv-anna-clara-gomes-pereira,ANNA CLARA GOMES PEREIRA,NATAÇÃO JUV,natacao,30,2026-06-18T17:06:53.000Z,18/06/2026,stable,Estavel,2.6,.
+ath-basquete-sub-15-antonio-lustosa,ANTÔNIO LUSTOSA,BASQUETE SUB 15,basquete,19,2026-06-18T19:12:09.000Z,18/06/2026,stable,Estavel,2.8,5
+ath-natacao-jr-antonio-miguel-laureano,ANTÔNIO MIGUEL LAUREANO,NATAÇÃO JR,natacao,27,2026-06-18T19:05:16.000Z,18/06/2026,stable,Estavel,1.9,0
+ath-futsal-sub15-antonio-toledo,ANTÔNIO TOLEDO,FUTSAL SUB15,futsal,13,2026-06-16T17:42:37.000Z,16/06/2026,stable,Estavel,2.9,Nao Sinto
+ath-basquete-sub17-arthru-hermisdorf,ARTHRU HERMISDORF,BASQUETE SUB17,basquete,12,2026-06-11T19:15:45.000Z,11/06/2026,stable,Estavel,2.5,0
+ath-natacao-jr-arthur-almeida-sorrentino,ARTHUR ALMEIDA SORRENTINO,NATAÇÃO JR,natacao,7,2026-06-12T18:31:15.000Z,12/06/2026,warning,Atencao,2.5,8/7
+ath-volei-masc-sub19-arthur-coura-rocha,ARTHUR COURA ROCHA,VÔLEI MASC SUB19,volei-masculino,15,2026-06-02T22:07:49.000Z,02/06/2026,warning,Atencao,2.4,Lombar
+ath-volei-masc-sub16-arthur-de-sousa,ARTHUR DE SOUSA,VÔLEI MASC SUB16,volei-masculino,8,2026-06-15T21:03:39.000Z,15/06/2026,warning,Atencao,2.2,Nao
+ath-volei-masc-sub19-arthur-francisco,ARTHUR FRANCISCO,VÔLEI MASC SUB19,volei-masculino,15,2026-06-09T21:39:12.000Z,09/06/2026,critical,Critico,3,Lombar.
+ath-volei-masc-sub16-arthur-gama,ARTHUR GAMA,VÔLEI MASC SUB16,volei-masculino,8,2026-05-25T21:12:05.000Z,25/05/2026,stable,Estavel,2.8,Nenhum
+ath-natacao-juv-arthur-lemos,ARTHUR LEMOS,NATAÇÃO JUV,natacao,28,2026-06-16T17:07:04.000Z,16/06/2026,stable,Estavel,2.8,0
+ath-volei-masc-sub16-arthur-martins-rodrigues,ARTHUR MARTINS RODRIGUES,VÔLEI MASC SUB16,volei-masculino,15,2026-06-15T21:02:51.000Z,15/06/2026,stable,Estavel,2.6,128
+ath-volei-fem-sub17-ayla,AYLA,VÔLEI FEM SUB17,volei-feminino,25,2026-06-17T19:38:25.000Z,17/06/2026,warning,Atencao,3.3,0
+ath-volei-fem-sub15-beatriz-campos-de-figueiredo,BEATRIZ CAMPOS DE FIGUEIREDO,VÔLEI FEM SUB15,volei-feminino,31,2026-06-15T18:56:08.000Z,15/06/2026,stable,Estavel,2.2,2
+ath-volei-masc-sub16-benicio-antunes,BENICIO ANTUNES,VÔLEI MASC SUB16,volei-masculino,14,2026-06-15T21:04:45.000Z,15/06/2026,stable,Estavel,1.3,Nenhuma
+ath-basquete-sub14-bernardo-assuncao-verdade,BERNARDO ASSUNÇÃO VERDADE,BASQUETE SUB14,basquete,22,2026-06-15T18:24:34.000Z,15/06/2026,stable,Estavel,1.8,.
+ath-volei-masc-sub19-bernardo-bezerra,BERNARDO BEZERRA,VÔLEI MASC SUB19,volei-masculino,15,2026-06-15T22:43:18.000Z,15/06/2026,warning,Atencao,2.8,Perna
+ath-futsal-sub15-bernardo-de-oliveira-cordoval,BERNARDO DE OLIVEIRA CORDOVAL,FUTSAL SUB15,futsal,16,2026-05-26T17:30:08.000Z,26/05/2026,stable,Estavel,1,nada
+ath-basquete-sub16-bernardo-de-souza,BERNARDO DE SOUZA,BASQUETE SUB16,basquete,28,2026-06-15T20:35:33.000Z,15/06/2026,stable,Estavel,3,0
+ath-basquete-sub14-bernardo-sales-oliveira-silva,BERNARDO SALES OLIVEIRA SILVA,BASQUETE SUB14,basquete,18,2026-06-16T17:39:32.000Z,16/06/2026,stable,Estavel,2.1,
+ath-futsal-sub17-bernardo-versiani,BERNARDO VERSIANI,FUTSAL SUB17,futsal,25,2026-06-17T17:38:29.000Z,17/06/2026,warning,Atencao,2.8,5
+ath-basquete-sub-15-breno-vinicius,BRENO VINÍCIUS,BASQUETE SUB 15,basquete,27,2026-06-16T19:57:42.000Z,16/06/2026,stable,Estavel,3,0
+ath-volei-fem-sub16-bruna-fernandes,BRUNA FERNANDES,VÔLEI FEM SUB16,volei-feminino,13,2026-06-15T20:21:36.000Z,15/06/2026,warning,Atencao,3.1,"2, 8 e 9"
+ath-futsal-sub15-bryan-eduardo-gandra,BRYAN EDUARDO GANDRA,FUTSAL SUB15,futsal,17,2026-06-16T17:39:23.000Z,16/06/2026,stable,Estavel,1.1,Sem dor
+ath-basquete-sub17-caio-gabriel-moraes-lopes-ribeiro,CAIO GABRIEL MORAES LOPES RIBEIRO,BASQUETE SUB17,basquete,15,2026-06-18T18:57:50.000Z,18/06/2026,stable,Estavel,2.9,0
+ath-natacao-jr-camila-dutra,CAMILA DUTRA,NATAÇÃO JR,natacao,23,2026-06-18T19:10:46.000Z,18/06/2026,stable,Estavel,2.9,"2,8"
+ath-futsal-sub17-carlos-henrique,CARLOS HENRIQUE,FUTSAL SUB17,futsal,15,2026-06-17T17:36:42.000Z,17/06/2026,stable,Estavel,2.8,Nenhum
+ath-futsal-sub17-cassiano-novais,CASSIANO NOVAIS,FUTSAL SUB17,futsal,7,2026-06-15T17:34:42.000Z,15/06/2026,stable,Estavel,2.3,6
+ath-futsal-sub17-caua-leles-souza-bernardo,CAUÃ LELES SOUZA BERNARDO,FUTSAL SUB17,futsal,5,2026-05-27T18:04:51.000Z,27/05/2026,stable,Estavel,2.8,.
+ath-natacao-jr-clara-torres,CLARA TORRES,NATAÇÃO JR,natacao,21,2026-06-18T19:09:31.000Z,18/06/2026,warning,Atencao,3.1,"10,2,entre 8 e 9"
+ath-futsal-sub17-cleiton-jesus,CLEITON JESUS,FUTSAL SUB17,futsal,22,2026-06-15T18:15:14.000Z,15/06/2026,warning,Atencao,3.2,"5, 10, 8"
+ath-basquete-sub-15-daniel-guedes,DANIEL GUEDES,BASQUETE SUB 15,basquete,30,2026-06-18T19:14:16.000Z,18/06/2026,stable,Estavel,2.7,9
+ath-natacao-juv-daniel-paulino-bastos,DANIEL PAULINO BASTOS,NATAÇÃO JUV,natacao,25,2026-06-18T19:20:35.000Z,18/06/2026,critical,Critico,2.9,6
+ath-futsal-sub15-davi-alvares,DAVI ALVARES,FUTSAL SUB15,futsal,9,2026-06-09T17:39:02.000Z,09/06/2026,stable,Estavel,2.4,8
+ath-volei-masc-sub17-davi-alves-de-oliveira-soares,DAVI ALVES DE OLIVEIRA SOARES,VÔLEI MASC SUB17,volei-masculino,2,2026-06-11T17:53:47.000Z,11/06/2026,stable,Estavel,3.3,Nenhum
+ath-basquete-sub17-davi-dias-freitas,DAVI DIAS FREITAS,BASQUETE SUB17,basquete,25,2026-06-15T20:52:56.000Z,15/06/2026,warning,Atencao,2.9,6
+ath-volei-masc-sub16-davi-dias-vilela,DAVI DIAS VILELA,VÔLEI MASC SUB16,volei-masculino,8,2026-06-15T21:03:50.000Z,15/06/2026,stable,Estavel,2.9,9
+ath-futsal-sub17-davi-emanuel,DAVI EMANUEL,FUTSAL SUB17,futsal,4,2026-06-15T17:34:41.000Z,15/06/2026,stable,Estavel,2.5,0
+ath-basquete-sub14-davi-emerick-reis-delecrodi-gomes,DAVI EMERICK REIS DELECRODI GOMES,BASQUETE SUB14,basquete,26,2026-06-16T17:38:00.000Z,16/06/2026,warning,Atencao,2.8,5
+ath-basquete-sub-15-davi-enzo,DAVI ENZO,BASQUETE SUB 15,basquete,27,2026-06-16T19:57:58.000Z,16/06/2026,warning,Atencao,3.1,0
+ath-basquete-sub14-davi-guedes-lopes,DAVI GUEDES LOPES,BASQUETE SUB14,basquete,26,2026-06-16T17:03:33.000Z,16/06/2026,stable,Estavel,1.9,.
+ath-basquete-sub17-davi-guilherme-navarro-de-oliveira,DAVI GUILHERME NAVARRO DE OLIVEIRA,BASQUETE SUB17,basquete,29,2026-06-18T18:35:50.000Z,18/06/2026,warning,Atencao,2.9,10
+ath-basquete-sub17-davi-lucas-justino-silva,DAVI LUCAS JUSTINO SILVA,BASQUETE SUB17,basquete,28,2026-06-15T20:53:48.000Z,15/06/2026,stable,Estavel,2.2,Nao
+ath-basquete-sub16-davi-maciel,DAVI MACIEL,BASQUETE SUB16,basquete,29,2026-06-15T20:34:51.000Z,15/06/2026,stable,Estavel,2.2,8
+ath-futsal-sub15-david-hanan,DAVID HANAN,FUTSAL SUB15,futsal,24,2026-06-16T17:33:56.000Z,16/06/2026,stable,Estavel,1.1,Nada
+ath-basquete-sub14-diogo-silva-araujo,DIOGO SILVA ARAÚJO,BASQUETE SUB14,basquete,10,2026-05-29T21:08:27.000Z,29/05/2026,stable,Estavel,2.8,"4, 1 3"
+ath-volei-masc-sub16-eduardo-franca,EDUARDO FRANÇA,VÔLEI MASC SUB16,volei-masculino,10,2026-06-08T21:01:42.000Z,08/06/2026,stable,Estavel,1.5,Nao
+ath-volei-masc-sub19-emanuel-araujo,EMANUEL ARAÚJO,VÔLEI MASC SUB19,volei-masculino,18,2026-06-15T22:47:16.000Z,15/06/2026,warning,Atencao,2.9,11
+ath-volei-fem-sub17-emelly-endy,EMELLY ENDY,VÔLEI FEM SUB17,volei-feminino,25,2026-06-17T19:38:47.000Z,17/06/2026,warning,Atencao,3.2,10
+ath-volei-fem-sub19-evellyn-cristina,EVELLYN CRISTINA,VÔLEI FEM SUB19,volei-feminino,21,2026-06-17T19:14:09.000Z,17/06/2026,stable,Estavel,2.9,Sem dor
+ath-basquete-sub-15-ezequiel-henrique,EZEQUIEL HENRIQUE,BASQUETE SUB 15,basquete,26,2026-06-18T18:53:55.000Z,18/06/2026,stable,Estavel,3,8
+ath-natacao-juv-felipe-paulino-bstos,FELIPE PAULINO BSTOS,NATAÇÃO JUV,natacao,23,2026-06-18T19:18:44.000Z,18/06/2026,warning,Atencao,3.3,"2,8,10,11,7"
+ath-volei-fem-sub19-fernanda-oliveira,FERNANDA OLIVEIRA,VÔLEI FEM SUB19,volei-feminino,28,2026-06-17T19:17:43.000Z,17/06/2026,stable,Estavel,3.2,9
+ath-natacao-juv-fernanda-stephanie,FERNANDA STEPHANIE,NATAÇÃO JUV,natacao,27,2026-06-16T17:41:24.000Z,16/06/2026,stable,Estavel,2.5,8
+ath-basquete-sub17-filipe-augusto-silva-moreira,FILIPE AUGUSTO SILVA MOREIRA,BASQUETE SUB17,basquete,7,2026-06-11T19:38:26.000Z,11/06/2026,stable,Estavel,2.6,Nenhuma
+ath-volei-masc-sub16-gabriel-andre,GABRIEL ANDRÉ,VÔLEI MASC SUB16,volei-masculino,5,2026-06-15T21:12:34.000Z,15/06/2026,warning,Atencao,2.8,8
+ath-volei-masc-sub17-gabriel-antonio,GABRIEL ANTÔNIO,VÔLEI MASC SUB17,volei-masculino,25,2026-06-17T20:37:36.000Z,17/06/2026,warning,Atencao,2.6,"2,3"
+ath-futsal-sub17-gabriel-dos-anjos-oliveira,GABRIEL DOS ANJOS OLIVEIRA,FUTSAL SUB17,futsal,30,2026-06-17T18:08:08.000Z,17/06/2026,warning,Atencao,2.9,5.
+ath-basquete-sub-15-gabriel-lourenco,GABRIEL LOURENÇO,BASQUETE SUB 15,basquete,14,2026-06-18T18:54:52.000Z,18/06/2026,stable,Estavel,2.8,5
+ath-futsal-sub15-gabriel-pardini-coelho,GABRIEL PARDINI COELHO,FUTSAL SUB15,futsal,12,2026-05-21T17:36:16.000Z,21/05/2026,stable,Estavel,1.8,Não
+ath-volei-fem-sub15-geovana-velentim-borges,GEOVANA VELENTIM BORGES,VÔLEI FEM SUB15,volei-feminino,22,2026-06-15T18:56:34.000Z,15/06/2026,warning,Atencao,3.3,Nenhum
+ath-volei-fem-sub15-giovana-de-oliveira-goncalves,GIOVANA DE OLIVEIRA GONÇALVES,VÔLEI FEM SUB15,volei-feminino,20,2026-06-15T18:55:50.000Z,15/06/2026,warning,Atencao,3.3,10
+ath-volei-fem-sub15-giovanna-guimaraes-ribeiro,GIOVANNA GUIMARÃES RIBEIRO,VÔLEI FEM SUB15,volei-feminino,28,2026-06-15T18:53:29.000Z,15/06/2026,warning,Atencao,3.7,"7,3"
+ath-basquete-sub16-guilherme-de-andrade-dias-domingos,GUILHERME DE ANDRADE DIAS DOMINGOS,BASQUETE SUB16,basquete,22,2026-06-15T20:28:12.000Z,15/06/2026,stable,Estavel,3,0
+ath-basquete-sub17-guilherme-guimaraes,GUILHERME GUIMARÃES,BASQUETE SUB17,basquete,16,2026-06-09T19:17:08.000Z,09/06/2026,warning,Atencao,3.9,Nenhum
+ath-basquete-sub14-guilherme-lopes-souza-ribeiro,GUILHERME LOPES SOUZA RIBEIRO,BASQUETE SUB14,basquete,13,2026-06-16T17:36:44.000Z,16/06/2026,stable,Estavel,2.6,Nenhum
+ath-volei-masc-sub19-gustavo-dos-santos-souza,GUSTAVO DOS SANTOS SOUZA,VÔLEI MASC SUB19,volei-masculino,8,2026-06-15T22:40:55.000Z,15/06/2026,critical,Critico,3.5,10 7
+ath-futsal-sub17-gustavo-henrique-da-silva-machado,GUSTAVO HENRIQUE DA SILVA MACHADO,FUTSAL SUB17,futsal,28,2026-06-17T17:29:04.000Z,17/06/2026,stable,Estavel,2.2,sem dor
+ath-basquete-sub17-gustavo-henrique-salvani-da-silva,GUSTAVO HENRIQUE SALVANI DA SILVA,BASQUETE SUB17,basquete,18,2026-06-15T21:00:12.000Z,15/06/2026,warning,Atencao,3.1,3
+ath-basquete-sub14-gustavo-moreira-ferreira,GUSTAVO MOREIRA FERREIRA,BASQUETE SUB14,basquete,11,2026-06-01T18:13:42.000Z,01/06/2026,stable,Estavel,2.2,Sem dor
+ath-futsal-sub15-gustavo-viana-melo-lara,GUSTAVO VIANA MELO LARA,FUTSAL SUB15,futsal,6,2026-05-28T17:41:24.000Z,28/05/2026,stable,Estavel,2.7,0
+ath-futsal-sub15-heitor,HEITOR,FUTSAL SUB15,futsal,21,2026-06-16T17:38:19.000Z,16/06/2026,stable,Estavel,2.8,Nenhuma dor
+ath-volei-masc-sub19-heitor-alves,HEITOR ALVES,VÔLEI MASC SUB19,volei-masculino,21,2026-06-16T21:49:04.000Z,16/06/0026,stable,Estavel,1.8,0
+ath-volei-fem-sub17-helena-campos,HELENA CAMPOS,VÔLEI FEM SUB17,volei-feminino,19,2026-06-17T19:06:01.000Z,17/06/2026,warning,Atencao,2.9,dor lombar
+ath-volei-fem-sub19-helena-de-carvalho,HELENA DE CARVALHO,VÔLEI FEM SUB19,volei-feminino,16,2026-06-15T18:45:06.000Z,15/06/2026,warning,Atencao,3,6
+ath-volei-fem-sub19-helena-lourenco,HELENA LOURENÇO,VÔLEI FEM SUB19,volei-feminino,23,2026-06-17T19:14:56.000Z,17/06/2026,warning,Atencao,2.8,0
+ath-futsal-sub17-henrique-coelho,HENRIQUE COELHO,FUTSAL SUB17,futsal,5,2026-06-17T17:43:39.000Z,17/06/2026,warning,Atencao,3.4,10
+ath-futsal-sub15-henrique-marcondes-freitas,HENRIQUE MARCONDES FREITAS,FUTSAL SUB15,futsal,8,2026-06-16T17:39:57.000Z,16/06/2026,stable,Estavel,2.4,Não sinto dor
+ath-basquete-sub-15-henrique-ortega,HENRIQUE ORTEGA,BASQUETE SUB 15,basquete,7,2026-06-08T21:45:30.000Z,08/06/2026,stable,Estavel,2.7,Nenhum
+ath-volei-fem-sub15-hillary-cristina,HILLARY CRISTINA,VÔLEI FEM SUB15,volei-feminino,22,2026-06-10T19:46:27.000Z,10/06/2026,warning,Atencao,3.7,8
+ath-futsal-sub15-ian-alexandre,IAN ALEXANDRE,FUTSAL SUB15,futsal,18,2026-05-21T17:34:01.000Z,21/05/2026,stable,Estavel,1.9,Nada
+ath-volei-fem-sub19-iasmyn-cristina,IASMYN CRISTINA,VÔLEI FEM SUB19,volei-feminino,29,2026-06-17T19:15:38.000Z,17/06/2026,warning,Atencao,3.5,"3,2 e 5"
+ath-volei-masc-sub19-igor-rodrigues,IGOR RODRIGUES,VÔLEI MASC SUB19,volei-masculino,15,2026-06-15T22:16:27.000Z,15/06/2026,stable,Estavel,3.1,0
+ath-futsal-sub15-ikaro-gabriel-de-moura-pereira-da-silva,IKARO GABRIEL DE MOURA PEREIRA DA SILVA,FUTSAL SUB15,futsal,3,2026-06-16T17:40:54.000Z,16/06/2026,critical,Critico,3.5,10
+ath-natacao-jr-isabela-marinho-barreto-oliveira,ISABELA MARINHO BARRETO OLIVEIRA,NATAÇÃO JR,natacao,22,2026-06-16T19:40:23.000Z,16/06/2026,warning,Atencao,2.9,"2,5,10"
+ath-volei-fem-sub16-isabela-pedrosa-campanini,ISABELA PEDROSA CAMPANINI,VÔLEI FEM SUB16,volei-feminino,31,2026-06-15T20:25:23.000Z,15/06/2026,warning,Atencao,3.5,0
+ath-natacao-juv-isabelly-gomes,ISABELLY GOMES,NATAÇÃO JUV,natacao,24,2026-06-18T17:06:46.000Z,18/06/2026,warning,Atencao,2.8,2
+ath-volei-fem-sub16-isis-marina,ISIS MARINA,VÔLEI FEM SUB16,volei-feminino,20,2026-06-15T20:13:12.000Z,15/06/2026,stable,Estavel,3,2
+ath-futsal-sub17-italo-gabriel-de-souza,ITALO GABRIEL DE SOUZA,FUTSAL SUB17,futsal,4,2026-06-08T17:40:40.000Z,08/06/2026,stable,Estavel,2.5,10
+ath-futsal-sub17-iury,IURY,FUTSAL SUB17,futsal,21,2026-06-17T17:28:12.000Z,17/06/2026,warning,Atencao,2.2,5 e 10
+ath-basquete-sub16-joao-bruzzi,JOÃO BRUZZI,BASQUETE SUB16,basquete,10,2026-06-02T17:18:48.000Z,02/06/2026,warning,Atencao,2.9,0
+ath-volei-masc-sub17-joao-gabriel-marcal,JOÃO GABRIEL MARÇAL,VÔLEI MASC SUB17,volei-masculino,25,2026-06-03T20:01:03.000Z,03/06/2026,stable,Estavel,3.1,2
+ath-volei-masc-sub17-joao-lucas,JOÃO LUCAS,VÔLEI MASC SUB17,volei-masculino,17,2026-06-10T20:18:21.000Z,10/06/2026,warning,Atencao,3,9
+ath-basquete-sub17-joao-pedro-melo-dos-santos,JOÃO PEDRO MELO DOS SANTOS,BASQUETE SUB17,basquete,21,2026-06-01T20:37:46.000Z,01/06/2026,stable,Estavel,2.9,.
+ath-basquete-sub-15-joao-pedro-muniz,JOÃO PEDRO MUNIZ,BASQUETE SUB 15,basquete,13,2026-06-15T21:38:09.000Z,15/06/2026,warning,Atencao,2.9,Quadril e joelho
+ath-volei-masc-sub19-jose-almer-martins-da-silva-filho,JOSE ALMER MARTINS DA SILVA FILHO,VÔLEI MASC SUB19,volei-masculino,16,2026-06-02T22:07:40.000Z,02/06/2026,warning,Atencao,3,1
+ath-volei-masc-sub16-juan,JUAN,VÔLEI MASC SUB16,volei-masculino,10,2026-06-15T21:02:59.000Z,15/06/2026,stable,Estavel,2.3,1
+ath-volei-fem-sub15-juli-marques,JULI MARQUES,VÔLEI FEM SUB15,volei-feminino,25,2026-06-15T19:34:53.000Z,15/06/2026,warning,Atencao,2.8,0
+ath-volei-fem-sub19-julia-mainenti-cabral,JULIA MAINENTI CABRAL,VÔLEI FEM SUB19,volei-feminino,26,2026-06-17T19:47:59.000Z,17/06/2026,stable,Estavel,3,X
+ath-volei-fem-sub16-julia-oliver,JULIA OLIVER,VÔLEI FEM SUB16,volei-feminino,11,2026-05-21T17:39:04.000Z,21/05/2026,warning,Atencao,3.4,10
+ath-volei-fem-sub16-juliana-fisicaro-borges,JULIANA FISICARO BORGES,VÔLEI FEM SUB16,volei-feminino,27,2026-06-15T20:43:01.000Z,15/06/2026,warning,Atencao,2.8,Nao
+ath-volei-fem-sub15-juliana-valerio,JULIANA VALERIO,VÔLEI FEM SUB15,volei-feminino,14,2026-06-15T18:56:22.000Z,15/06/2026,warning,Atencao,2.9,2
+ath-volei-fem-sub16-juliany-souza,JULIANY SOUZA,VÔLEI FEM SUB16,volei-feminino,35,2026-06-15T20:14:15.000Z,15/06/2026,warning,Atencao,2.2,Nenhuma
+ath-basquete-sub16-kelvin-takafhi-pereira,KELVIN TAKAFHI PEREIRA,BASQUETE SUB16,basquete,26,2026-06-11T19:04:05.000Z,11/06/2026,warning,Atencao,3,2
+ath-futsal-sub17-kevin-felipe-de-souza-silva,KEVIN FELIPE DE SOUZA SILVA,FUTSAL SUB17,futsal,11,2026-06-08T17:59:37.000Z,08/06/2026,stable,Estavel,2.7,Nenhum
+ath-volei-fem-sub17-larah-julia,LARAH JULIA,VÔLEI FEM SUB17,volei-feminino,25,2026-06-15T17:05:47.000Z,15/06/2026,warning,Atencao,3,0
+ath-volei-fem-sub19-laryssa-freitas,LARYSSA FREITAS,VÔLEI FEM SUB19,volei-feminino,23,2026-06-17T19:04:20.000Z,17/06/2026,warning,Atencao,3.2,Não
+ath-volei-fem-sub17-laura-galinare,LAURA GALINARE,VÔLEI FEM SUB17,volei-feminino,37,2026-06-17T19:24:27.000Z,17/06/2026,stable,Estavel,2.9,nenhuma
+ath-volei-fem-sub15-laysla-eduarda,LAYSLA EDUARDA,VÔLEI FEM SUB15,volei-feminino,25,2026-06-15T19:39:31.000Z,15/06/2026,stable,Estavel,2.6,0
+ath-basquete-sub-15-leonardo-henrique,LEONARDO HENRIQUE,BASQUETE SUB 15,basquete,24,2026-06-18T19:05:08.000Z,18/06/2026,stable,Estavel,2.5,0
+ath-basquete-sub16-leonardo-vicente-brucci,LEONARDO VICENTE BRUCCI,BASQUETE SUB16,basquete,30,2026-06-11T19:54:10.000Z,11/06/2026,critical,Critico,3.4,10
+ath-volei-masc-sub16-leone,LEONE,VÔLEI MASC SUB16,volei-masculino,9,2026-06-15T21:01:53.000Z,15/06/2026,stable,Estavel,2.8,Sem dores
+ath-volei-fem-sub16-leticia-goncalves,LETÍCIA GONÇALVES,VÔLEI FEM SUB16,volei-feminino,21,2026-06-15T20:17:58.000Z,15/06/2026,warning,Atencao,3.4,Nenhum
+ath-volei-fem-sub17-lidia-ayalla,LIDIA AYALLA,VÔLEI FEM SUB17,volei-feminino,27,2026-06-15T17:05:41.000Z,15/06/2026,stable,Estavel,2.2,9
+ath-futsal-sub15-lorenzo,LORENZO,FUTSAL SUB15,futsal,13,2026-06-16T17:37:54.000Z,16/06/2026,stable,Estavel,2.2,Nenhuma
+ath-basquete-sub14-lorenzo-franca,LORENZO FRANÇA,BASQUETE SUB14,basquete,21,2026-06-09T17:02:52.000Z,09/06/2026,warning,Atencao,2.6,Não
+ath-basquete-sub16-luan-menezes,LUAN MENEZES,BASQUETE SUB16,basquete,2,2026-06-11T20:02:47.000Z,11/06/2026,warning,Atencao,1.9,"3, 8, 10 e 4"
+ath-futsal-sub15-luca-lanza,LUCA LANZA,FUTSAL SUB15,futsal,3,2026-05-26T17:31:13.000Z,26/05/2026,stable,Estavel,2.7,.
+ath-basquete-sub-15-lucas-arthur,LUCAS ARTHUR,BASQUETE SUB 15,basquete,23,2026-06-18T17:34:57.000Z,18/06/2026,stable,Estavel,2.9,Nenhum lugar
+ath-volei-masc-sub19-lucas-bezerra,LUCAS BEZERRA,VÔLEI MASC SUB19,volei-masculino,13,2026-06-15T22:39:05.000Z,15/06/2026,stable,Estavel,2.7,6
+ath-futsal-sub15-lucas-eduardo-souza-nunes,LUCAS EDUARDO SOUZA NUNES,FUTSAL SUB15,futsal,20,2026-05-26T17:30:26.000Z,26/05/2026,stable,Estavel,2.5,5
+ath-basquete-sub14-lucas-kaua-francisco-alves-ricardo,LUCAS KAUÃ FRANCISCO ALVES RICARDO,BASQUETE SUB14,basquete,23,2026-06-16T17:36:03.000Z,16/06/2026,stable,Estavel,1.5,.
+ath-volei-masc-sub17-lucas-melo,LUCAS MELO,VÔLEI MASC SUB17,volei-masculino,8,2026-06-11T17:43:57.000Z,11/06/2026,warning,Atencao,3.8,"9,1"
+ath-natacao-juv-lucas-miranda,LUCAS MIRANDA,NATAÇÃO JUV,natacao,24,2026-06-18T17:05:17.000Z,18/06/2026,stable,Estavel,2.3,0
+ath-futsal-sub17-lucas-ryan-barbosa-da-costa,LUCAS RYAN BARBOSA DA COSTA,FUTSAL SUB17,futsal,12,2026-06-17T17:35:00.000Z,17/06/2026,stable,Estavel,2.3,Não
+ath-futsal-sub15-lucayan-barros-taveira,LUCAYAN BARROS TAVEIRA,FUTSAL SUB15,futsal,6,2026-05-21T17:32:10.000Z,21/05/2026,critical,Critico,2.4,8
+ath-futsal-sub17-luis-miguel-martins,LUIS MIGUEL MARTINS,FUTSAL SUB17,futsal,7,2026-05-25T17:28:05.000Z,25/05/2026,warning,Atencao,2.8,11
+ath-basquete-sub17-luiz-fernando-ferreira-de-jesus-godoy,LUIZ FERNANDO FERREIRA DE JESUS GODOY,BASQUETE SUB17,basquete,33,2026-06-15T21:06:39.000Z,15/06/2026,warning,Atencao,3.5,7
+ath-volei-fem-sub19-manuela-sofia,MANUELA SOFIA,VÔLEI FEM SUB19,volei-feminino,29,2026-06-17T19:48:54.000Z,17/06/2026,stable,Estavel,3,0
+ath-volei-fem-sub15-maraiana-zenatalli-duraes,MARAIANA ZENATALLI DURÃES,VÔLEI FEM SUB15,volei-feminino,24,2026-06-12T18:13:42.000Z,12/06/2026,critical,Critico,3.8,Nada
+ath-basquete-sub14-marcel-morais-leite-oliveira,MARCEL MORAIS LEITE OLIVEIRA,BASQUETE SUB14,basquete,26,2026-06-16T17:02:48.000Z,16/06/2026,warning,Atencao,2.3,1
+ath-natacao-juv-marcela-martins,MARCELA MARTINS,NATAÇÃO JUV,natacao,24,2026-06-16T17:41:54.000Z,16/06/2026,stable,Estavel,1.4,5
+ath-volei-masc-sub19-marcos-gabriel-fraga,MARCOS GABRIEL FRAGA,VÔLEI MASC SUB19,volei-masculino,11,2026-06-15T22:39:52.000Z,15/06/2026,stable,Estavel,3.3,.
+ath-volei-masc-sub17-marcos-paulo,MARCOS PAULO,VÔLEI MASC SUB17,volei-masculino,28,2026-05-22T20:30:23.000Z,22/05/2026,warning,Atencao,2.8,3
+ath-volei-masc-sub17-marcus-paulo-amaral,MARCUS PAULO AMARAL,VÔLEI MASC SUB17,volei-masculino,21,2026-06-18T17:47:08.000Z,18/06/2026,warning,Atencao,2.8,9
+ath-volei-fem-sub19-maria-clara,MARIA CLARA,VÔLEI FEM SUB19,volei-feminino,9,2026-06-02T20:50:39.000Z,02/06/2026,warning,Atencao,2.8,0
+ath-volei-fem-sub19-maria-eduarda-ferreira,MARIA EDUARDA FERREIRA,VÔLEI FEM SUB19,volei-feminino,17,2026-06-08T19:29:11.000Z,08/06/2026,stable,Estavel,2.9,Sem dor
+ath-natacao-juv-maria-eduarda-pimenta,MARIA EDUARDA PIMENTA,NATAÇÃO JUV,natacao,17,2026-05-28T17:03:20.000Z,28/05/2026,stable,Estavel,3,0
+ath-volei-fem-sub16-maria-fernanda-ladeira,MARIA FERNANDA LADEIRA,VÔLEI FEM SUB16,volei-feminino,30,2026-06-15T20:29:13.000Z,15/06/2026,stable,Estavel,3.2,9
+ath-volei-fem-sub17-maria-paula,MARIA PAULA,VÔLEI FEM SUB17,volei-feminino,16,2026-06-17T19:41:10.000Z,17/06/2026,warning,Atencao,3.4,2 8 5
+ath-volei-fem-sub19-mariana-santos,MARIANA SANTOS,VÔLEI FEM SUB19,volei-feminino,21,2026-06-17T19:28:54.000Z,17/06/2026,critical,Critico,3.4,9
+ath-basquete-sub16-mateus-filipe-souza,MATEUS FILIPE SOUZA,BASQUETE SUB16,basquete,15,2026-06-10T21:04:20.000Z,10/06/2026,critical,Critico,3,6
+ath-basquete-sub16-matheus-de-souza,MATHEUS DE SOUZA,BASQUETE SUB16,basquete,9,2026-06-09T17:24:18.000Z,09/06/2026,stable,Estavel,3,0
+ath-basquete-sub17-matheus-monteiro-borjaille,MATHEUS MONTEIRO BORJAILLE,BASQUETE SUB17,basquete,12,2026-06-11T19:03:17.000Z,11/06/2026,stable,Estavel,3.1,2
+ath-volei-fem-sub17-melissa-xavier,MELISSA XAVIER,VÔLEI FEM SUB17,volei-feminino,26,2026-06-15T17:04:02.000Z,15/06/2026,warning,Atencao,2.3,9
+ath-volei-masc-sub16-miguel,MIGUEL,VÔLEI MASC SUB16,volei-masculino,16,2026-06-12T18:39:03.000Z,12/06/2026,stable,Estavel,2.2,Nenhum
+ath-futsal-sub17-miguel-augusto-rezende-dias,MIGUEL AUGUSTO REZENDE DIAS,FUTSAL SUB17,futsal,15,2026-06-17T17:34:23.000Z,17/06/2026,stable,Estavel,2.7,não dor
+ath-basquete-sub-15-miguel-macedo-affonso,MIGUEL MACEDO AFFONSO,BASQUETE SUB 15,basquete,22,2026-05-26T19:32:16.000Z,26/05/2026,stable,Estavel,2.8,Nenhuma
+ath-basquete-sub-15-miguel-macedo-afonso,MIGUEL MACEDO AFONSO,BASQUETE SUB 15,basquete,9,2026-06-18T18:53:39.000Z,18/06/2026,stable,Estavel,2.8,Nenhuma
+ath-volei-fem-sub17-milena-monteiro,MILENA MONTEIRO,VÔLEI FEM SUB17,volei-feminino,27,2026-06-15T17:40:02.000Z,15/06/2026,stable,Estavel,2.8,Joelho direto
+ath-volei-masc-sub19-murilo-bezerra,MURILO BEZERRA,VÔLEI MASC SUB19,volei-masculino,17,2026-06-15T22:44:05.000Z,15/06/2026,stable,Estavel,2.2,Nada
+ath-basquete-sub-15-murilo-martins,MURILO MARTINS,BASQUETE SUB 15,basquete,27,2026-06-18T18:54:29.000Z,18/06/2026,stable,Estavel,3,Nenhum
+ath-volei-masc-sub17-nichollas-xavier,NICHOLLAS XAVIER,VÔLEI MASC SUB17,volei-masculino,17,2026-06-17T20:50:09.000Z,17/06/2026,stable,Estavel,2.3,9
+ath-basquete-sub14-nicolas-cancado-loureiro,NICOLAS CANÇADO LOUREIRO,BASQUETE SUB14,basquete,14,2026-06-15T18:13:30.000Z,15/06/2026,stable,Estavel,2.4,9
+ath-natacao-jr-nicolas-malta-silva,NICOLAS MALTA SILVA,NATAÇÃO JR,natacao,17,2026-06-18T19:06:49.000Z,18/06/2026,stable,Estavel,2.6,0
+ath-volei-fem-sub16-nicole,NICOLE,VÔLEI FEM SUB16,volei-feminino,19,2026-06-08T20:08:34.000Z,08/06/2026,stable,Estavel,2.5,2
+ath-volei-fem-sub16-nicolly-coelho-araujo,NICOLLY COELHO ARAÚJO,VÔLEI FEM SUB16,volei-feminino,24,2026-06-15T19:50:59.000Z,15/06/2026,warning,Atencao,3.3,0
+ath-volei-masc-sub17-noah-luccas,NOAH LUCCAS,VÔLEI MASC SUB17,volei-masculino,18,2026-06-18T17:59:44.000Z,18/06/2026,critical,Critico,3.9,Joelho
+ath-volei-masc-sub17-otavio-vasconcelos,OTÁVIO VASCONCELOS,VÔLEI MASC SUB17,volei-masculino,35,2026-06-18T17:47:59.000Z,18/06/2026,stable,Estavel,2.5,.
+ath-volei-masc-sub16-patrick,PATRICK,VÔLEI MASC SUB16,volei-masculino,20,2026-06-15T21:03:21.000Z,15/06/2026,stable,Estavel,3,5
+ath-volei-masc-sub19-paulo-cesar-jiticovski,PAULO CESAR JITICOVSKI,VÔLEI MASC SUB19,volei-masculino,21,2026-06-16T21:51:46.000Z,16/06/2026,warning,Atencao,3.1,9 2 8
+ath-basquete-sub-15-pedro-da-silva,PEDRO DA SILVA,BASQUETE SUB 15,basquete,20,2026-06-18T18:56:05.000Z,18/06/2026,stable,Estavel,3.3,0
+ath-natacao-juv-pedro-gomes,PEDRO GOMES,NATAÇÃO JUV,natacao,23,2026-06-18T19:05:56.000Z,18/06/2026,warning,Atencao,3.5,10 3
+ath-natacao-jr-pedro-gontijo-da-matta,PEDRO GONTIJO DA MATTA,NATAÇÃO JR,natacao,26,2026-06-18T19:05:51.000Z,18/06/2026,stable,Estavel,1.3,0
+ath-basquete-sub-15-pedro-henrique,PEDRO HENRIQUE,BASQUETE SUB 15,basquete,25,2026-06-18T18:34:21.000Z,18/06/2026,warning,Atencao,3.1,5
+ath-volei-masc-sub16-pedro-henrique-amaral,PEDRO HENRIQUE AMARAL,VÔLEI MASC SUB16,volei-masculino,9,2026-06-15T21:04:25.000Z,15/06/2026,stable,Estavel,2.3,9
+ath-volei-masc-sub19-pedro-henrique-eugenio-de-oliveira,PEDRO HENRIQUE EUGÊNIO DE OLIVEIRA,VÔLEI MASC SUB19,volei-masculino,12,2026-06-16T21:46:39.000Z,16/06/2026,stable,Estavel,2,0
+ath-basquete-sub17-pedro-henrique-martins-athaides,PEDRO HENRIQUE MARTINS ATHAIDES,BASQUETE SUB17,basquete,10,2026-06-11T19:01:24.000Z,11/06/2026,stable,Estavel,2.9,nada
+ath-futsal-sub17-pedro-lucas-rodrigues-rocha,PEDRO LUCAS RODRIGUES ROCHA,FUTSAL SUB17,futsal,10,2026-06-15T17:41:56.000Z,15/06/2026,warning,Atencao,2.9,não
+ath-volei-masc-sub19-pedro-lukas-mendes-fernandes,PEDRO LUKAS MENDES FERNANDES,VÔLEI MASC SUB19,volei-masculino,16,2026-06-16T21:43:15.000Z,16/06/2026,stable,Estavel,3,11
+ath-basquete-sub16-pedro-ricardo-herculano,PEDRO RICARDO HERCULANO,BASQUETE SUB16,basquete,31,2026-06-15T20:16:59.000Z,15/06/2026,stable,Estavel,2.7,Sem dores
+ath-futsal-sub15-pedro-yoshi-vieira,PEDRO YOSHI VIEIRA,FUTSAL SUB15,futsal,14,2026-06-16T17:33:45.000Z,16/06/2026,stable,Estavel,3.1,Nada.
+ath-volei-masc-sub16-rafael,RAFAEL,VÔLEI MASC SUB16,volei-masculino,15,2026-06-12T18:10:36.000Z,12/06/2026,stable,Estavel,2.3,2
+ath-volei-masc-sub19-rafael-ernany,RAFAEL ERNANY,VÔLEI MASC SUB19,volei-masculino,14,2026-06-09T21:37:13.000Z,09/06/2026,critical,Critico,2.8,6
+ath-volei-masc-sub17-rafael-falqueto-feu-gomes,RAFAEL FALQUETO FEU GOMES,VÔLEI MASC SUB17,volei-masculino,15,2026-06-16T20:06:47.000Z,16/06/2026,stable,Estavel,2.5,Nenhum
+ath-volei-masc-sub17-rafael-sipirian,RAFAEL SIPIRIAN,VÔLEI MASC SUB17,volei-masculino,18,2026-06-17T20:07:42.000Z,17/06/2026,stable,Estavel,2,Não
+ath-futsal-sub15-rafael-souza-do-amaral,RAFAEL SOUZA DO AMARAL,FUTSAL SUB15,futsal,14,2026-06-16T17:39:08.000Z,16/06/2026,warning,Atencao,2.4,Não
+ath-basquete-sub14-raphael-augusto-rodrigues-barbosa,RAPHAEL AUGUSTO RODRIGUES BARBOSA,BASQUETE SUB14,basquete,14,2026-06-16T17:38:28.000Z,16/06/2026,stable,Estavel,2,Nenhum
+ath-basquete-sub14-raul-camargos,RAUL CAMARGOS,BASQUETE SUB14,basquete,10,2026-06-08T18:23:22.000Z,08/06/2026,stable,Estavel,2.3,Zero
+ath-volei-fem-sub16-rebeca-meireles-de-souza-silva,REBECA MEIRELES DE SOUZA SILVA,VÔLEI FEM SUB16,volei-feminino,28,2026-06-15T20:45:25.000Z,15/06/2026,stable,Estavel,2.5,Nenhums
+ath-futsal-sub15-renan-vaz-de-abreu-mello,RENAN VAZ DE ABREU MELLO,FUTSAL SUB15,futsal,20,2026-06-16T17:39:05.000Z,16/06/2026,stable,Estavel,2.3,0
+ath-futsal-sub17-riquelme-victor,RIQUELME VICTOR,FUTSAL SUB17,futsal,16,2026-06-01T18:00:14.000Z,01/06/2026,stable,Estavel,2.5,Nao
+ath-futsal-sub17-ryan-felipe-gandra,RYAN FELIPE GANDRA,FUTSAL SUB17,futsal,7,2026-06-08T17:32:25.000Z,08/06/2026,stable,Estavel,2.8,11
+ath-natacao-juv-samuel-braga-nascimento,SAMUEL BRAGA NASCIMENTO,NATAÇÃO JUV,natacao,23,2026-06-16T17:08:00.000Z,16/06/2026,stable,Estavel,2.9,0
+ath-natacao-jr-samuel-da-silva-santos,SAMUEL DA SILVA SANTOS,NATAÇÃO JR,natacao,28,2026-06-18T19:06:08.000Z,18/06/2026,warning,Atencao,3,5 10
+ath-futsal-sub17-samuel-drummond,SAMUEL DRUMMOND,FUTSAL SUB17,futsal,7,2026-05-27T17:27:12.000Z,27/05/2026,stable,Estavel,2.5,Sem dor
+ath-volei-masc-sub19-samuel-felipe-de-moura,SAMUEL FELIPE DE MOURA,VÔLEI MASC SUB19,volei-masculino,15,2026-06-01T19:57:23.000Z,19/05/2026,stable,Estavel,2.2,nada
+ath-futsal-sub17-samuel-lacerda,SAMUEL LACERDA,FUTSAL SUB17,futsal,8,2026-06-01T18:03:16.000Z,01/06/2026,warning,Atencao,3.7,5
+ath-volei-fem-sub15-sarah-cristina,SARAH CRISTINA,VÔLEI FEM SUB15,volei-feminino,28,2026-06-15T19:37:31.000Z,15/06/2026,warning,Atencao,3.3,Quadril
+ath-volei-fem-sub19-shelley-borges,SHELLEY BORGES,VÔLEI FEM SUB19,volei-feminino,18,2026-06-01T19:48:02.000Z,01/06/2026,stable,Estavel,3.1,0
+ath-volei-fem-sub17-sofia-kochmann,SOFIA KOCHMANN,VÔLEI FEM SUB17,volei-feminino,21,2026-06-17T19:10:12.000Z,17/06/2026,stable,Estavel,2.7,0
+ath-volei-fem-sub15-stella-solano-luz-coelho,STELLA SOLANO LUZ COELHO,VÔLEI FEM SUB15,volei-feminino,27,2026-06-15T18:55:07.000Z,15/06/2026,stable,Estavel,2.5,nenhuma
+ath-volei-fem-sub16-taina-ebert,TAINA EBERT,VÔLEI FEM SUB16,volei-feminino,21,2026-06-03T17:12:51.000Z,03/06/2026,warning,Atencao,3.1,8
+ath-volei-fem-sub19-tamara-pinto,TAMARA PINTO,VÔLEI FEM SUB19,volei-feminino,23,2026-06-12T19:35:30.000Z,12/06/2026,warning,Atencao,3.2,2 7 8 5 3
+ath-volei-fem-sub16-tammy-lauanda-romao-souza,TAMMY LAUANDA ROMÃO SOUZA,VÔLEI FEM SUB16,volei-feminino,24,2026-06-15T20:29:07.000Z,15/06/2026,stable,Estavel,3.1,0
+ath-natacao-jr-thalita-emanuelle-de-jesus,THALITA EMANUELLE DE JESUS,NATAÇÃO JR,natacao,29,2026-06-18T19:08:13.000Z,18/06/2026,critical,Critico,3,"3,2,10,11"
+ath-basquete-sub16-thalles-dias,THALLES DIAS,BASQUETE SUB16,basquete,17,2026-06-15T20:35:38.000Z,15/06/2026,warning,Atencao,3.1,6
+ath-volei-fem-sub19-theodora,THEODORA,VÔLEI FEM SUB19,volei-feminino,21,2026-06-15T18:44:04.000Z,15/06/2026,stable,Estavel,3.5,0
+ath-volei-masc-sub16-thiago-andre,THIAGO ANDRÉ,VÔLEI MASC SUB16,volei-masculino,12,2026-06-01T21:26:25.000Z,01/06/2026,stable,Estavel,2.9,N
+ath-futsal-sub17-thiago-augusto,THIAGO AUGUSTO,FUTSAL SUB17,futsal,14,2026-06-08T17:41:31.000Z,08/06/2026,stable,Estavel,2.8,Sem dor
+ath-basquete-sub-15-thiago-brito-brasileiro-de-lima,THIAGO BRITO BRASILEIRO DE LIMA,BASQUETE SUB 15,basquete,16,2026-05-28T17:37:39.000Z,28/05/2026,warning,Atencao,1.9,10 e 11
+ath-basquete-sub14-tiago-naoki-yogi,TIAGO NAOKI YOGI,BASQUETE SUB14,basquete,23,2026-06-16T17:01:43.000Z,16/06/2026,stable,Estavel,1.2,0
+ath-volei-fem-sub19-valentina,VALENTINA,VÔLEI FEM SUB19,volei-feminino,12,2026-06-10T19:10:05.000Z,10/06/2026,stable,Estavel,3.3,0
+ath-volei-fem-sub15-valentina-da-silva-de-jesus,VALENTINA DA SILVA DE JESUS,VÔLEI FEM SUB15,volei-feminino,27,2026-06-15T18:54:47.000Z,15/06/2026,warning,Atencao,3.4,0
+ath-volei-fem-sub16-valentina-nebias,VALENTINA NEBIAS,VÔLEI FEM SUB16,volei-feminino,29,2026-06-15T20:46:16.000Z,15/06/2026,warning,Atencao,2.7,"8,9"
+ath-basquete-sub14-vicente-ferreira-melo,VICENTE FERREIRA MELO,BASQUETE SUB14,basquete,24,2026-06-16T17:40:21.000Z,16/06/2026,stable,Estavel,2.8,","
+ath-basquete-sub17-vinicius-flores-bordoni-medrada,VINICIUS FLORES BORDONI MEDRADA,BASQUETE SUB17,basquete,2,2026-06-09T19:14:37.000Z,09/06/2026,critical,Critico,3.2,Posterior
+ath-volei-masc-sub19-vitor-bevilacqua,VITOR BEVILACQUA,VÔLEI MASC SUB19,volei-masculino,14,2026-06-09T22:14:19.000Z,09/06/2026,warning,Atencao,3.2,10
+ath-volei-masc-sub17-vitor-davitti,VITOR DAVITTI,VÔLEI MASC SUB17,volei-masculino,23,2026-06-17T20:08:27.000Z,17/06/2026,stable,Estavel,2.9,Nenhum
+ath-volei-masc-sub17-vitor-manini,VITOR MANINI,VÔLEI MASC SUB17,volei-masculino,11,2026-05-26T20:46:31.000Z,26/05/2026,warning,Atencao,3.2,N
+ath-futsal-sub15-vitor-teles,VITOR TELES,FUTSAL SUB15,futsal,10,2026-06-16T17:37:27.000Z,16/06/2026,stable,Estavel,1.1,.
+ath-volei-fem-sub19-vitoria-emanuelly,VITORIA EMANUELLY,VÔLEI FEM SUB19,volei-feminino,33,2026-06-17T19:12:20.000Z,17/06/2026,warning,Atencao,3.1,Tudo
+ath-volei-fem-sub16-vitoria-luzia-vilela,VITÓRIA LUZIA VILELA,VÔLEI FEM SUB16,volei-feminino,33,2026-06-15T19:54:42.000Z,15/06/2026,stable,Estavel,2.9,8 e 2
+ath-futsal-sub17-yago-barbosa,YAGO BARBOSA,FUTSAL SUB17,futsal,17,2026-06-15T17:33:17.000Z,15/06/2026,stable,Estavel,2.9,Não
+ath-volei-fem-sub16-yasmim-vitoria-da-silva-nogueira,YASMIM VITÓRIA DA SILVA NOGUEIRA,VÔLEI FEM SUB16,volei-feminino,28,2026-06-15T20:09:06.000Z,15/06/2026,stable,Estavel,2.5,8 e 11
+ath-volei-fem-sub15-zara-rocha,ZARA ROCHA,VÔLEI FEM SUB15,volei-feminino,27,2026-06-15T18:55:21.000Z,15/06/2026,warning,Atencao,4.2,2
