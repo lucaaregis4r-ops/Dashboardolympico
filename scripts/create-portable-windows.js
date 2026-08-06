@@ -123,23 +123,36 @@ using System.IO;
 
 class DashboardOlympicoLauncher {
   static void Main() {
-    string root = AppDomain.CurrentDomain.BaseDirectory;
-    string node = Path.Combine(root, "runtime", "node.exe");
-    string server = Path.Combine(root, "src", "server", "index.js");
+    string executable = Process.GetCurrentProcess().MainModule.FileName;
+    string root = Path.GetDirectoryName(executable);
+    string errorLog = Path.Combine(root, "launcher-error.log");
 
-    if (!File.Exists(node) || !File.Exists(server)) {
-      System.Windows.Forms.MessageBox.Show("Arquivos do Dashboard Olympico nao encontrados. Copie a pasta dist inteira.", "Dashboard Olympico");
-      return;
+    try {
+      string node = Path.Combine(root, "runtime", "node.exe");
+      string server = Path.Combine(root, "src", "server", "index.js");
+
+      if (!File.Exists(node) || !File.Exists(server)) {
+        throw new FileNotFoundException("Arquivos do dashboard nao encontrados. Copie a pasta de entrega inteira.");
+      }
+
+      ProcessStartInfo startInfo = new ProcessStartInfo();
+      startInfo.FileName = node;
+      startInfo.Arguments = "\\\"" + server + "\\\" --open";
+      startInfo.WorkingDirectory = root;
+      startInfo.UseShellExecute = false;
+      startInfo.CreateNoWindow = true;
+      Process child = Process.Start(startInfo);
+      if (child == null) {
+        throw new InvalidOperationException("Nao foi possivel iniciar o servidor do dashboard.");
+      }
+      Environment.Exit(0);
+    } catch (Exception error) {
+      File.WriteAllText(errorLog, error.ToString());
+      System.Windows.Forms.MessageBox.Show(
+        "Nao foi possivel abrir o Dashboard Olympico. Consulte launcher-error.log na pasta do programa.",
+        "Dashboard Olympico"
+      );
     }
-
-    ProcessStartInfo startInfo = new ProcessStartInfo();
-    startInfo.FileName = node;
-    startInfo.Arguments = "\\\"" + server + "\\\" --open";
-    startInfo.WorkingDirectory = root;
-    startInfo.UseShellExecute = false;
-    startInfo.CreateNoWindow = true;
-    Process.Start(startInfo);
-    Environment.Exit(0);
   }
 }
 `;

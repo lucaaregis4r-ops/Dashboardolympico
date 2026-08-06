@@ -27,7 +27,8 @@
     <link rel="stylesheet" href="theme-flat.css" />
   </head>
   <body>
-    <section class="login-screen" id="login-screen" aria-label="Login Olympico">
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+    <section class="login-screen" id="login-screen" aria-labelledby="login-title">
       <form class="login-card" id="login-form">
         <img
           class="login-card__crest"
@@ -36,7 +37,7 @@
         />
         <div>
           <p class="login-card__eyebrow">Dashboard Olympico</p>
-          <h1 class="login-card__title">Login</h1>
+          <h1 class="login-card__title" id="login-title">Login</h1>
         </div>
 
         <label class="login-field">
@@ -61,7 +62,7 @@
           />
         </label>
 
-        <p class="login-card__error hidden" id="login-error">
+        <p class="login-card__error hidden" id="login-error" role="alert" aria-live="assertive">
           Usuário ou senha incorretos.
         </p>
 
@@ -70,7 +71,7 @@
     </section>
 
     <div class="app-shell hidden" id="app-shell">
-      <aside class="sidebar">
+      <aside class="sidebar" aria-label="Menu do Dashboard Olympico">
         <div class="sidebar__brand">
           <img
             class="sidebar__crest"
@@ -84,22 +85,22 @@
         </div>
 
         <nav class="sidebar__nav" aria-label="Navegação principal">
-          <button class="sidebar__link sidebar__link--active" id="nav-panel-button" type="button">
+          <button class="sidebar__link sidebar__link--active" id="nav-panel-button" type="button" aria-controls="panel-workspace" aria-current="page">
             Painel
           </button>
-          <button class="sidebar__link" id="staff-open-button" type="button">
+          <button class="sidebar__link" id="staff-open-button" type="button" aria-controls="staff-drawer" aria-haspopup="dialog">
             Comissão técnica
           </button>
-          <button class="sidebar__link" id="nav-physiotherapy-button" type="button">
+          <button class="sidebar__link" id="nav-physiotherapy-button" type="button" aria-controls="physiotherapy-workspace">
             Fisioterapia
           </button>
-          <button class="sidebar__link" id="nav-athletes-button" type="button">
+          <button class="sidebar__link" id="nav-athletes-button" type="button" aria-controls="panel-workspace">
             Atletas
           </button>
-          <button class="sidebar__link" id="nav-teams-button" type="button">
+          <button class="sidebar__link" id="nav-teams-button" type="button" aria-controls="panel-workspace">
             Equipes
           </button>
-          <button class="sidebar__link" id="nav-calendar-button" type="button">
+          <button class="sidebar__link" id="nav-calendar-button" type="button" aria-controls="calendar-workspace">
             Calendário
           </button>
           <a
@@ -155,12 +156,12 @@
           </div>
         </header>
 
-        <main class="content-grid">
-          <section class="stats" id="stats"></section>
+        <main class="content-grid" id="main-content" tabindex="-1">
+          <section class="stats" id="stats" aria-label="Indicadores gerais"></section>
 
           <section class="results" id="panel-workspace">
             <div class="results__bar">
-              <p id="results-count">Carregando atletas...</p>
+              <p id="results-count" aria-live="polite">Carregando atletas...</p>
             </div>
 
             <section class="detail detail--empty" id="athlete-detail">
@@ -173,10 +174,10 @@
                 <div class="detail__hero">
                   <div>
                     <div class="mode-switch" role="tablist" aria-label="Modo do painel">
-                      <button class="mode-switch__button" id="athlete-mode-button" type="button">
+                      <button class="mode-switch__button" id="athlete-mode-button" type="button" role="tab" aria-selected="true" aria-controls="detail-content">
                         Atleta
                       </button>
-                      <button class="mode-switch__button" id="team-mode-button" type="button">
+                      <button class="mode-switch__button" id="team-mode-button" type="button" role="tab" aria-selected="false" aria-controls="detail-content">
                         Equipe
                       </button>
                     </div>
@@ -237,7 +238,7 @@
                         </div>
                       </details>
                     </div>
-                    <canvas id="timeline-chart"></canvas>
+                    <canvas id="timeline-chart" role="img" aria-label="Gráfico de evolução temporal"></canvas>
                   </article>
 
                   <article class="chart-card">
@@ -264,7 +265,7 @@
                         </div>
                       </details>
                     </div>
-                    <canvas id="profile-chart"></canvas>
+                    <canvas id="profile-chart" role="img" aria-label="Gráfico de perfil de respostas"></canvas>
                   </article>
 
                   <article class="chart-card">
@@ -292,7 +293,7 @@
                         </div>
                       </details>
                     </div>
-                    <canvas id="distribution-chart"></canvas>
+                    <canvas id="distribution-chart" role="img" aria-label="Gráfico de percentis e distribuição"></canvas>
                   </article>
 
                   <article class="chart-card">
@@ -321,7 +322,7 @@
                         </div>
                       </details>
                     </div>
-                    <canvas id="sample-chart"></canvas>
+                    <canvas id="sample-chart" role="img" aria-label="Gráfico da distribuição da amostra"></canvas>
                     <div class="distribution-report" id="distribution-report"></div>
                   </article>
                 </div>
@@ -423,13 +424,13 @@
       </div>
     </div>
 
-    <aside class="staff-drawer hidden" id="staff-drawer">
-      <div class="staff-drawer__backdrop" id="staff-close-backdrop"></div>
-      <div class="staff-drawer__panel">
+    <aside class="staff-drawer hidden" id="staff-drawer" role="dialog" aria-modal="true" aria-labelledby="staff-drawer-title" aria-hidden="true">
+      <div class="staff-drawer__backdrop" id="staff-close-backdrop" aria-hidden="true"></div>
+      <div class="staff-drawer__panel" tabindex="-1">
         <div class="staff-drawer__head">
           <div>
             <p class="detail__eyebrow">Comissão técnica</p>
-            <h3>Alertas prioritários</h3>
+            <h3 id="staff-drawer-title">Alertas prioritários</h3>
           </div>
           <button class="staff-drawer__close" id="staff-close-button" type="button">
             Fechar

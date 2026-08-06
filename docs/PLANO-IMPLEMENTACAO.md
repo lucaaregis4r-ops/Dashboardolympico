@@ -15,7 +15,7 @@ Entregar um dashboard profissional, flat e esportivo, com identidade do Olympico
 | 2 | Organizacao fisica e modularizacao inicial | Concluida em 2026-08-06 |
 | 3 | API e area de Fisioterapia no dashboard | Concluida em 2026-08-06 |
 | 4 | Redesign flat/esportivo | Concluida em 2026-08-06 |
-| 5 | Validacao, acessibilidade e distribuicao | Proxima |
+| 5 | Validacao, acessibilidade e distribuicao | Concluida em 2026-08-06 |
 
 ## Fase 0 - Inventario e base de trabalho
 
@@ -197,6 +197,18 @@ Checklist:
 - revisao de teclado, foco, labels, contraste e estados vazios;
 - regeneracao limpa de `dist/` e da pasta de entrega.
 
+Resultado:
+
+- suite final com 17 testes automatizados aprovada;
+- rotas publicas, APIs, filtros e protecao contra acesso fora da area publica validados por HTTP;
+- relatorios HTML e PDF aprovados para equipe com e sem registros de fisioterapia;
+- campo `Observacoes` confirmado no relatorio com dados publicados;
+- navegacao por teclado reforcada com skip link, foco do dialogo, Escape, foco visivel e estados ARIA;
+- manifesto PWA corrigido para declarar o tamanho real do escudo e cache atualizado para `v6`;
+- executavel portatil reconstruido e validado nas rotas principais;
+- pacote final regenerado em `output/releases/ENTREGAR-DASHBOARD-OLYMPICO`;
+- detalhes e limitacoes registrados em `docs/VALIDACAO-FINAL.md`.
+
 ## Registro de decisoes e atualizacoes
 
 Ao finalizar uma fase:
@@ -242,3 +254,9 @@ Ao finalizar uma fase:
 - Service worker atualizado para `dashboard-olympico-v5`, incluindo o novo arquivo de tema.
 - Suite ampliada para doze testes automatizados.
 - O navegador integrado continuou indisponivel; carregamento/cascata do CSS, DOM, responsividade, contraste e fluxos HTTP foram validados por verificacoes automatizadas.
+- Fase 5 concluiu a auditoria de acessibilidade com skip link, regioes anunciadas, semantica dos graficos e controle completo de foco no dialogo da comissao.
+- O manifesto PWA passou a declarar corretamente o unico escudo de 210x210 e o cache foi atualizado para `dashboard-olympico-v6`.
+- A suite final passou com 17 testes; HTML e PDF foram validados com e sem fisioterapia, ambos com resposta 200 e PDF `%PDF-`.
+- O launcher Windows ganhou resolucao robusta da propria pasta e registro `launcher-error.log` em caso de falha.
+- O executavel final respondeu 200 para pagina, tema, manifesto, service worker, atletas e fisioterapia.
+- A validacao visual interativa e o teste em um segundo dispositivo fisico ficaram como verificacoes operacionais manuais porque o navegador integrado e um dispositivo externo nao estavam disponiveis nesta sessao.

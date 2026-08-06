@@ -60,6 +60,7 @@ const state = {
   trainingCalendar: null,
   trainingChecks: loadTrainingChecks(),
   staffDrawerOpen: false,
+  staffReturnFocus: null,
   staffModality: "all",
   staffPeriod: "30",
   exportInFlight: false,
@@ -1154,14 +1155,56 @@ function renderStaffDrawer() {
 }
 
 function openStaffDrawer() {
+  state.staffReturnFocus = document.activeElement;
   state.staffDrawerOpen = true;
   elements.staffDrawer.classList.remove("hidden");
+  elements.staffDrawer.setAttribute("aria-hidden", "false");
   renderStaffDrawer();
+  elements.staffCloseButton.focus();
 }
 
 function closeStaffDrawer() {
   state.staffDrawerOpen = false;
   elements.staffDrawer.classList.add("hidden");
+  elements.staffDrawer.setAttribute("aria-hidden", "true");
+  if (state.staffReturnFocus instanceof HTMLElement) {
+    state.staffReturnFocus.focus();
+  }
+  state.staffReturnFocus = null;
+}
+
+function handleStaffDrawerKeydown(event) {
+  if (!state.staffDrawerOpen) return;
+
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeStaffDrawer();
+    return;
+  }
+
+  if (event.key !== "Tab") return;
+
+  const focusable = Array.from(
+    elements.staffDrawer.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )
+  ).filter((element) => !element.closest(".hidden"));
+
+  if (!focusable.length) {
+    event.preventDefault();
+    elements.staffCloseButton.focus();
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 }
 
 function renderStatsLegacy() {
@@ -1380,6 +1423,8 @@ function renderControls() {
 function setModeButtonState() {
   elements.athleteModeButton.classList.toggle("is-active", state.viewMode === "athlete");
   elements.teamModeButton.classList.toggle("is-active", state.viewMode === "team");
+  elements.athleteModeButton.setAttribute("aria-selected", String(state.viewMode === "athlete"));
+  elements.teamModeButton.setAttribute("aria-selected", String(state.viewMode === "team"));
 }
 
 function destroyCharts() {
@@ -2791,6 +2836,11 @@ function setSidebarActive(target) {
       return;
     }
     button.classList.toggle("sidebar__link--active", key === target);
+    if (key === target) {
+      button.setAttribute("aria-current", "page");
+    } else {
+      button.removeAttribute("aria-current");
+    }
   });
 }
 
@@ -3391,6 +3441,8 @@ elements.staffCloseButton.addEventListener("click", () => {
 elements.staffCloseBackdrop.addEventListener("click", () => {
   closeStaffDrawer();
 });
+
+document.addEventListener("keydown", handleStaffDrawerKeydown);
 
 elements.staffModalityFilter.addEventListener("change", (event) => {
   state.staffModality = event.target.value;

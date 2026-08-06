@@ -12,6 +12,9 @@ const serviceWorker = fs.readFileSync(
   path.join(root, "src", "client", "service-worker.js"),
   "utf8"
 );
+const manifest = JSON.parse(
+  fs.readFileSync(path.join(root, "src", "client", "manifest.webmanifest"), "utf8")
+);
 
 test("workspace de fisioterapia possui navegacao, filtros e regioes de resultado", () => {
   [
@@ -79,4 +82,46 @@ test("combinacoes principais do tema atendem contraste AA", () => {
   ].forEach(([foreground, background]) => {
     assert.ok(contrast(foreground, background) >= 4.5, `${foreground} sobre ${background}`);
   });
+});
+
+test("estrutura principal possui atalhos e anuncios acessiveis", () => {
+  assert.match(html, /class="skip-link" href="#main-content"/);
+  assert.match(html, /id="main-content" tabindex="-1"/);
+  assert.match(html, /id="login-error"[^>]*role="alert"[^>]*aria-live="assertive"/);
+  assert.match(html, /id="results-count" aria-live="polite"/);
+  assert.match(flatTheme, /\.skip-link:focus\s*\{/);
+});
+
+test("graficos e alternancia de modo possuem semantica assistiva", () => {
+  assert.equal((html.match(/<canvas[^>]*role="img"[^>]*aria-label=/g) || []).length, 4);
+  assert.match(html, /class="mode-switch" role="tablist"/);
+  assert.match(html, /id="athlete-mode-button"[^>]*role="tab"[^>]*aria-selected="true"/);
+  assert.match(app, /setAttribute\("aria-selected", String\(state\.viewMode === "athlete"\)\)/);
+});
+
+test("dialogo da comissao controla foco, escape e estado expandido", () => {
+  assert.match(html, /id="staff-drawer" role="dialog" aria-modal="true"/);
+  assert.match(html, /aria-labelledby="staff-drawer-title" aria-hidden="true"/);
+  assert.match(app, /state\.staffReturnFocus = document\.activeElement/);
+  assert.match(app, /event\.key === "Escape"/);
+  assert.match(app, /event\.key !== "Tab"/);
+  assert.match(app, /document\.addEventListener\("keydown", handleStaffDrawerKeydown\)/);
+});
+
+test("navegacao sincroniza o item atual para tecnologias assistivas", () => {
+  assert.match(html, /id="nav-panel-button"[^>]*aria-current="page"/);
+  assert.match(app, /button\.setAttribute\("aria-current", "page"\)/);
+  assert.match(app, /button\.removeAttribute\("aria-current"\)/);
+});
+
+test("manifesto PWA declara o tamanho real do escudo e cache atualizado", () => {
+  const png = fs.readFileSync(path.join(root, "assets", "olympico-crest.png"));
+  const width = png.readUInt32BE(16);
+  const height = png.readUInt32BE(20);
+
+  assert.equal(manifest.display, "standalone");
+  assert.equal(manifest.icons.length, 1);
+  assert.equal(manifest.icons[0].sizes, `${width}x${height}`);
+  assert.equal(manifest.icons[0].purpose, "any");
+  assert.match(serviceWorker, /dashboard-olympico-v6/);
 });

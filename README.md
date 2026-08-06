@@ -6,6 +6,7 @@ Projeto reiniciado do zero com foco inicial na pagina de atletas.
 
 - `docs/CONTEXTO.md`: contexto vivo, arquitetura atual, fontes de dados e decisoes vigentes.
 - `docs/PLANO-IMPLEMENTACAO.md`: plano faseado, status, criterios de aceite e estrutura de pastas-alvo.
+- `docs/VALIDACAO-FINAL.md`: checklist final, resultados dos testes e limites da validacao.
 
 Antes de alterar o codigo, consulte os dois arquivos. Ao concluir cada etapa, atualize o status do plano e a secao `Estado atual` do contexto.
 

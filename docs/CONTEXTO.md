@@ -5,8 +5,8 @@
 
 ## Estado atual
 
-- Fase ativa: Fase 4 concluida; a proxima entrega sera a Fase 5 - validacao final, acessibilidade e distribuicao.
-- Ultima entrega: redesign flat, profissional e esportivo com identidade do Olympico.
+- Fase ativa: modernizacao concluida ate a Fase 5; o projeto esta pronto para homologacao operacional.
+- Ultima entrega: validacao final, acessibilidade, PWA e pacote portatil Windows.
 - Fonte de verdade do cliente: `src/client/`.
 - Fonte de verdade do servidor: `src/server/`.
 - Assets compartilhados ficam em `assets/`; dados de referencia e modelos ficam em `data/`.
@@ -45,7 +45,7 @@ Direcao visual aprovada como referencia:
 - Graficos usam uma paleta menos neon, com eixos e legendas adaptados para superficies claras.
 - Existe tratamento de `prefers-reduced-motion` e foco visivel reforcado.
 - Contrastes verificados: azul-marinho/branco 16,05:1; texto/branco 15,21:1; texto secundario/branco 4,67:1; vermelho/branco 4,52:1; azul de apoio/branco 7,90:1.
-- O service worker usa cache `dashboard-olympico-v5` e inclui `theme-flat.css`.
+- O service worker usa cache `dashboard-olympico-v6` e inclui `theme-flat.css`.
 
 ## Estrutura atual
 
@@ -83,7 +83,7 @@ Direcao visual aprovada como referencia:
 - Dados clinicos permanecem apenas em memoria durante a sessao e nao sao gravados no `localStorage`.
 - Observacoes usam escape de HTML e aparecem integralmente nos cartoes.
 - Em 2026-08-06, a API real retornou 37 registros ativos, 5 modalidades, 9 categorias e 7 registros com observacoes.
-- O service worker usa cache `dashboard-olympico-v4` para distribuir a nova interface.
+- O service worker usa cache `dashboard-olympico-v6` para distribuir a interface atual.
 
 ## Decisoes vigentes
 
@@ -94,6 +94,19 @@ Direcao visual aprovada como referencia:
 - A area de Fisioterapia foi entregue como consulta somente leitura; edicao continua no Google Sheets.
 - Pacotes gerados e copias para entrega nunca serao fonte de verdade.
 - Este documento deve ser atualizado ao fim de cada fase com data, decisoes e proximos passos.
+
+## Validacao final da modernizacao
+
+- Em 2026-08-06, a suite final passou com 17 testes automatizados.
+- O servidor-fonte respondeu 200 para a interface, CSS, JavaScript, manifesto, service worker, escudo e APIs.
+- A API retornou 144 atletas, 14 equipes e 37 registros de fisioterapia; 7 registros continham observacoes.
+- O filtro de fisioterapia `basquete` + `SUB-17` retornou 4 registros e modalidade invalida retornou 400.
+- Tentativas HTTP de acessar `package.json` fora da area publica retornaram 404.
+- O relatorio com fisioterapia confirmou o campo `Observacoes`; o cenario sem registros exibiu o estado vazio esperado.
+- Os dois PDFs testados retornaram `application/pdf` com assinatura `%PDF-`.
+- O executavel portatil reconstruido respondeu 200 para pagina, tema, PWA e APIs.
+- O checklist completo esta em `docs/VALIDACAO-FINAL.md`.
+- Permanecem para homologacao humana a inspecao visual em navegador real e o acesso por um segundo dispositivo fisico; o navegador integrado nao estava disponivel nesta sessao.
 
 ## Objetivo
 
