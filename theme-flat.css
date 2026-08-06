@@ -1,0 +1,886 @@
+:root {
+  --navy: #171d49;
+  --navy-2: #252f75;
+  --royal: #4246a6;
+  --red: #df3046;
+  --white: #ffffff;
+  --ice: #eef1fa;
+  --text: #1c2442;
+  --text-dark: #171d49;
+  --muted: #69748f;
+  --line: #dfe4ef;
+  --card: #ffffff;
+  --card-2: #ffffff;
+  --card-3: #ffffff;
+  --surface: #ffffff;
+  --surface-soft: #f4f6fb;
+  --surface-blue: #edf0ff;
+  --shadow: 0 8px 24px rgba(23, 29, 73, 0.08);
+  --shadow-hover: 0 14px 32px rgba(23, 29, 73, 0.13);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+}
+
+body {
+  color: var(--text);
+  background: #f1f3f8;
+}
+
+button,
+input,
+select,
+summary {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid rgba(66, 70, 166, 0.26);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  left: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--navy);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.login-screen {
+  position: relative;
+  overflow: hidden;
+  color: var(--text);
+  background: var(--navy);
+}
+
+.login-screen::before,
+.login-screen::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  transform: skewX(-22deg);
+}
+
+.login-screen::before {
+  width: 38vw;
+  height: 120vh;
+  top: -10vh;
+  right: -12vw;
+  background: var(--navy-2);
+}
+
+.login-screen::after {
+  width: 9vw;
+  height: 120vh;
+  top: -10vh;
+  right: 21vw;
+  background: var(--red);
+}
+
+.login-card {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  border-top: 6px solid var(--red);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(5, 10, 40, 0.32);
+}
+
+.login-card__crest {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.login-card__eyebrow,
+.login-field span {
+  color: var(--royal);
+}
+
+.login-card__title {
+  color: var(--navy);
+}
+
+.login-field input {
+  border-color: var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+.login-field input::placeholder {
+  color: #8c96ab;
+}
+
+.login-card__submit {
+  border-radius: var(--radius-sm);
+  color: #fff;
+  background: var(--red);
+  box-shadow: none;
+}
+
+.login-card__submit:hover {
+  background: #cf293e;
+}
+
+.login-card__error {
+  color: #b51e32;
+}
+
+.app-shell {
+  grid-template-columns: 260px minmax(0, 1fr);
+}
+
+.sidebar {
+  position: sticky;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 26px 20px;
+  color: #fff;
+  background: var(--navy);
+  border-right: 0;
+}
+
+.sidebar::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 150px;
+  height: 420px;
+  right: -105px;
+  bottom: -80px;
+  transform: rotate(24deg);
+  background: var(--red);
+  opacity: 0.92;
+}
+
+.sidebar::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 72px;
+  height: 360px;
+  right: -42px;
+  bottom: 170px;
+  transform: rotate(24deg);
+  background: var(--navy-2);
+}
+
+.sidebar__brand {
+  grid-template-columns: 58px 1fr;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sidebar__crest {
+  width: 58px;
+  height: 58px;
+  padding: 5px;
+  border-radius: var(--radius-sm);
+  background: #fff;
+  box-shadow: none;
+}
+
+.sidebar__eyebrow {
+  color: #bfc8ee;
+}
+
+.sidebar__title {
+  color: #fff;
+}
+
+.sidebar__nav {
+  gap: 7px;
+}
+
+.sidebar__link {
+  position: relative;
+  min-height: 44px;
+  border-radius: 8px;
+  color: #dce2fb;
+  background: transparent;
+}
+
+.sidebar__link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar__link--active {
+  color: #fff;
+  background: var(--red);
+  box-shadow: none;
+}
+
+.sidebar__link--active::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  width: 5px;
+  height: 22px;
+  background: #fff;
+}
+
+.sidebar__link--ghost {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.sidebar__meta {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar__meta-label {
+  color: #bfc8ee;
+}
+
+.sidebar__logout {
+  min-height: 42px;
+  border-radius: 8px;
+  color: #fff;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.main-shell {
+  min-width: 0;
+  padding: 28px;
+}
+
+.topbar {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.topbar::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: var(--red);
+}
+
+.topbar__eyebrow,
+.detail__eyebrow,
+.chart-card__eyebrow,
+.distribution-report__eyebrow {
+  color: var(--royal);
+}
+
+.topbar__title {
+  color: var(--navy);
+  font-size: clamp(1.75rem, 2.6vw, 2.55rem);
+}
+
+.field span,
+.panel__label,
+.meta__label,
+.history__title,
+.signal span,
+.highlight p,
+.mini-rank__label,
+.stats p {
+  color: var(--muted);
+}
+
+.field input,
+.field select,
+.mode-switch__button,
+.chart-menu summary,
+.export-menu summary,
+.staff-drawer__close {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+.field select,
+.chart-menu select {
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+.field input::placeholder {
+  color: #8c96ab;
+}
+
+.refresh,
+.physio-refresh,
+.training-detail__button {
+  border-radius: var(--radius-sm);
+  color: #fff;
+  background: var(--red);
+  box-shadow: none;
+}
+
+.refresh:hover,
+.physio-refresh:hover,
+.training-detail__button:hover {
+  background: #cf293e;
+}
+
+.export-menu__body,
+.chart-menu__body {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: var(--shadow-hover);
+}
+
+.export-menu__button {
+  border-radius: 8px;
+  background: var(--navy-2);
+  box-shadow: none;
+}
+
+.export-menu__button--weekly {
+  background: var(--red);
+  box-shadow: none;
+}
+
+.export-menu__button--team {
+  color: var(--navy);
+  background: var(--surface-blue);
+  border-color: #d5daf0;
+}
+
+.stats {
+  gap: 14px;
+}
+
+.stats article,
+.detail,
+.chart-card,
+.card,
+.highlight,
+.empty,
+.calendar-shell,
+.training-panel,
+.training-detail,
+.distribution-report__summary,
+.distribution-report__grid article,
+.distribution-fit,
+.distribution-report__empty {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.stats article {
+  min-height: 132px;
+  padding: 18px;
+  background: #fff;
+}
+
+.stats article::before {
+  width: 5px;
+  background: var(--royal);
+}
+
+.stats article:nth-child(2)::before {
+  background: var(--red);
+}
+
+.stats article:nth-child(3)::before {
+  background: #f0a72f;
+}
+
+.stats article:nth-child(4)::before {
+  background: #20946b;
+}
+
+.stats strong,
+.highlight strong,
+.mini-rank__value {
+  color: var(--navy);
+}
+
+.stats article span,
+.results__bar p,
+.detail__placeholder p:last-child,
+.detail__subtitle,
+.chart-card__head p,
+.highlight span,
+.distribution-report__summary p,
+.distribution-report__grid small,
+.distribution-fit small,
+.card__summary,
+.history__list span:last-child {
+  color: var(--muted);
+}
+
+.detail {
+  padding: 22px;
+  background: #fff;
+}
+
+.detail__placeholder h2,
+.detail__hero h2,
+.chart-card__head h3,
+.distribution-report__summary h4,
+.card__name {
+  color: var(--navy);
+}
+
+.mode-switch {
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+}
+
+.mode-switch__button {
+  min-height: 38px;
+  border: 0;
+  background: transparent;
+}
+
+.mode-switch__button.is-active {
+  color: #fff;
+  background: var(--navy-2);
+  box-shadow: none;
+}
+
+.highlight {
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+
+.training-panel,
+.calendar-shell {
+  background: #fff;
+}
+
+.training-panel__hint,
+.calendar-shell__hint,
+.training-day span,
+.training-day__missing-label,
+.training-ok {
+  color: var(--muted);
+}
+
+.training-month,
+.training-detail,
+#training-calendar-view {
+  border-color: var(--line);
+  background: var(--surface-soft);
+}
+
+.training-month__label,
+.training-detail__head h4,
+.calendar-shell__head h3 {
+  color: var(--navy);
+}
+
+.training-day {
+  border-color: var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  background: #fff;
+}
+
+.training-day:hover {
+  border-color: var(--royal);
+  transform: translateY(-2px);
+}
+
+.training-day--off {
+  background: #f3f5fa;
+}
+
+.training-day--full {
+  background: #e9f7f1;
+  border-color: #9dd8c2;
+}
+
+.training-day--partial {
+  background: #fff7e8;
+  border-color: #edcb85;
+}
+
+.training-day--low {
+  background: #fff0f2;
+  border-color: #e9a2ad;
+}
+
+.training-day--selected {
+  outline-color: var(--royal);
+}
+
+.training-chip {
+  border-radius: 999px;
+  color: var(--navy);
+  background: var(--surface-blue);
+}
+
+.fc {
+  --fc-page-bg-color: #ffffff;
+  --fc-neutral-bg-color: #f4f6fb;
+  --fc-border-color: #dfe4ef;
+  --fc-button-bg-color: #252f75;
+  --fc-button-border-color: #252f75;
+  --fc-button-hover-bg-color: #171d49;
+  --fc-button-active-bg-color: #df3046;
+  color: var(--text);
+}
+
+.fc .fc-toolbar-title,
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  color: var(--navy);
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background: #fff5e5;
+}
+
+.chart-card {
+  background: #fff;
+}
+
+.chart-card::after {
+  height: 4px;
+  background: var(--royal);
+  opacity: 1;
+}
+
+.chart-menu__body .field select,
+.check-group {
+  color: var(--text);
+  background: var(--surface-soft);
+  border-color: var(--line);
+}
+
+.check-group legend,
+.check-item {
+  color: var(--text);
+}
+
+.distribution-report__summary,
+.distribution-report__empty,
+.distribution-report__grid article,
+.distribution-fit {
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+
+.physio-hero,
+.physio-filters,
+.physio-stat,
+.physio-card,
+.physio-state,
+.physio-results__bar {
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.physio-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--navy);
+  color: #fff;
+}
+
+.physio-hero::after {
+  content: "";
+  position: absolute;
+  width: 130px;
+  height: 280px;
+  right: -74px;
+  top: -80px;
+  transform: rotate(24deg);
+  background: var(--red);
+}
+
+.physio-hero h3,
+.physio-hero__status strong {
+  color: #fff;
+}
+
+.physio-hero p:not(.chart-card__eyebrow) {
+  color: #dce2fa;
+}
+
+.physio-hero .chart-card__eyebrow,
+.physio-hero__status span {
+  color: #bfc8ee;
+}
+
+.physio-hero__status {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.physio-filters {
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.physio-stat {
+  min-height: 126px;
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.physio-stat p,
+.physio-stat span,
+.physio-results__bar span,
+.physio-card__context,
+.physio-card__injury span,
+.physio-card__details dt {
+  color: var(--muted);
+}
+
+.physio-stat strong,
+.physio-card h4,
+.physio-card__injury strong {
+  color: var(--navy);
+}
+
+.physio-results__bar {
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: #fff;
+}
+
+.physio-card {
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.physio-card::before {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.physio-badge--section {
+  color: var(--navy);
+  background: var(--surface-blue);
+}
+
+.physio-badge--red {
+  color: #a91e31;
+  background: #ffe5e9;
+}
+
+.physio-badge--yellow {
+  color: #815100;
+  background: #fff0c9;
+}
+
+.physio-badge--green {
+  color: #0d6b49;
+  background: #def6eb;
+}
+
+.physio-badge--neutral {
+  color: #4f5b79;
+  background: #edf0f6;
+}
+
+.physio-card__details div,
+.physio-card__conduct {
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+.physio-card__details dd {
+  color: var(--text);
+}
+
+.physio-card__observations {
+  color: var(--text);
+  border-left-color: var(--royal);
+  background: var(--surface-blue);
+}
+
+.physio-state {
+  color: var(--text);
+  background: #fff;
+}
+
+.physio-state--error {
+  color: #a91e31;
+  border-color: #efb3bc;
+  background: #fff0f2;
+}
+
+.staff-drawer__backdrop {
+  background: rgba(10, 15, 43, 0.48);
+}
+
+.staff-drawer__panel {
+  color: #fff;
+  background: var(--navy);
+  border-left: 0;
+  box-shadow: -12px 0 34px rgba(10, 15, 43, 0.22);
+}
+
+.staff-card {
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.staff-drawer .field span,
+.staff-drawer .chart-card__eyebrow,
+.staff-drawer .detail__eyebrow,
+.staff-item__rank {
+  color: #bfc8ee;
+}
+
+.staff-drawer .field select,
+.staff-drawer__close {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.staff-item p,
+.staff-empty,
+.staff-item small {
+  color: #dce2fa;
+}
+
+.cards {
+  gap: 14px;
+}
+
+.card {
+  border-radius: var(--radius-md);
+  color: var(--text);
+  background: #fff;
+}
+
+.card__accent {
+  height: 4px;
+  background: var(--royal);
+}
+
+.card--interactive:hover,
+.card--interactive:focus-visible {
+  transform: translateY(-3px);
+  border-color: #b9c0dc;
+  box-shadow: var(--shadow-hover);
+}
+
+.card--selected {
+  border-color: var(--royal);
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(66, 70, 166, 0.12), var(--shadow);
+}
+
+.card--selected .card__accent {
+  background: var(--red);
+}
+
+.signal {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+
+.meta__value,
+.signal strong,
+.card__name {
+  color: var(--navy);
+}
+
+.history {
+  border-top-color: var(--line);
+}
+
+.empty {
+  color: var(--muted);
+  background: #fff;
+  border-style: dashed;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    position: relative;
+    min-height: auto;
+  }
+
+  .sidebar__nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .sidebar__link {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sidebar__meta {
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 720px) {
+  .main-shell {
+    padding: 14px;
+  }
+
+  .topbar,
+  .physio-hero,
+  .detail,
+  .chart-card,
+  .card {
+    border-radius: 12px;
+  }
+
+  .sidebar__nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sidebar__brand {
+    grid-template-columns: 48px 1fr;
+  }
+
+  .sidebar__crest {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

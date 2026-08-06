@@ -1,0 +1,11 @@
+DASHBOARD OLYMPICO - GITHUB PAGES
+
+Esta pasta pode ser publicada como site estatico.
+A geracao de PDF e o kit semanal estao desativados.
+
+Para sincronizacao automatica, publique o projeto completo e selecione
+GitHub Actions em Settings > Pages. O workflow atualiza os dados a cada hora.
+
+ATENCAO: os JSONs desta pasta contem dados de atletas e fisioterapia.
+GitHub Pages e publico e o login visual nao protege esses arquivos.
+Consulte docs/PUBLICACAO-GITHUB-PAGES.md antes de divulgar o endereco.

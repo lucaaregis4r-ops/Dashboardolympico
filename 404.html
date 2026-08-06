@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#171d49" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Olympico" />
+    <title>Dashboard Olympico | Atletas</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/assets/olympico-crest.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="theme-flat.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+    <section class="login-screen" id="login-screen" aria-labelledby="login-title">
+      <form class="login-card" id="login-form">
+        <img
+          class="login-card__crest"
+          src="/assets/olympico-crest.png"
+          alt="Escudo do Olympico Clube"
+        />
+        <div>
+          <p class="login-card__eyebrow">Dashboard Olympico</p>
+          <h1 class="login-card__title" id="login-title">Login</h1>
+        </div>
+
+        <label class="login-field">
+          <span>Usuário</span>
+          <input
+            id="login-user"
+            type="text"
+            autocomplete="username"
+            placeholder="Digite o usuário"
+            required
+          />
+        </label>
+
+        <label class="login-field">
+          <span>Senha</span>
+          <input
+            id="login-password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Digite a senha"
+            required
+          />
+        </label>
+
+        <p class="login-card__error hidden" id="login-error" role="alert" aria-live="assertive">
+          Usuário ou senha incorretos.
+        </p>
+
+        <button class="login-card__submit" type="submit">Entrar</button>
+      </form>
+    </section>
+
+    <div class="app-shell hidden" id="app-shell">
+      <aside class="sidebar" aria-label="Menu do Dashboard Olympico">
+        <div class="sidebar__brand">
+          <img
+            class="sidebar__crest"
+            src="/assets/olympico-crest.png"
+            alt="Escudo do Olímpico Clube"
+          />
+          <div>
+            <p class="sidebar__eyebrow">Olympico Club</p>
+            <h1 class="sidebar__title">Performance</h1>
+          </div>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Navegação principal">
+          <button class="sidebar__link sidebar__link--active" id="nav-panel-button" type="button" aria-controls="panel-workspace" aria-current="page">
+            Painel
+          </button>
+          <button class="sidebar__link" id="staff-open-button" type="button" aria-controls="staff-drawer" aria-haspopup="dialog">
+            Comissão técnica
+          </button>
+          <button class="sidebar__link" id="nav-physiotherapy-button" type="button" aria-controls="physiotherapy-workspace">
+            Fisioterapia
+          </button>
+          <button class="sidebar__link" id="nav-athletes-button" type="button" aria-controls="panel-workspace">
+            Atletas
+          </button>
+          <button class="sidebar__link" id="nav-teams-button" type="button" aria-controls="panel-workspace">
+            Equipes
+          </button>
+          <button class="sidebar__link" id="nav-calendar-button" type="button" aria-controls="calendar-workspace">
+            Calendário
+          </button>
+          <a
+            class="sidebar__link sidebar__link--ghost"
+            href="https://docs.google.com/spreadsheets/d/15B29MdEXNsDVq4fCJVUffznul--C1Mb5B7pZtmWqmOY/edit?gid=1847097737#gid=1847097737"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Planilha
+          </a>
+        </nav>
+
+        <div class="sidebar__meta">
+          <span class="sidebar__meta-label">Última carga</span>
+          <strong id="updated-at">Carregando...</strong>
+          <button class="sidebar__logout" id="logout-button" type="button">Sair</button>
+        </div>
+      </aside>
+
+      <div class="main-shell">
+        <header class="topbar">
+          <div>
+            <p class="topbar__eyebrow" id="topbar-eyebrow">Centro de análise</p>
+            <h2 class="topbar__title" id="topbar-title">Atletas e equipes</h2>
+          </div>
+
+          <div class="topbar__actions" id="topbar-actions">
+            <label class="field field--search">
+              <span>Buscar atleta</span>
+              <input
+                id="search-input"
+                type="search"
+                placeholder="Digite um nome"
+                autocomplete="off"
+              />
+            </label>
+
+            <label class="field">
+              <span>Equipe</span>
+              <select id="category-filter">
+                <option value="">Todas</option>
+              </select>
+            </label>
+
+            <details class="export-menu" id="export-menu">
+              <summary>Exportar PDF</summary>
+              <div class="export-menu__body" id="export-buttons"></div>
+            </details>
+
+            <button class="refresh" id="refresh-button" type="button">
+              Atualizar
+            </button>
+          </div>
+        </header>
+
+        <main class="content-grid" id="main-content" tabindex="-1">
+          <section class="stats" id="stats" aria-label="Indicadores gerais"></section>
+
+          <section class="results" id="panel-workspace">
+            <div class="results__bar">
+              <p id="results-count" aria-live="polite">Carregando atletas...</p>
+            </div>
+
+            <section class="detail detail--empty" id="athlete-detail">
+              <div class="detail__placeholder" id="detail-placeholder">
+                <p class="detail__eyebrow">Painel</p>
+                <h2>Selecione um atleta ou equipe</h2>
+              </div>
+
+              <div class="detail__content hidden" id="detail-content">
+                <div class="detail__hero">
+                  <div>
+                    <div class="mode-switch" role="tablist" aria-label="Modo do painel">
+                      <button class="mode-switch__button" id="athlete-mode-button" type="button" role="tab" aria-selected="true" aria-controls="detail-content">
+                        Atleta
+                      </button>
+                      <button class="mode-switch__button" id="team-mode-button" type="button" role="tab" aria-selected="false" aria-controls="detail-content">
+                        Equipe
+                      </button>
+                    </div>
+
+                    <p class="detail__eyebrow" id="detail-category"></p>
+                    <h2 id="detail-name"></h2>
+                    <p class="detail__subtitle" id="detail-subtitle"></p>
+                  </div>
+
+                  <div class="detail__hero-controls">
+                    <label class="field">
+                      <span>Equipe em foco</span>
+                      <select id="team-select"></select>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="detail__highlights" id="detail-highlights"></div>
+
+                <section class="training-panel hidden" id="training-panel">
+                  <div class="training-panel__head">
+                    <div>
+                      <p class="chart-card__eyebrow">Treinos do dia</p>
+                      <h3>Calendário de presença</h3>
+                    </div>
+                    <p class="training-panel__hint">
+                      Marque os dias com treino. Passe o mouse para ver resposta
+                      do dia e clique para abrir quem não respondeu.
+                    </p>
+                  </div>
+                  <div class="training-calendar" id="training-list"></div>
+                  <div class="training-detail hidden" id="training-detail"></div>
+                </section>
+
+                <div class="detail__charts">
+                  <article class="chart-card chart-card--wide">
+                    <div class="chart-card__head">
+                      <div>
+                        <p class="chart-card__eyebrow">Tempo</p>
+                        <h3 id="timeline-title">Evolução temporal</h3>
+                      </div>
+                      <details class="chart-menu">
+                        <summary>Filtros</summary>
+                        <div class="chart-menu__body">
+                          <label class="field">
+                            <span>Período</span>
+                            <select id="timeline-period">
+                              <option value="all">Todo o histórico</option>
+                              <option value="90">Últimos 90 dias</option>
+                              <option value="60">Últimos 60 dias</option>
+                              <option value="30">Últimos 30 dias</option>
+                              <option value="15">Últimos 15 dias</option>
+                            </select>
+                          </label>
+                          <fieldset class="check-group" id="timeline-metrics">
+                            <legend>Variáveis</legend>
+                          </fieldset>
+                        </div>
+                      </details>
+                    </div>
+                    <canvas id="timeline-chart" role="img" aria-label="Gráfico de evolução temporal"></canvas>
+                  </article>
+
+                  <article class="chart-card">
+                    <div class="chart-card__head">
+                      <div>
+                        <p class="chart-card__eyebrow">Perfil</p>
+                        <h3 id="profile-title">Padrão de resposta</h3>
+                      </div>
+                      <details class="chart-menu">
+                        <summary>Filtros</summary>
+                        <div class="chart-menu__body">
+                          <label class="field">
+                            <span>Período</span>
+                            <select id="profile-period">
+                              <option value="all">Todo o histórico</option>
+                              <option value="90">Últimos 90 dias</option>
+                              <option value="60">Últimos 60 dias</option>
+                              <option value="30">Últimos 30 dias</option>
+                            </select>
+                          </label>
+                          <fieldset class="check-group" id="profile-metrics">
+                            <legend>Variáveis</legend>
+                          </fieldset>
+                        </div>
+                      </details>
+                    </div>
+                    <canvas id="profile-chart" role="img" aria-label="Gráfico de perfil de respostas"></canvas>
+                  </article>
+
+                  <article class="chart-card">
+                    <div class="chart-card__head">
+                      <div>
+                        <p class="chart-card__eyebrow">Percentil</p>
+                        <h3 id="distribution-title">Leitura relativa</h3>
+                      </div>
+                      <details class="chart-menu">
+                        <summary>Filtros</summary>
+                        <div class="chart-menu__body">
+                          <label class="field">
+                            <span>Período</span>
+                            <select id="distribution-period">
+                              <option value="latest">Último check-in</option>
+                              <option value="30">Últimos 30 dias</option>
+                              <option value="60">Últimos 60 dias</option>
+                              <option value="90">Últimos 90 dias</option>
+                              <option value="all">Todo o histórico</option>
+                            </select>
+                          </label>
+                          <fieldset class="check-group" id="distribution-metrics">
+                            <legend>Variáveis</legend>
+                          </fieldset>
+                        </div>
+                      </details>
+                    </div>
+                    <canvas id="distribution-chart" role="img" aria-label="Gráfico de percentis e distribuição"></canvas>
+                  </article>
+
+                  <article class="chart-card">
+                    <div class="chart-card__head">
+                      <div>
+                        <p class="chart-card__eyebrow">Amostra</p>
+                        <h3 id="sample-title">Forma da amostra</h3>
+                      </div>
+                      <details class="chart-menu">
+                        <summary>Filtros</summary>
+                        <div class="chart-menu__body">
+                          <label class="field">
+                            <span>Período</span>
+                            <select id="sample-period">
+                              <option value="latest">Último check-in</option>
+                              <option value="30">Últimos 30 dias</option>
+                              <option value="60">Últimos 60 dias</option>
+                              <option value="90">Últimos 90 dias</option>
+                              <option value="all">Todo o histórico</option>
+                            </select>
+                          </label>
+                          <label class="field">
+                            <span>Variável</span>
+                            <select id="sample-metric"></select>
+                          </label>
+                        </div>
+                      </details>
+                    </div>
+                    <canvas id="sample-chart" role="img" aria-label="Gráfico da distribuição da amostra"></canvas>
+                    <div class="distribution-report" id="distribution-report"></div>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <div class="cards" id="athletes-grid"></div>
+            <div class="empty hidden" id="empty-state">
+              Nenhum atleta encontrado com os filtros atuais.
+            </div>
+            <div class="empty hidden" id="error-state"></div>
+          </section>
+
+          <section class="physio-workspace hidden" id="physiotherapy-workspace">
+            <article class="physio-hero">
+              <div>
+                <p class="chart-card__eyebrow">Cuidado e disponibilidade</p>
+                <h3>Fisioterapia</h3>
+                <p>
+                  Acompanhamento dos casos ativos e atendimentos imediatos publicados
+                  pela equipe de fisioterapia.
+                </p>
+              </div>
+              <div class="physio-hero__status">
+                <span>Última consulta</span>
+                <strong id="physiotherapy-updated-at">Ainda não consultado</strong>
+                <button class="physio-refresh" id="physiotherapy-refresh" type="button">
+                  Atualizar fisioterapia
+                </button>
+              </div>
+            </article>
+
+            <div class="physio-filters" aria-label="Filtros da fisioterapia">
+              <label class="field">
+                <span>Buscar</span>
+                <input id="physiotherapy-search" type="search" placeholder="Atleta, lesão ou observação" />
+              </label>
+              <label class="field">
+                <span>Modalidade</span>
+                <select id="physiotherapy-modality">
+                  <option value="">Todas</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Categoria</span>
+                <select id="physiotherapy-team">
+                  <option value="">Todas</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Semáforo</span>
+                <select id="physiotherapy-severity">
+                  <option value="">Todos</option>
+                  <option value="VERMELHO">Vermelho</option>
+                  <option value="AMARELO">Amarelo</option>
+                  <option value="VERDE">Verde</option>
+                </select>
+              </label>
+            </div>
+
+            <section class="physio-stats" id="physiotherapy-stats" aria-label="Indicadores da fisioterapia"></section>
+
+            <div class="physio-results__bar">
+              <p id="physiotherapy-results-count" aria-live="polite">Selecione Fisioterapia para carregar os registros.</p>
+              <span>Consulta somente leitura</span>
+            </div>
+
+            <div class="physio-state hidden" id="physiotherapy-state" role="status" aria-live="polite"></div>
+            <div class="physio-list" id="physiotherapy-list"></div>
+          </section>
+
+          <section class="calendar-workspace hidden" id="calendar-workspace">
+            <article class="calendar-shell">
+              <div class="calendar-shell__head">
+                <div>
+                  <p class="chart-card__eyebrow">Presença e treino</p>
+                  <h3>Calendário da equipe</h3>
+                </div>
+                <p class="calendar-shell__hint">
+                  Clique no dia para ver respostas e marcar treino.
+                </p>
+              </div>
+
+              <div class="calendar-shell__tools">
+                <label class="field">
+                  <span>Equipe</span>
+                  <select id="calendar-team-select"></select>
+                </label>
+              </div>
+
+              <div class="calendar-shell__grid">
+                <div id="training-calendar-view"></div>
+                <aside class="training-detail hidden" id="training-calendar-detail"></aside>
+              </div>
+            </article>
+          </section>
+
+        </main>
+      </div>
+    </div>
+
+    <aside class="staff-drawer hidden" id="staff-drawer" role="dialog" aria-modal="true" aria-labelledby="staff-drawer-title" aria-hidden="true">
+      <div class="staff-drawer__backdrop" id="staff-close-backdrop" aria-hidden="true"></div>
+      <div class="staff-drawer__panel" tabindex="-1">
+        <div class="staff-drawer__head">
+          <div>
+            <p class="detail__eyebrow">Comissão técnica</p>
+            <h3 id="staff-drawer-title">Alertas prioritários</h3>
+          </div>
+          <button class="staff-drawer__close" id="staff-close-button" type="button">
+            Fechar
+          </button>
+        </div>
+
+        <div class="staff-drawer__filters">
+          <label class="field">
+            <span>Modalidade</span>
+            <select id="staff-modality-filter"></select>
+          </label>
+          <label class="field">
+            <span>Período</span>
+            <select id="staff-period-filter">
+              <option value="15">15 dias</option>
+              <option value="30" selected>30 dias</option>
+              <option value="45">45 dias</option>
+              <option value="60">60 dias</option>
+              <option value="90">90 dias</option>
+              <option value="all">Todo o histórico</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="staff-columns">
+          <section class="staff-card">
+            <p class="chart-card__eyebrow">Fadiga</p>
+            <div id="staff-fatigue-list"></div>
+          </section>
+          <section class="staff-card">
+            <p class="chart-card__eyebrow">Estresse</p>
+            <div id="staff-stress-list"></div>
+          </section>
+          <section class="staff-card">
+            <p class="chart-card__eyebrow">Recuperação</p>
+            <div id="staff-recovery-list"></div>
+          </section>
+        </div>
+      </div>
+    </aside>
+
+    <template id="athlete-card-template">
+      <article class="card card--interactive" tabindex="0" role="button">
+        <div class="card__accent"></div>
+        <div class="card__top">
+          <div>
+            <p class="card__category"></p>
+            <h2 class="card__name"></h2>
+          </div>
+          <div class="mini-rank">
+            <span class="mini-rank__label">Percentil equipe</span>
+            <strong class="mini-rank__value card__team-percentile"></strong>
+          </div>
+        </div>
+
+        <div class="card__meta">
+          <div>
+            <span class="meta__label">Último check-in</span>
+            <strong class="meta__value card__checkin"></strong>
+          </div>
+          <div>
+            <span class="meta__label">Respostas</span>
+            <strong class="meta__value card__entries"></strong>
+          </div>
+        </div>
+
+        <p class="card__summary"></p>
+
+        <div class="signals">
+          <div class="signal">
+            <span>Carga</span>
+            <strong class="card__load"></strong>
+          </div>
+          <div class="signal">
+            <span>Dor</span>
+            <strong class="card__pain"></strong>
+          </div>
+          <div class="signal">
+            <span>Insônia</span>
+            <strong class="card__sleep"></strong>
+          </div>
+          <div class="signal">
+            <span>Humor</span>
+            <strong class="card__mood"></strong>
+          </div>
+        </div>
+
+        <div class="history">
+          <p class="history__title">Histórico recente</p>
+          <ul class="history__list"></ul>
+        </div>
+      </article>
+    </template>
+
+    <script src="deployment-config.js"></script>
+    <script src="app.js" defer></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
