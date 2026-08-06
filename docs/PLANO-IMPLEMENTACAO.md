@@ -13,8 +13,8 @@ Entregar um dashboard profissional, flat e esportivo, com identidade do Olympico
 | 0 | Inventario, contexto vivo e plano | Concluida em 2026-08-06 |
 | 1 | Observacoes da fisioterapia no relatorio | Concluida em 2026-08-06 |
 | 2 | Organizacao fisica e modularizacao inicial | Concluida em 2026-08-06 |
-| 3 | API e area de Fisioterapia no dashboard | Proxima |
-| 4 | Redesign flat/esportivo | Pendente |
+| 3 | API e area de Fisioterapia no dashboard | Concluida em 2026-08-06 |
+| 4 | Redesign flat/esportivo | Proxima |
 | 5 | Validacao, acessibilidade e distribuicao | Pendente |
 
 ## Fase 0 - Inventario e base de trabalho
@@ -225,3 +225,11 @@ Ao finalizar uma fase:
 - Validacao do servidor-fonte: pagina, asset, manifesto, service worker, API e relatorio responderam 200.
 - Validacao do executavel: launcher encerrou corretamente, pagina e asset responderam 200, e a API retornou 144 atletas em 14 equipes.
 - `npm test` passou com quatro testes; `npm run reports:kit -- --dry-run` confirmou a nova saida em `output/reports/`.
+- Fase 3 criou `GET /api/physiotherapy`, com filtros opcionais por modalidade/equipe e resumo de secoes, semaforos e vetos.
+- O modelo clinico passou a expor lesao, secao, fase, vetos, conduta, dor e observacoes separadamente.
+- Adicionado workspace `Fisioterapia` com seis KPIs, busca, filtros e cartoes clinicos somente leitura.
+- Dados clinicos nao sao persistidos no navegador; textos livres sao escapados antes da renderizacao.
+- A API real retornou 37 registros, 5 modalidades, 9 categorias e 7 observacoes; filtro Basquete/Sub-17 retornou 4 casos.
+- Modalidade invalida foi validada com resposta 400.
+- Suite ampliada para dez testes automatizados, incluindo contrato, filtros, seguranca do texto e responsividade estrutural.
+- A validacao visual interativa no navegador integrado nao esteve disponivel nesta sessao; foram executadas validacoes HTTP, DOM, CSS responsivo e eventos declarados.

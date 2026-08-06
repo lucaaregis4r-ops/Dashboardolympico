@@ -801,9 +801,16 @@ function transformPhysioModalityRows(rows, modalityId) {
       athleteName,
       teamName,
       modalityId,
+      section,
+      injury,
       demand: injury || conduct || "Registro de fisioterapia",
+      severity: severity || inferPhysioImmediateSemaphore(painScale),
       semaphore: severity || inferPhysioImmediateSemaphore(painScale),
       phase,
+      trainingVeto,
+      pfVeto,
+      conduct,
+      painScale,
       notes: composePhysioNotes(section, { phase, trainingVeto, pfVeto, conduct, painScale }),
       observations,
     });
@@ -812,17 +819,19 @@ function transformPhysioModalityRows(rows, modalityId) {
   return items;
 }
 
-async function fetchPhysioDemandsData(modalityId = "") {
+async function fetchPhysioDemandsData(modalityId = "", { throwOnFailure = false } = {}) {
   const modality = getModalityById(modalityId);
   if (!modality) {
     return [];
   }
+  let lastError = null;
 
   if (modality.physioGid) {
     try {
       const csv = await downloadText(buildGoogleSheetCsvUrlByGid(PHYSIO_DEMANDS_SHEET_ID, modality.physioGid));
       return transformPhysioModalityRows(parseCsv(csv), modality.id);
     } catch (error) {
+      lastError = error;
       console.warn(`Nao foi possivel carregar o gid ${modality.physioGid} da fisioterapia:`, error.message);
     }
   }
@@ -836,8 +845,13 @@ async function fetchPhysioDemandsData(modalityId = "") {
         return items;
       }
     } catch (error) {
+      lastError = error;
       console.warn(`Nao foi possivel carregar a aba ${sheetName} da fisioterapia:`, error.message);
     }
+  }
+
+  if (throwOnFailure && lastError) {
+    throw new Error(`Falha ao consultar a fisioterapia de ${modality.label}: ${lastError.message}`);
   }
 
   return [];
@@ -851,6 +865,121 @@ async function fetchPhysioDemandsDataLegacy() {
     console.warn("Nao foi possivel carregar a planilha de demandas da fisioterapia:", error.message);
     return [];
   }
+}
+
+function getPhysioVetoLevel(value) {
+  const key = normalizeKey(value);
+  if (!key || key === "NAO" || key === "NÃO" || key === "SEM VETO") {
+    return "none";
+  }
+  if (key.includes("PARCIAL")) {
+    return "partial";
+  }
+  if (key.includes("COMPLETO") || key.includes("TOTAL") || key === "SIM" || key.includes("VETADO")) {
+    return "full";
+  }
+  return "none";
+}
+
+function summarizePhysiotherapyItems(items) {
+  return items.reduce(
+    (summary, item) => {
+      summary.total += 1;
+      const sectionKey = normalizeKey(item.section || item.notes);
+      const severityKey = normalizeKey(item.severity || item.semaphore);
+      const trainingVetoLevel = getPhysioVetoLevel(item.trainingVeto);
+      const pfVetoLevel = getPhysioVetoLevel(item.pfVeto);
+
+      if (sectionKey.includes("EM TRATAMENTO")) summary.inTreatment += 1;
+      if (sectionKey.includes("ATENDIMENTO IMEDIATO")) summary.immediate += 1;
+      if (severityKey.includes("VERMELHO")) summary.red += 1;
+      else if (severityKey.includes("AMARELO")) summary.yellow += 1;
+      else if (severityKey.includes("VERDE")) summary.green += 1;
+
+      if (trainingVetoLevel === "full" || pfVetoLevel === "full") summary.fullVeto += 1;
+      else if (trainingVetoLevel === "partial" || pfVetoLevel === "partial") summary.partialVeto += 1;
+
+      return summary;
+    },
+    {
+      total: 0,
+      inTreatment: 0,
+      immediate: 0,
+      red: 0,
+      yellow: 0,
+      green: 0,
+      fullVeto: 0,
+      partialVeto: 0,
+    }
+  );
+}
+
+function filterPhysiotherapyItems(items, { modalityId = "", teamName = "" } = {}) {
+  const teamKey = normalizeTeamLookupKey(teamName);
+  return items.filter((item) => {
+    if (modalityId && item.modalityId !== modalityId) {
+      return false;
+    }
+    return !teamKey || normalizeTeamLookupKey(item.teamName) === teamKey;
+  });
+}
+
+function sortPhysiotherapyItems(items) {
+  const severityOrder = { VERMELHO: 0, AMARELO: 1, VERDE: 2 };
+  return [...items].sort((left, right) => {
+    const severityDifference =
+      (severityOrder[normalizeKey(left.severity || left.semaphore)] ?? 3) -
+      (severityOrder[normalizeKey(right.severity || right.semaphore)] ?? 3);
+    if (severityDifference) return severityDifference;
+    const modalityDifference = String(left.modalityId).localeCompare(String(right.modalityId), "pt-BR");
+    if (modalityDifference) return modalityDifference;
+    const teamDifference = String(left.teamName).localeCompare(String(right.teamName), "pt-BR");
+    if (teamDifference) return teamDifference;
+    return String(left.athleteName).localeCompare(String(right.athleteName), "pt-BR");
+  });
+}
+
+async function fetchPhysiotherapyDashboardData(modalityId = "") {
+  const modalities = modalityId
+    ? MODALITY_DEFS.filter((modality) => modality.id === modalityId)
+    : MODALITY_DEFS;
+  const groups = await Promise.all(
+    modalities.map((modality) => fetchPhysioDemandsData(modality.id, { throwOnFailure: true }))
+  );
+  return groups.flat();
+}
+
+async function handlePhysiotherapyApi(requestUrl, response) {
+  const modalityId = normalizeText(requestUrl.searchParams.get("modality"));
+  const teamName = normalizeText(requestUrl.searchParams.get("team"));
+
+  if (modalityId && !getModalityById(modalityId)) {
+    response.writeHead(400, { "Content-Type": "application/json; charset=utf-8" });
+    response.end(JSON.stringify({ message: "Modalidade invalida para fisioterapia." }));
+    return;
+  }
+
+  const fetchedAt = new Date();
+  const allItems = await fetchPhysiotherapyDashboardData(modalityId);
+  const items = sortPhysiotherapyItems(filterPhysiotherapyItems(allItems, { modalityId, teamName }));
+  const teams = Array.from(new Set(allItems.map((item) => item.teamName).filter(Boolean))).sort((left, right) =>
+    left.localeCompare(right, "pt-BR")
+  );
+
+  response.writeHead(200, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
+  });
+  response.end(
+    JSON.stringify({
+      updatedAt: fetchedAt.toISOString(),
+      updatedAtLabel: fetchedAt.toLocaleString("pt-BR"),
+      modalities: MODALITY_DEFS.map(({ id, label }) => ({ id, label })),
+      teams,
+      summary: summarizePhysiotherapyItems(items),
+      items,
+    })
+  );
 }
 
 async function fetchPsychologyDemandsData() {
@@ -3313,6 +3442,24 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
+  if (requestUrl.pathname === "/api/physiotherapy") {
+    try {
+      await handlePhysiotherapyApi(requestUrl, response);
+    } catch (error) {
+      response.writeHead(500, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+      });
+      response.end(
+        JSON.stringify({
+          message: "Nao foi possivel carregar a fisioterapia agora.",
+          details: error.message,
+        })
+      );
+    }
+    return;
+  }
+
   if (requestUrl.pathname === "/api/export-pdf") {
     try {
       await handleExportPdf(requestUrl, response);
@@ -3416,5 +3563,8 @@ if (require.main === module) {
 
 module.exports = {
   buildPhysioDemandPanelHtml,
+  filterPhysiotherapyItems,
+  getPhysioVetoLevel,
+  summarizePhysiotherapyItems,
   transformPhysioModalityRows,
 };

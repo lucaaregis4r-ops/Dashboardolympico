@@ -89,6 +89,9 @@
           <button class="sidebar__link" id="staff-open-button" type="button">
             Comissão técnica
           </button>
+          <button class="sidebar__link" id="nav-physiotherapy-button" type="button">
+            Fisioterapia
+          </button>
           <button class="sidebar__link" id="nav-athletes-button" type="button">
             Atletas
           </button>
@@ -118,11 +121,11 @@
       <div class="main-shell">
         <header class="topbar">
           <div>
-            <p class="topbar__eyebrow">Centro de análise</p>
-            <h2 class="topbar__title">Atletas e equipes</h2>
+            <p class="topbar__eyebrow" id="topbar-eyebrow">Centro de análise</p>
+            <h2 class="topbar__title" id="topbar-title">Atletas e equipes</h2>
           </div>
 
-          <div class="topbar__actions">
+          <div class="topbar__actions" id="topbar-actions">
             <label class="field field--search">
               <span>Buscar atleta</span>
               <input
@@ -329,6 +332,64 @@
               Nenhum atleta encontrado com os filtros atuais.
             </div>
             <div class="empty hidden" id="error-state"></div>
+          </section>
+
+          <section class="physio-workspace hidden" id="physiotherapy-workspace">
+            <article class="physio-hero">
+              <div>
+                <p class="chart-card__eyebrow">Cuidado e disponibilidade</p>
+                <h3>Fisioterapia</h3>
+                <p>
+                  Acompanhamento dos casos ativos e atendimentos imediatos publicados
+                  pela equipe de fisioterapia.
+                </p>
+              </div>
+              <div class="physio-hero__status">
+                <span>Última consulta</span>
+                <strong id="physiotherapy-updated-at">Ainda não consultado</strong>
+                <button class="physio-refresh" id="physiotherapy-refresh" type="button">
+                  Atualizar fisioterapia
+                </button>
+              </div>
+            </article>
+
+            <div class="physio-filters" aria-label="Filtros da fisioterapia">
+              <label class="field">
+                <span>Buscar</span>
+                <input id="physiotherapy-search" type="search" placeholder="Atleta, lesão ou observação" />
+              </label>
+              <label class="field">
+                <span>Modalidade</span>
+                <select id="physiotherapy-modality">
+                  <option value="">Todas</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Categoria</span>
+                <select id="physiotherapy-team">
+                  <option value="">Todas</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Semáforo</span>
+                <select id="physiotherapy-severity">
+                  <option value="">Todos</option>
+                  <option value="VERMELHO">Vermelho</option>
+                  <option value="AMARELO">Amarelo</option>
+                  <option value="VERDE">Verde</option>
+                </select>
+              </label>
+            </div>
+
+            <section class="physio-stats" id="physiotherapy-stats" aria-label="Indicadores da fisioterapia"></section>
+
+            <div class="physio-results__bar">
+              <p id="physiotherapy-results-count" aria-live="polite">Selecione Fisioterapia para carregar os registros.</p>
+              <span>Consulta somente leitura</span>
+            </div>
+
+            <div class="physio-state hidden" id="physiotherapy-state" role="status" aria-live="polite"></div>
+            <div class="physio-list" id="physiotherapy-list"></div>
           </section>
 
           <section class="calendar-workspace hidden" id="calendar-workspace">

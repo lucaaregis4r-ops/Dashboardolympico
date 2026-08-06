@@ -64,6 +64,20 @@ const state = {
   staffPeriod: "30",
   exportInFlight: false,
   selectedTrainingDate: null,
+  physiotherapy: {
+    items: [],
+    modalities: [],
+    updatedAtLabel: "",
+    loaded: false,
+    loading: false,
+    error: "",
+    filters: {
+      search: "",
+      modality: "",
+      team: "",
+      severity: "",
+    },
+  },
 };
 
 const elements = {
@@ -88,8 +102,23 @@ const elements = {
   navAthletesButton: document.querySelector("#nav-athletes-button"),
   navTeamsButton: document.querySelector("#nav-teams-button"),
   navCalendarButton: document.querySelector("#nav-calendar-button"),
+  navPhysiotherapyButton: document.querySelector("#nav-physiotherapy-button"),
+  topbarEyebrow: document.querySelector("#topbar-eyebrow"),
+  topbarTitle: document.querySelector("#topbar-title"),
+  topbarActions: document.querySelector("#topbar-actions"),
   panelWorkspace: document.querySelector("#panel-workspace"),
   calendarWorkspace: document.querySelector("#calendar-workspace"),
+  physiotherapyWorkspace: document.querySelector("#physiotherapy-workspace"),
+  physiotherapyUpdatedAt: document.querySelector("#physiotherapy-updated-at"),
+  physiotherapyRefresh: document.querySelector("#physiotherapy-refresh"),
+  physiotherapySearch: document.querySelector("#physiotherapy-search"),
+  physiotherapyModality: document.querySelector("#physiotherapy-modality"),
+  physiotherapyTeam: document.querySelector("#physiotherapy-team"),
+  physiotherapySeverity: document.querySelector("#physiotherapy-severity"),
+  physiotherapyStats: document.querySelector("#physiotherapy-stats"),
+  physiotherapyResultsCount: document.querySelector("#physiotherapy-results-count"),
+  physiotherapyState: document.querySelector("#physiotherapy-state"),
+  physiotherapyList: document.querySelector("#physiotherapy-list"),
   calendarTeamSelect: document.querySelector("#calendar-team-select"),
   trainingCalendarView: document.querySelector("#training-calendar-view"),
   template: document.querySelector("#athlete-card-template"),
@@ -193,6 +222,15 @@ function roundNumber(value, digits = 1) {
 
   const factor = 10 ** digits;
   return Math.round(value * factor) / factor;
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function average(values) {
@@ -2296,10 +2334,249 @@ function renderTrainingCalendarWorkspace(teamName) {
   elements.trainingDetail.append(controls);
 }
 
+function normalizeSearchValue(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase()
+    .trim();
+}
+
+function getPhysioModalityLabel(modalityId) {
+  return (
+    state.physiotherapy.modalities.find((modality) => modality.id === modalityId)?.label ||
+    modalityId ||
+    "Sem modalidade"
+  );
+}
+
+function getPhysioVetoLevel(value) {
+  const key = normalizeSearchValue(value);
+  if (!key || key === "NAO" || key === "SEM VETO") return "none";
+  if (key.includes("PARCIAL")) return "partial";
+  if (key.includes("COMPLETO") || key.includes("TOTAL") || key === "SIM" || key.includes("VETADO")) {
+    return "full";
+  }
+  return "none";
+}
+
+function getFilteredPhysiotherapyItems() {
+  const filters = state.physiotherapy.filters;
+  const searchKey = normalizeSearchValue(filters.search);
+
+  return state.physiotherapy.items.filter((item) => {
+    if (filters.modality && item.modalityId !== filters.modality) return false;
+    if (filters.team && item.teamName !== filters.team) return false;
+    if (filters.severity && normalizeSearchValue(item.severity || item.semaphore) !== filters.severity) {
+      return false;
+    }
+    if (!searchKey) return true;
+
+    return normalizeSearchValue(
+      [
+        item.athleteName,
+        item.teamName,
+        item.injury,
+        item.conduct,
+        item.observations,
+        item.phase,
+      ].join(" ")
+    ).includes(searchKey);
+  });
+}
+
+function summarizePhysiotherapyItems(items) {
+  return items.reduce(
+    (summary, item) => {
+      const section = normalizeSearchValue(item.section);
+      const severity = normalizeSearchValue(item.severity || item.semaphore);
+      const trainingVeto = getPhysioVetoLevel(item.trainingVeto);
+      const pfVeto = getPhysioVetoLevel(item.pfVeto);
+      if (section.includes("EM TRATAMENTO")) summary.inTreatment += 1;
+      if (section.includes("ATENDIMENTO IMEDIATO")) summary.immediate += 1;
+      if (severity === "VERMELHO") summary.red += 1;
+      if (severity === "AMARELO") summary.yellow += 1;
+      if (trainingVeto === "full" || pfVeto === "full") summary.fullVeto += 1;
+      else if (trainingVeto === "partial" || pfVeto === "partial") summary.partialVeto += 1;
+      return summary;
+    },
+    { inTreatment: 0, immediate: 0, red: 0, yellow: 0, fullVeto: 0, partialVeto: 0 }
+  );
+}
+
+function populatePhysiotherapyFilters() {
+  const selectedModality = state.physiotherapy.filters.modality;
+  elements.physiotherapyModality.innerHTML = [
+    '<option value="">Todas</option>',
+    ...state.physiotherapy.modalities.map(
+      (modality) =>
+        `<option value="${escapeHtml(modality.id)}">${escapeHtml(modality.label)}</option>`
+    ),
+  ].join("");
+  elements.physiotherapyModality.value = selectedModality;
+
+  const teams = Array.from(
+    new Set(
+      state.physiotherapy.items
+        .filter((item) => !selectedModality || item.modalityId === selectedModality)
+        .map((item) => item.teamName)
+        .filter(Boolean)
+    )
+  ).sort((left, right) => left.localeCompare(right, "pt-BR"));
+
+  if (state.physiotherapy.filters.team && !teams.includes(state.physiotherapy.filters.team)) {
+    state.physiotherapy.filters.team = "";
+  }
+  elements.physiotherapyTeam.innerHTML = [
+    '<option value="">Todas</option>',
+    ...teams.map((team) => `<option value="${escapeHtml(team)}">${escapeHtml(team)}</option>`),
+  ].join("");
+  elements.physiotherapyTeam.value = state.physiotherapy.filters.team;
+}
+
+function renderPhysiotherapyStats(items) {
+  const summary = summarizePhysiotherapyItems(items);
+  const cards = [
+    { label: "Em tratamento", value: summary.inTreatment, note: "Casos ativos", tone: "blue" },
+    { label: "Atendimentos", value: summary.immediate, note: "Imediatos da semana", tone: "purple" },
+    { label: "Prioridade", value: summary.red, note: "Semáforo vermelho", tone: "red" },
+    { label: "Atenção", value: summary.yellow, note: "Semáforo amarelo", tone: "yellow" },
+    { label: "Veto completo", value: summary.fullVeto, note: "Treino ou PF", tone: "red" },
+    { label: "Veto parcial", value: summary.partialVeto, note: "Treino ou PF", tone: "yellow" },
+  ];
+
+  elements.physiotherapyStats.innerHTML = cards
+    .map(
+      (card) => `
+        <article class="physio-stat physio-stat--${card.tone}">
+          <p>${card.label}</p>
+          <strong>${card.value}</strong>
+          <span>${card.note}</span>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderPhysiotherapyCard(item) {
+  const severity = normalizeSearchValue(item.severity || item.semaphore) || "NEUTRO";
+  const severityTone = severity === "VERMELHO" ? "red" : severity === "AMARELO" ? "yellow" : severity === "VERDE" ? "green" : "neutral";
+  const detailItems = [
+    ["Fase", item.phase],
+    ["Dor", item.painScale ? `${item.painScale}/10` : ""],
+    ["Veto treino", item.trainingVeto],
+    ["Veto PF", item.pfVeto],
+  ].filter(([, value]) => value);
+
+  return `
+    <article class="physio-card physio-card--${severityTone}">
+      <header class="physio-card__head">
+        <div>
+          <span class="physio-card__context">${escapeHtml(getPhysioModalityLabel(item.modalityId))} · ${escapeHtml(item.teamName)}</span>
+          <h4>${escapeHtml(item.athleteName)}</h4>
+        </div>
+        <div class="physio-card__badges">
+          <span class="physio-badge physio-badge--section">${escapeHtml(item.section || "Registro")}</span>
+          <span class="physio-badge physio-badge--${severityTone}">${escapeHtml(severity === "NEUTRO" ? "Sem semáforo" : severity)}</span>
+        </div>
+      </header>
+      <div class="physio-card__injury">
+        <span>Lesão ou demanda</span>
+        <strong>${escapeHtml(item.injury || item.demand || "Não informada")}</strong>
+      </div>
+      ${
+        detailItems.length
+          ? `<dl class="physio-card__details">${detailItems
+              .map(
+                ([label, value]) =>
+                  `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`
+              )
+              .join("")}</dl>`
+          : ""
+      }
+      ${item.conduct ? `<p class="physio-card__conduct"><b>Conduta:</b> ${escapeHtml(item.conduct)}</p>` : ""}
+      ${item.observations ? `<p class="physio-card__observations"><b>Observações:</b> ${escapeHtml(item.observations)}</p>` : ""}
+    </article>
+  `;
+}
+
+function renderPhysiotherapy() {
+  const physio = state.physiotherapy;
+  elements.physiotherapyRefresh.disabled = physio.loading;
+  elements.physiotherapyRefresh.textContent = physio.loading ? "Atualizando..." : "Atualizar fisioterapia";
+  elements.physiotherapyUpdatedAt.textContent = physio.updatedAtLabel || "Ainda não consultado";
+
+  if (physio.loading && !physio.loaded) {
+    elements.physiotherapyState.textContent = "Carregando registros da fisioterapia...";
+    elements.physiotherapyState.className = "physio-state";
+    elements.physiotherapyList.innerHTML = "";
+    elements.physiotherapyStats.innerHTML = "";
+    elements.physiotherapyResultsCount.textContent = "Consultando as modalidades...";
+    return;
+  }
+
+  if (physio.error) {
+    elements.physiotherapyState.textContent = physio.error;
+    elements.physiotherapyState.className = "physio-state physio-state--error";
+  } else {
+    elements.physiotherapyState.className = "physio-state hidden";
+    elements.physiotherapyState.textContent = "";
+  }
+
+  const items = getFilteredPhysiotherapyItems();
+  renderPhysiotherapyStats(items);
+  elements.physiotherapyResultsCount.textContent = `${items.length} registro${items.length === 1 ? "" : "s"} exibido${items.length === 1 ? "" : "s"}`;
+  elements.physiotherapyList.innerHTML = items.map(renderPhysiotherapyCard).join("");
+
+  if (!items.length && !physio.error) {
+    elements.physiotherapyState.textContent = "Nenhum registro encontrado com os filtros atuais.";
+    elements.physiotherapyState.className = "physio-state";
+  }
+}
+
+async function loadPhysiotherapy(force = false) {
+  if (state.physiotherapy.loading) {
+    return;
+  }
+  if (state.physiotherapy.loaded && !force) {
+    renderPhysiotherapy();
+    return;
+  }
+
+  state.physiotherapy.loading = true;
+  state.physiotherapy.error = "";
+  renderPhysiotherapy();
+
+  try {
+    const response = await fetch("/api/physiotherapy", { cache: "no-store" });
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.details || payload.message || "Erro ao carregar a fisioterapia.");
+    }
+
+    state.physiotherapy.items = payload.items || [];
+    state.physiotherapy.modalities = payload.modalities || [];
+    state.physiotherapy.updatedAtLabel = payload.updatedAtLabel || "Consulta concluída";
+    state.physiotherapy.loaded = true;
+    populatePhysiotherapyFilters();
+  } catch (error) {
+    state.physiotherapy.error = error.message;
+  } finally {
+    state.physiotherapy.loading = false;
+    renderPhysiotherapy();
+  }
+}
+
 function renderActiveWorkspace() {
   const isCalendar = state.activeSection === "calendar";
-  elements.panelWorkspace.classList.toggle("hidden", isCalendar);
+  const isPhysiotherapy = state.activeSection === "physiotherapy";
+  elements.panelWorkspace.classList.toggle("hidden", isCalendar || isPhysiotherapy);
   elements.calendarWorkspace.classList.toggle("hidden", !isCalendar);
+  elements.physiotherapyWorkspace.classList.toggle("hidden", !isPhysiotherapy);
+  elements.stats.classList.toggle("hidden", isPhysiotherapy);
+  elements.topbarActions.classList.toggle("hidden", isPhysiotherapy);
+  elements.topbarEyebrow.textContent = isPhysiotherapy ? "Núcleo de saúde" : "Centro de análise";
+  elements.topbarTitle.textContent = isPhysiotherapy ? "Fisioterapia" : "Atletas e equipes";
 
   if (isCalendar) {
     elements.calendarTeamSelect.value = getActiveTeam();
@@ -2307,6 +2584,10 @@ function renderActiveWorkspace() {
   } else if (state.trainingCalendar) {
     state.trainingCalendar.destroy();
     state.trainingCalendar = null;
+  }
+
+  if (isPhysiotherapy) {
+    loadPhysiotherapy();
   }
 }
 
@@ -2502,6 +2783,7 @@ function setSidebarActive(target) {
     athletes: elements.navAthletesButton,
     teams: elements.navTeamsButton,
     calendar: elements.navCalendarButton,
+    physiotherapy: elements.navPhysiotherapyButton,
   };
 
   Object.entries(mapping).forEach(([key, button]) => {
@@ -2615,7 +2897,15 @@ async function loadAthletes() {
     renderStats();
     renderAthletes();
     renderPanel();
-    setSidebarActive(state.activeSection === "calendar" ? "calendar" : state.viewMode === "team" ? "teams" : "athletes");
+    setSidebarActive(
+      state.activeSection === "physiotherapy"
+        ? "physiotherapy"
+        : state.activeSection === "calendar"
+          ? "calendar"
+          : state.viewMode === "team"
+            ? "teams"
+            : "athletes"
+    );
     renderActiveWorkspace();
     if (state.staffDrawerOpen) {
       renderStaffDrawer();
@@ -3065,6 +3355,31 @@ elements.refreshButton.addEventListener("click", () => {
   loadAthletes();
 });
 
+elements.physiotherapyRefresh.addEventListener("click", () => {
+  loadPhysiotherapy(true);
+});
+
+elements.physiotherapySearch.addEventListener("input", (event) => {
+  state.physiotherapy.filters.search = event.target.value;
+  renderPhysiotherapy();
+});
+
+elements.physiotherapyModality.addEventListener("change", (event) => {
+  state.physiotherapy.filters.modality = event.target.value;
+  populatePhysiotherapyFilters();
+  renderPhysiotherapy();
+});
+
+elements.physiotherapyTeam.addEventListener("change", (event) => {
+  state.physiotherapy.filters.team = event.target.value;
+  renderPhysiotherapy();
+});
+
+elements.physiotherapySeverity.addEventListener("change", (event) => {
+  state.physiotherapy.filters.severity = event.target.value;
+  renderPhysiotherapy();
+});
+
 elements.staffOpenButton.addEventListener("click", () => {
   openStaffDrawer();
 });
@@ -3121,6 +3436,13 @@ elements.navCalendarButton.addEventListener("click", () => {
   setSidebarActive("calendar");
   renderActiveWorkspace();
   elements.calendarWorkspace.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+elements.navPhysiotherapyButton.addEventListener("click", () => {
+  state.activeSection = "physiotherapy";
+  setSidebarActive("physiotherapy");
+  renderActiveWorkspace();
+  elements.physiotherapyWorkspace.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 elements.calendarTeamSelect.addEventListener("change", (event) => {

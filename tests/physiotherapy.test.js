@@ -3,6 +3,9 @@ const assert = require("node:assert/strict");
 
 const {
   buildPhysioDemandPanelHtml,
+  filterPhysiotherapyItems,
+  getPhysioVetoLevel,
+  summarizePhysiotherapyItems,
   transformPhysioModalityRows,
 } = require("../src/server");
 
@@ -35,6 +38,9 @@ test("le observacoes da secao de atletas em tratamento como campo proprio", () =
 
   assert.equal(items.length, 1);
   assert.equal(items[0].observations, "Retorno progressivo após avaliação");
+  assert.equal(items[0].section, "Em tratamento");
+  assert.equal(items[0].trainingVeto, "SIM, PARCIAL");
+  assert.equal(items[0].injury, "Entorse de tornozelo");
   assert.equal(items[0].notes, "Em tratamento | Fase 2 | Veto treino: SIM, PARCIAL | Veto PF: NÃO");
 });
 
@@ -84,4 +90,41 @@ test("renderiza e escapa a observacao no relatorio", () => {
   assert.match(html, /Observações:/);
   assert.match(html, /Reavaliar &lt;sexta&gt; &amp; avisar comissão/);
   assert.doesNotMatch(html, /Reavaliar <sexta>/);
+});
+
+test("resume semaforos, secoes e vetos para o dashboard", () => {
+  const items = [
+    { section: "Em tratamento", severity: "VERMELHO", trainingVeto: "SIM, COMPLETO", pfVeto: "NÃO" },
+    { section: "Em tratamento", severity: "AMARELO", trainingVeto: "SIM, PARCIAL", pfVeto: "NÃO" },
+    { section: "Atendimento imediato", severity: "VERDE", trainingVeto: "", pfVeto: "" },
+  ];
+
+  assert.deepEqual(summarizePhysiotherapyItems(items), {
+    total: 3,
+    inTreatment: 2,
+    immediate: 1,
+    red: 1,
+    yellow: 1,
+    green: 1,
+    fullVeto: 1,
+    partialVeto: 1,
+  });
+  assert.equal(getPhysioVetoLevel("SIM, PARCIAL"), "partial");
+  assert.equal(getPhysioVetoLevel("SIM, COMPLETO"), "full");
+  assert.equal(getPhysioVetoLevel("NÃO"), "none");
+});
+
+test("filtra fisioterapia por modalidade e equipe normalizada", () => {
+  const items = [
+    { athleteName: "A", modalityId: "basquete", teamName: "SUB-17" },
+    { athleteName: "B", modalityId: "basquete", teamName: "SUB-15" },
+    { athleteName: "C", modalityId: "futsal", teamName: "SUB-17" },
+  ];
+
+  assert.deepEqual(
+    filterPhysiotherapyItems(items, { modalityId: "basquete", teamName: "sub 17" }).map(
+      (item) => item.athleteName
+    ),
+    ["A"]
+  );
 });

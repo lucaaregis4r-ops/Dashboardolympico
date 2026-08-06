@@ -5,8 +5,8 @@
 
 ## Estado atual
 
-- Fase ativa: Fase 2 concluida; a proxima entrega funcional sera a Fase 3 - API e area de Fisioterapia.
-- Ultima entrega funcional: compatibilidade com `OBSERVACOES` na fisioterapia, validada em teste automatizado, relatorio HTML ao vivo e PDF.
+- Fase ativa: Fase 3 concluida; a proxima entrega sera a Fase 4 - redesign flat e esportivo.
+- Ultima entrega: API `GET /api/physiotherapy` e area de Fisioterapia somente leitura no dashboard.
 - Fonte de verdade do cliente: `src/client/`.
 - Fonte de verdade do servidor: `src/server/`.
 - Assets compartilhados ficam em `assets/`; dados de referencia e modelos ficam em `data/`.
@@ -54,12 +54,28 @@ Direcao visual aprovada como referencia:
 - O modelo interno mantem `observations` separado de `notes`, permitindo exibicao, filtro e evolucao futura sem perder semantica.
 - O relatorio mostra observacoes somente quando preenchidas, com rotulo claro e escape de HTML.
 
+## Fisioterapia no dashboard
+
+- Rota: `GET /api/physiotherapy`.
+- Filtros opcionais da API: `modality=<id>` e `team=<categoria>`.
+- Resposta: data da consulta, modalidades, categorias, resumo e registros ativos.
+- Cada registro expoe separadamente `section`, `injury`, `severity`, `phase`, `trainingVeto`, `pfVeto`, `conduct`, `painScale` e `observations`.
+- A API agrega em tratamento, atendimentos imediatos, semaforos e vetos completos/parciais.
+- A interface possui item `Fisioterapia` na navegacao lateral.
+- A tela oferece busca e filtros por modalidade, categoria e semaforo.
+- Os indicadores e a lista reagem aos filtros sem consultar novamente a planilha.
+- Dados clinicos permanecem apenas em memoria durante a sessao e nao sao gravados no `localStorage`.
+- Observacoes usam escape de HTML e aparecem integralmente nos cartoes.
+- Em 2026-08-06, a API real retornou 37 registros ativos, 5 modalidades, 9 categorias e 7 registros com observacoes.
+- O service worker usa cache `dashboard-olympico-v4` para distribuir a nova interface.
+
 ## Decisoes vigentes
 
 - A modernizacao sera entregue por fases pequenas e validaveis, conforme `docs/PLANO-IMPLEMENTACAO.md`.
 - A primeira mudanca funcional, campo de observacoes no relatorio, foi concluida em 2026-08-06.
 - A reorganizacao de pastas nao sera feita como uma movimentacao em massa: primeiro os caminhos serao centralizados, depois os arquivos serao movidos e os builds validados.
 - O novo dashboard de fisioterapia consumira uma rota JSON dedicada, em vez de duplicar no navegador a leitura e as regras da planilha.
+- A area de Fisioterapia foi entregue como consulta somente leitura; edicao continua no Google Sheets.
 - Pacotes gerados e copias para entrega nunca serao fonte de verdade.
 - Este documento deve ser atualizado ao fim de cada fase com data, decisoes e proximos passos.
 
