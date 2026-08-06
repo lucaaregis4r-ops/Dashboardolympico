@@ -7,6 +7,11 @@ const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "src", "client", "index.html"), "utf8");
 const app = fs.readFileSync(path.join(root, "src", "client", "app.js"), "utf8");
 const css = fs.readFileSync(path.join(root, "src", "client", "styles.css"), "utf8");
+const flatTheme = fs.readFileSync(path.join(root, "src", "client", "theme-flat.css"), "utf8");
+const serviceWorker = fs.readFileSync(
+  path.join(root, "src", "client", "service-worker.js"),
+  "utf8"
+);
 
 test("workspace de fisioterapia possui navegacao, filtros e regioes de resultado", () => {
   [
@@ -36,4 +41,42 @@ test("layout da fisioterapia possui adaptacao para telas menores", () => {
   assert.match(css, /\.physio-list\s*\{[^}]*grid-template-columns:\s*repeat\(2/s);
   assert.match(css, /@media \(max-width: 1024px\)[\s\S]*\.physio-list[\s\S]*grid-template-columns:\s*1fr/);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*\.physio-filters[\s\S]*grid-template-columns:\s*1fr/);
+});
+
+test("tema flat e carregado depois dos estilos estruturais", () => {
+  const baseIndex = html.indexOf('href="styles.css"');
+  const themeIndex = html.indexOf('href="theme-flat.css"');
+  assert.ok(baseIndex >= 0);
+  assert.ok(themeIndex > baseIndex);
+  assert.match(flatTheme, /--navy:\s*#171d49/);
+  assert.match(flatTheme, /--red:\s*#df3046/);
+  assert.match(flatTheme, /body\s*\{[^}]*background:\s*#f1f3f8/s);
+  assert.match(flatTheme, /\.sidebar\s*\{[^}]*background:\s*var\(--navy\)/s);
+  assert.match(flatTheme, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(serviceWorker, /"\/theme-flat\.css"/);
+});
+
+test("combinacoes principais do tema atendem contraste AA", () => {
+  function luminance(hex) {
+    const channels = hex
+      .match(/[a-f\d]{2}/gi)
+      .map((value) => parseInt(value, 16) / 255)
+      .map((value) => (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4));
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  }
+
+  function contrast(left, right) {
+    const values = [luminance(left), luminance(right)].sort((a, b) => b - a);
+    return (values[0] + 0.05) / (values[1] + 0.05);
+  }
+
+  [
+    ["#171d49", "#ffffff"],
+    ["#1c2442", "#ffffff"],
+    ["#69748f", "#ffffff"],
+    ["#df3046", "#ffffff"],
+    ["#4246a6", "#ffffff"],
+  ].forEach(([foreground, background]) => {
+    assert.ok(contrast(foreground, background) >= 4.5, `${foreground} sobre ${background}`);
+  });
 });

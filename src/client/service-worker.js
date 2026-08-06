@@ -1,8 +1,9 @@
-const CACHE_NAME = "dashboard-olympico-v4";
+const CACHE_NAME = "dashboard-olympico-v5";
 const APP_SHELL = [
   "/",
   "/index.html",
   "/styles.css",
+  "/theme-flat.css",
   "/app.js",
   "/manifest.webmanifest",
   "/assets/olympico-crest.png",

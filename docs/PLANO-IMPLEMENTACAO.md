@@ -14,8 +14,8 @@ Entregar um dashboard profissional, flat e esportivo, com identidade do Olympico
 | 1 | Observacoes da fisioterapia no relatorio | Concluida em 2026-08-06 |
 | 2 | Organizacao fisica e modularizacao inicial | Concluida em 2026-08-06 |
 | 3 | API e area de Fisioterapia no dashboard | Concluida em 2026-08-06 |
-| 4 | Redesign flat/esportivo | Proxima |
-| 5 | Validacao, acessibilidade e distribuicao | Pendente |
+| 4 | Redesign flat/esportivo | Concluida em 2026-08-06 |
+| 5 | Validacao, acessibilidade e distribuicao | Proxima |
 
 ## Fase 0 - Inventario e base de trabalho
 
@@ -233,3 +233,12 @@ Ao finalizar uma fase:
 - Modalidade invalida foi validada com resposta 400.
 - Suite ampliada para dez testes automatizados, incluindo contrato, filtros, seguranca do texto e responsividade estrutural.
 - A validacao visual interativa no navegador integrado nao esteve disponivel nesta sessao; foram executadas validacoes HTTP, DOM, CSS responsivo e eventos declarados.
+- Fase 4 adicionou `src/client/theme-flat.css`, isolando o redesign da estrutura e facilitando manutencao/reversao.
+- Interface passou a usar superficies claras, navegacao azul-marinho, vermelho Olympico acessivel e detalhes geometricos esportivos.
+- Login, sidebar, topo, filtros, KPIs, cards, graficos, calendario, drawer e fisioterapia receberam o novo tema.
+- Paleta dos graficos foi ajustada para fundos claros e menor saturacao visual.
+- Adicionados foco visivel, `prefers-reduced-motion` e testes matematicos de contraste AA.
+- Contrastes principais ficaram entre 4,52:1 e 16,05:1.
+- Service worker atualizado para `dashboard-olympico-v5`, incluindo o novo arquivo de tema.
+- Suite ampliada para doze testes automatizados.
+- O navegador integrado continuou indisponivel; carregamento/cascata do CSS, DOM, responsividade, contraste e fluxos HTTP foram validados por verificacoes automatizadas.

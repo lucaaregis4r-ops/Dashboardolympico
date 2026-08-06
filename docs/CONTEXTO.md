@@ -5,8 +5,8 @@
 
 ## Estado atual
 
-- Fase ativa: Fase 3 concluida; a proxima entrega sera a Fase 4 - redesign flat e esportivo.
-- Ultima entrega: API `GET /api/physiotherapy` e area de Fisioterapia somente leitura no dashboard.
+- Fase ativa: Fase 4 concluida; a proxima entrega sera a Fase 5 - validacao final, acessibilidade e distribuicao.
+- Ultima entrega: redesign flat, profissional e esportivo com identidade do Olympico.
 - Fonte de verdade do cliente: `src/client/`.
 - Fonte de verdade do servidor: `src/server/`.
 - Assets compartilhados ficam em `assets/`; dados de referencia e modelos ficam em `data/`.
@@ -30,6 +30,22 @@ Direcao visual aprovada como referencia:
 - superficies claras no conteudo, alto contraste e graficos com paleta consistente;
 - formas geometricas e detalhes esportivos discretos;
 - evitar excesso de gradientes, transparencias, sombras pesadas e cantos exageradamente arredondados.
+
+## Sistema visual flat
+
+- O CSS estrutural permanece em `src/client/styles.css`.
+- O tema visual fica isolado em `src/client/theme-flat.css` e e carregado depois do CSS estrutural.
+- Fundo do conteudo: cinza muito claro `#f1f3f8`; superficies principais: branco.
+- Navegacao e elementos institucionais: azul-marinho `#171d49`.
+- Cor de apoio: azul/roxo `#4246a6`.
+- Acoes e prioridades: vermelho `#df3046`, ajustado para contraste AA sobre branco.
+- Status continuam usando verde, amarelo e vermelho com rotulo textual; a cor nao e o unico sinal.
+- Raios foram reduzidos, sombras ficaram curtas e gradientes antigos foram neutralizados pelo tema.
+- Detalhes esportivos usam faixas e formas diagonais discretas na navegacao, login e cabecalho da fisioterapia.
+- Graficos usam uma paleta menos neon, com eixos e legendas adaptados para superficies claras.
+- Existe tratamento de `prefers-reduced-motion` e foco visivel reforcado.
+- Contrastes verificados: azul-marinho/branco 16,05:1; texto/branco 15,21:1; texto secundario/branco 4,67:1; vermelho/branco 4,52:1; azul de apoio/branco 7,90:1.
+- O service worker usa cache `dashboard-olympico-v5` e inclui `theme-flat.css`.
 
 ## Estrutura atual
 

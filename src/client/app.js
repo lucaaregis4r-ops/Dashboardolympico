@@ -1,12 +1,12 @@
 const METRICS = [
-  { key: "loadScore", label: "Carga", max: 5, color: "#8d7bff" },
-  { key: "recoveryScore", label: "Recuperação", max: 5, color: "#4fe0a2" },
-  { key: "painLevel", label: "Dor", max: 10, color: "#ff5b6b" },
-  { key: "fatigueScore", label: "Fadiga", max: 5, color: "#ffab4d" },
-  { key: "sleepScore", label: "Insônia", max: 5, color: "#7ea8ff" },
-  { key: "muscleScore", label: "Dor muscular", max: 5, color: "#bc7fff" },
-  { key: "stressScore", label: "Estresse", max: 5, color: "#ff7fc0" },
-  { key: "moodScore", label: "Humor", max: 5, color: "#47d1b7" },
+  { key: "loadScore", label: "Carga", max: 5, color: "#4246a6" },
+  { key: "recoveryScore", label: "Recuperação", max: 5, color: "#168a64" },
+  { key: "painLevel", label: "Dor", max: 10, color: "#df3046" },
+  { key: "fatigueScore", label: "Fadiga", max: 5, color: "#d98418" },
+  { key: "sleepScore", label: "Insônia", max: 5, color: "#4777c9" },
+  { key: "muscleScore", label: "Dor muscular", max: 5, color: "#7856b8" },
+  { key: "stressScore", label: "Estresse", max: 5, color: "#b9427f" },
+  { key: "moodScore", label: "Humor", max: 5, color: "#168d82" },
 ];
 
 const MODALITY_DEFS = [
@@ -1481,7 +1481,7 @@ function buildLineOptions(metricKeys = []) {
       legend: {
         position: "bottom",
         labels: {
-          color: "#f5f7ff",
+          color: "#4b5878",
           usePointStyle: true,
           padding: 18,
         },
@@ -1492,16 +1492,16 @@ function buildLineOptions(metricKeys = []) {
         min: range.min,
         max: range.max,
         ticks: {
-          color: "#e7ecff",
+          color: "#5f6b88",
           stepSize: range.stepSize,
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.12)",
+          color: "rgba(23, 29, 73, 0.1)",
         },
       },
       x: {
         ticks: {
-          color: "#d7defe",
+          color: "#5f6b88",
         },
         grid: {
           display: false,
@@ -1537,9 +1537,9 @@ function createProfileChartForAthlete(athlete, teamName) {
           data: metrics.map((metricKey) =>
             normalizeForRadar(metricKey, aggregateAthlete(athlete, metricKey, state.controls.profile.period))
           ),
-          borderColor: "#ff5b6b",
-          backgroundColor: "rgba(255, 91, 107, 0.22)",
-          pointBackgroundColor: "#ff5b6b",
+          borderColor: "#df3046",
+          backgroundColor: "rgba(223, 48, 70, 0.18)",
+          pointBackgroundColor: "#df3046",
           pointBorderColor: "#ffffff",
           pointBorderWidth: 2,
           borderWidth: 3,
@@ -1549,9 +1549,9 @@ function createProfileChartForAthlete(athlete, teamName) {
           data: metrics.map((metricKey) =>
             normalizeForRadar(metricKey, getTeamAggregate(teamName, metricKey, state.controls.profile.period))
           ),
-          borderColor: "#7ea8ff",
-          backgroundColor: "rgba(126, 168, 255, 0.18)",
-          pointBackgroundColor: "#7ea8ff",
+          borderColor: "#4246a6",
+          backgroundColor: "rgba(66, 70, 166, 0.14)",
+          pointBackgroundColor: "#4246a6",
           pointBorderColor: "#ffffff",
           pointBorderWidth: 2,
           borderWidth: 3,
@@ -1575,9 +1575,9 @@ function createProfileChartForTeam(teamName) {
           data: metrics.map((metricKey) =>
             normalizeForRadar(metricKey, getTeamAggregate(teamName, metricKey, state.controls.profile.period))
           ),
-          borderColor: "#ff5b6b",
-          backgroundColor: "rgba(255, 91, 107, 0.22)",
-          pointBackgroundColor: "#ff5b6b",
+          borderColor: "#df3046",
+          backgroundColor: "rgba(223, 48, 70, 0.18)",
+          pointBackgroundColor: "#df3046",
           pointBorderColor: "#ffffff",
           pointBorderWidth: 2,
           borderWidth: 3,
@@ -1587,9 +1587,9 @@ function createProfileChartForTeam(teamName) {
           data: metrics.map((metricKey) =>
             normalizeForRadar(metricKey, average(state.athletes.map((athlete) => aggregateAthlete(athlete, metricKey, state.controls.profile.period))))
           ),
-          borderColor: "#7ea8ff",
-          backgroundColor: "rgba(126, 168, 255, 0.18)",
-          pointBackgroundColor: "#7ea8ff",
+          borderColor: "#4246a6",
+          backgroundColor: "rgba(66, 70, 166, 0.14)",
+          pointBackgroundColor: "#4246a6",
           pointBorderColor: "#ffffff",
           pointBorderWidth: 2,
           borderWidth: 3,
@@ -1608,7 +1608,7 @@ function buildRadarOptions() {
       legend: {
         position: "bottom",
         labels: {
-          color: "#f5f7ff",
+          color: "#4b5878",
           usePointStyle: true,
           padding: 18,
         },
@@ -1620,17 +1620,17 @@ function buildRadarOptions() {
         max: 5,
         ticks: {
           stepSize: 1,
-          backdropColor: "rgba(12, 17, 45, 0.76)",
-          color: "#f1f4ff",
+          backdropColor: "#ffffff",
+          color: "#5f6b88",
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.2)",
+          color: "rgba(23, 29, 73, 0.13)",
         },
         angleLines: {
-          color: "rgba(255, 255, 255, 0.15)",
+          color: "rgba(23, 29, 73, 0.11)",
         },
         pointLabels: {
-          color: "#ffffff",
+          color: "#3d4968",
           font: {
             size: 12,
             family: "IBM Plex Sans",
@@ -1659,7 +1659,7 @@ function createDistributionChartForAthlete(athlete, teamName) {
               aggregateAthlete(athlete, metricKey, period)
             )
           ),
-          backgroundColor: "rgba(141, 123, 255, 0.95)",
+          backgroundColor: "rgba(66, 70, 166, 0.92)",
           borderRadius: 999,
           borderSkipped: false,
         },
@@ -1671,7 +1671,7 @@ function createDistributionChartForAthlete(athlete, teamName) {
               aggregateAthlete(athlete, metricKey, period)
             )
           ),
-          backgroundColor: "rgba(255, 91, 107, 0.88)",
+          backgroundColor: "rgba(223, 48, 70, 0.88)",
           borderRadius: 999,
           borderSkipped: false,
         },
@@ -1698,7 +1698,7 @@ function createDistributionChartForTeam(teamName) {
               getTeamAggregate(teamName, metricKey, period)
             )
           ),
-          backgroundColor: "rgba(141, 123, 255, 0.95)",
+          backgroundColor: "rgba(66, 70, 166, 0.92)",
           borderRadius: 999,
           borderSkipped: false,
           xAxisID: "x",
@@ -1712,7 +1712,7 @@ function createDistributionChartForTeam(teamName) {
             }
             return roundNumber(summary.p75 - summary.p25, 1);
           }),
-          backgroundColor: "rgba(126, 168, 255, 0.9)",
+          backgroundColor: "rgba(71, 119, 201, 0.88)",
           borderRadius: 999,
           borderSkipped: false,
           xAxisID: "x1",
@@ -1728,13 +1728,13 @@ function createDistributionChartForTeam(teamName) {
           min: 0,
           max: 100,
           ticks: {
-            color: "#eef2ff",
+            color: "#5f6b88",
             callback(value) {
               return `${value}%`;
             },
           },
           grid: {
-            color: "rgba(255, 255, 255, 0.12)",
+            color: "rgba(23, 29, 73, 0.1)",
           },
         },
         x1: {
@@ -1743,7 +1743,7 @@ function createDistributionChartForTeam(teamName) {
           min: 0,
           max: 5,
           ticks: {
-            color: "#bdd2ff",
+            color: "#5f6b88",
           },
           grid: {
             display: false,
@@ -1751,7 +1751,7 @@ function createDistributionChartForTeam(teamName) {
         },
         y: {
           ticks: {
-            color: "#eef2ff",
+            color: "#5f6b88",
           },
           grid: {
             display: false,
@@ -1771,7 +1771,7 @@ function buildPercentileOptions() {
       legend: {
         position: "bottom",
         labels: {
-          color: "#f5f7ff",
+          color: "#4b5878",
           usePointStyle: true,
           padding: 18,
         },
@@ -1782,18 +1782,18 @@ function buildPercentileOptions() {
         min: 0,
         max: 100,
         ticks: {
-          color: "#eef2ff",
+          color: "#5f6b88",
           callback(value) {
             return `${value}%`;
           },
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.12)",
+          color: "rgba(23, 29, 73, 0.1)",
         },
       },
       y: {
         ticks: {
-          color: "#eef2ff",
+          color: "#5f6b88",
         },
         grid: {
           display: false,
@@ -1832,12 +1832,12 @@ function createSampleChart(values, metricKey) {
       scales: {
         x: {
           ticks: {
-            color: "#eef2ff",
+            color: "#5f6b88",
           },
           title: {
             display: true,
             text: metric.label,
-            color: "#eef2ff",
+            color: "#4b5878",
           },
           grid: {
             display: false,
@@ -1845,16 +1845,16 @@ function createSampleChart(values, metricKey) {
         },
         y: {
           ticks: {
-            color: "#eef2ff",
+            color: "#5f6b88",
             precision: 0,
           },
           title: {
             display: true,
             text: "Frequência",
-            color: "#eef2ff",
+            color: "#4b5878",
           },
           grid: {
-            color: "rgba(255, 255, 255, 0.12)",
+            color: "rgba(23, 29, 73, 0.1)",
           },
         },
       },
