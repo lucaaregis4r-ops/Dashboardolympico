@@ -145,7 +145,7 @@
               </select>
             </label>
 
-            <details class="export-menu">
+            <details class="export-menu" id="export-menu">
               <summary>Exportar PDF</summary>
               <div class="export-menu__body" id="export-buttons"></div>
             </details>
@@ -525,11 +525,12 @@
       </article>
     </template>
 
+    <script src="deployment-config.js"></script>
     <script src="app.js" defer></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+          navigator.serviceWorker.register("./service-worker.js").catch(() => {});
         });
       }
     </script>

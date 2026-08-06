@@ -19,7 +19,7 @@ A modernizacao foi concluida e o pacote esta pronto para homologacao operacional
 | Relatorio com fisio | `BASQUETE SUB-13` | HTML 200, observacoes presentes |
 | Relatorio sem fisio | `VOLEI MASC SUB17` | HTML 200, estado vazio presente |
 | PDFs | Cenários com e sem fisioterapia | HTTP 200, `application/pdf`, assinatura `%PDF-` |
-| PWA | Manifesto, cache e casca offline | Cache `dashboard-olympico-v6` aprovado |
+| PWA | Manifesto, cache e casca offline | Cache `dashboard-olympico-v7` aprovado |
 | Executavel | Interface, tema, manifesto, service worker e APIs | HTTP 200 no pacote reconstruido |
 | Rede local | Pagina, manifesto e APIs por `10.0.0.155` | HTTP 200 com bind em `0.0.0.0` |
 | Kit semanal | Simulacao `--dry-run` | 13 relatorios planejados em `output/reports/` |

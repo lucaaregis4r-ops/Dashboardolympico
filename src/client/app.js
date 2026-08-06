@@ -21,6 +21,13 @@ const STORAGE_KEY = "dashboard-olympico-training-checks";
 const LOGIN_SESSION_KEY = "dashboard-olympico-authenticated";
 const LOGIN_USER = "olympico";
 const LOGIN_PASSWORD = "olympico80";
+const DEPLOYMENT = {
+  staticHosting: false,
+  reportsEnabled: true,
+  athletesUrl: "/api/athletes",
+  physiotherapyUrl: "/api/physiotherapy",
+  ...(window.OLYMPICO_CONFIG || {}),
+};
 const state = {
   athletes: [],
   categories: [],
@@ -94,6 +101,7 @@ const elements = {
   searchInput: document.querySelector("#search-input"),
   categoryFilter: document.querySelector("#category-filter"),
   refreshButton: document.querySelector("#refresh-button"),
+  exportMenu: document.querySelector("#export-menu"),
   exportButtons: document.querySelector("#export-buttons"),
   resultsCount: document.querySelector("#results-count"),
   athletesGrid: document.querySelector("#athletes-grid"),
@@ -163,6 +171,10 @@ const elements = {
   staffStressList: document.querySelector("#staff-stress-list"),
   staffRecoveryList: document.querySelector("#staff-recovery-list"),
 };
+
+if (!DEPLOYMENT.reportsEnabled) {
+  elements.exportMenu?.classList.add("hidden");
+}
 
 function isAuthenticated() {
   return sessionStorage.getItem(LOGIN_SESSION_KEY) === "true";
@@ -1338,6 +1350,13 @@ function populateCategorySelects() {
 }
 
 function renderExportButtons() {
+  if (!DEPLOYMENT.reportsEnabled) {
+    elements.exportMenu?.classList.add("hidden");
+    elements.exportButtons.innerHTML = "";
+    return;
+  }
+
+  elements.exportMenu?.classList.remove("hidden");
   elements.exportButtons.innerHTML = `
     <div class="export-menu__group export-menu__group--weekly">
       <strong>Pacote semanal</strong>
@@ -2593,7 +2612,7 @@ async function loadPhysiotherapy(force = false) {
   renderPhysiotherapy();
 
   try {
-    const response = await fetch("/api/physiotherapy", { cache: "no-store" });
+    const response = await fetch(DEPLOYMENT.physiotherapyUrl, { cache: "no-store" });
     const payload = await response.json();
     if (!response.ok) {
       throw new Error(payload.details || payload.message || "Erro ao carregar a fisioterapia.");
@@ -2929,7 +2948,7 @@ async function loadAthletes() {
   elements.errorState.classList.add("hidden");
 
   try {
-    const response = await fetch("/api/athletes", { cache: "no-store" });
+    const response = await fetch(DEPLOYMENT.athletesUrl, { cache: "no-store" });
     const payload = await response.json();
 
     if (!response.ok) {

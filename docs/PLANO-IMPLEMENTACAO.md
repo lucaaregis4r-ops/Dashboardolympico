@@ -17,6 +17,7 @@ Entregar um dashboard profissional, flat e esportivo, com identidade do Olympico
 | 4 | Redesign flat/esportivo | Concluida em 2026-08-06 |
 | 5 | Validacao, acessibilidade e distribuicao | Concluida em 2026-08-06 |
 | 6 | Homologacao visual e operacional | Em andamento: rede aprovada; inspecao humana pendente |
+| 7 | Edicao GitHub Pages | Concluida em 2026-08-06 |
 
 ## Fase 0 - Inventario e base de trabalho
 
@@ -230,6 +231,22 @@ Pendente de homologacao humana:
 
 O navegador integrado continuou indisponivel nesta sessao, portanto essa aprovacao visual nao deve ser inferida apenas dos testes estruturais.
 
+## Fase 7 - Edicao GitHub Pages
+
+Objetivo: disponibilizar uma edicao estatica sincronizavel, sem depender do servidor Node durante a navegacao.
+
+Entregue:
+
+- configuracao de fontes de dados por ambiente em `deployment-config.js`;
+- snapshot JSON das APIs gerado a partir das planilhas atuais;
+- controles de PDF e kit semanal ocultos e desativados na edicao estatica;
+- caminhos relativos no manifesto, service worker e registro PWA;
+- pasta pronta em `output/github-pages/`;
+- workflow de publicacao em `.github/workflows/deploy-pages.yml`;
+- atualizacao automatica a cada hora, alem de push e acionamento manual;
+- comandos `npm run build:pages` e `npm run verify:pages`;
+- guia `docs/PUBLICACAO-GITHUB-PAGES.md` com aviso de privacidade.
+
 ## Registro de decisoes e atualizacoes
 
 Ao finalizar uma fase:
@@ -276,7 +293,7 @@ Ao finalizar uma fase:
 - Suite ampliada para doze testes automatizados.
 - O navegador integrado continuou indisponivel; carregamento/cascata do CSS, DOM, responsividade, contraste e fluxos HTTP foram validados por verificacoes automatizadas.
 - Fase 5 concluiu a auditoria de acessibilidade com skip link, regioes anunciadas, semantica dos graficos e controle completo de foco no dialogo da comissao.
-- O manifesto PWA passou a declarar corretamente o unico escudo de 210x210 e o cache foi atualizado para `dashboard-olympico-v6`.
+- O manifesto PWA passou a declarar corretamente o unico escudo de 210x210; o cache atual e `dashboard-olympico-v7` apos a adaptacao para GitHub Pages.
 - A suite final passou com 17 testes; HTML e PDF foram validados com e sem fisioterapia, ambos com resposta 200 e PDF `%PDF-`.
 - O launcher Windows ganhou resolucao robusta da propria pasta e registro `launcher-error.log` em caso de falha.
 - O executavel final respondeu 200 para pagina, tema, manifesto, service worker, atletas e fisioterapia.

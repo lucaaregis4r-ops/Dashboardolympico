@@ -12,6 +12,10 @@ const serviceWorker = fs.readFileSync(
   path.join(root, "src", "client", "service-worker.js"),
   "utf8"
 );
+const deploymentConfig = fs.readFileSync(
+  path.join(root, "src", "client", "deployment-config.js"),
+  "utf8"
+);
 const manifest = JSON.parse(
   fs.readFileSync(path.join(root, "src", "client", "manifest.webmanifest"), "utf8")
 );
@@ -30,7 +34,8 @@ test("workspace de fisioterapia possui navegacao, filtros e regioes de resultado
 });
 
 test("cliente consome a API dedicada sem persistir dados clinicos", () => {
-  assert.match(app, /fetch\("\/api\/physiotherapy"/);
+  assert.match(app, /physiotherapyUrl:\s*"\/api\/physiotherapy"/);
+  assert.match(app, /fetch\(DEPLOYMENT\.physiotherapyUrl/);
   assert.match(app, /state\.physiotherapy\.items = payload\.items/);
   assert.doesNotMatch(app, /localStorage\.setItem\([^\n]*physio/i);
 });
@@ -56,7 +61,7 @@ test("tema flat e carregado depois dos estilos estruturais", () => {
   assert.match(flatTheme, /body\s*\{[^}]*background:\s*#f1f3f8/s);
   assert.match(flatTheme, /\.sidebar\s*\{[^}]*background:\s*var\(--navy\)/s);
   assert.match(flatTheme, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.match(serviceWorker, /"\/theme-flat\.css"/);
+  assert.match(serviceWorker, /"\.\/theme-flat\.css"/);
 });
 
 test("combinacoes principais do tema atendem contraste AA", () => {
@@ -114,14 +119,29 @@ test("navegacao sincroniza o item atual para tecnologias assistivas", () => {
   assert.match(app, /button\.removeAttribute\("aria-current"\)/);
 });
 
-test("manifesto PWA declara o tamanho real do escudo e cache atualizado", () => {
+test("manifesto PWA declara o tamanho real do escudo e usa caminhos portaveis", () => {
   const png = fs.readFileSync(path.join(root, "assets", "olympico-crest.png"));
   const width = png.readUInt32BE(16);
   const height = png.readUInt32BE(20);
 
   assert.equal(manifest.display, "standalone");
+  assert.equal(manifest.start_url, "./?source=pwa");
+  assert.equal(manifest.scope, "./");
   assert.equal(manifest.icons.length, 1);
   assert.equal(manifest.icons[0].sizes, `${width}x${height}`);
   assert.equal(manifest.icons[0].purpose, "any");
-  assert.match(serviceWorker, /dashboard-olympico-v6/);
+  assert.match(serviceWorker, /dashboard-olympico-v7/);
+  assert.match(serviceWorker, /"\.\/deployment-config\.js"/);
+});
+
+test("cliente aceita fontes de dados configuraveis e desativa relatorios no Pages", () => {
+  const configIndex = html.indexOf('src="deployment-config.js"');
+  const appIndex = html.indexOf('src="app.js"');
+
+  assert.ok(configIndex >= 0 && configIndex < appIndex);
+  assert.match(deploymentConfig, /reportsEnabled:\s*true/);
+  assert.match(app, /fetch\(DEPLOYMENT\.athletesUrl/);
+  assert.match(app, /fetch\(DEPLOYMENT\.physiotherapyUrl/);
+  assert.match(app, /if \(!DEPLOYMENT\.reportsEnabled\)/);
+  assert.match(html, /serviceWorker\.register\("\.\/service-worker\.js"\)/);
 });

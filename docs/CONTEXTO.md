@@ -45,7 +45,7 @@ Direcao visual aprovada como referencia:
 - Graficos usam uma paleta menos neon, com eixos e legendas adaptados para superficies claras.
 - Existe tratamento de `prefers-reduced-motion` e foco visivel reforcado.
 - Contrastes verificados: azul-marinho/branco 16,05:1; texto/branco 15,21:1; texto secundario/branco 4,67:1; vermelho/branco 4,52:1; azul de apoio/branco 7,90:1.
-- O service worker usa cache `dashboard-olympico-v6` e inclui `theme-flat.css`.
+- O service worker usa cache `dashboard-olympico-v7`, inclui `theme-flat.css` e suporta subcaminhos do GitHub Pages.
 
 ## Estrutura atual
 
@@ -83,7 +83,7 @@ Direcao visual aprovada como referencia:
 - Dados clinicos permanecem apenas em memoria durante a sessao e nao sao gravados no `localStorage`.
 - Observacoes usam escape de HTML e aparecem integralmente nos cartoes.
 - Em 2026-08-06, a API real retornou 37 registros ativos, 5 modalidades, 9 categorias e 7 registros com observacoes.
-- O service worker usa cache `dashboard-olympico-v6` para distribuir a interface atual.
+- O service worker usa cache `dashboard-olympico-v7` para distribuir a interface atual.
 
 ## Decisoes vigentes
 
@@ -108,6 +108,16 @@ Direcao visual aprovada como referencia:
 - O pacote respondeu 200 para pagina, manifesto e APIs por `127.0.0.1` e pelo IP local `10.0.0.155`, com bind em `0.0.0.0`.
 - O checklist completo esta em `docs/VALIDACAO-FINAL.md`.
 - Permanecem para homologacao humana a inspecao visual em navegador real e o acesso por um segundo dispositivo fisico; o navegador integrado nao estava disponivel nesta sessao.
+
+## Edicao GitHub Pages
+
+- A edicao estatica e gerada em `output/github-pages/` por `npm run build:pages`.
+- Ela usa snapshots `data/athletes.json` e `data/physiotherapy.json`, produzidos pelas mesmas APIs e regras do servidor local.
+- O workflow `.github/workflows/deploy-pages.yml` atualiza e publica o snapshot a cada hora, em pushes e sob acionamento manual.
+- A geracao de PDF e o kit semanal ficam desativados e ocultos nessa edicao.
+- Manifesto, service worker, assets e fontes de dados usam caminhos relativos para funcionar em sites de projeto do GitHub Pages.
+- A publicacao e publica e o login do navegador nao protege os JSONs. Dados clinicos so devem ser publicados apos aprovacao formal.
+- Instrucoes completas: `docs/PUBLICACAO-GITHUB-PAGES.md`.
 
 ## Objetivo
 
