@@ -21,6 +21,7 @@ A modernizacao foi concluida e o pacote esta pronto para homologacao operacional
 | PDFs | Cenários com e sem fisioterapia | HTTP 200, `application/pdf`, assinatura `%PDF-` |
 | PWA | Manifesto, cache e casca offline | Cache `dashboard-olympico-v6` aprovado |
 | Executavel | Interface, tema, manifesto, service worker e APIs | HTTP 200 no pacote reconstruido |
+| Rede local | Pagina, manifesto e APIs por `10.0.0.155` | HTTP 200 com bind em `0.0.0.0` |
 | Kit semanal | Simulacao `--dry-run` | 13 relatorios planejados em `output/reports/` |
 
 ## Acessibilidade
@@ -46,4 +47,4 @@ O launcher resolve os arquivos a partir da propria pasta. Se faltar algum compon
 
 ## Homologacao manual recomendada
 
-O navegador integrado nao estava disponivel durante esta execucao. Por isso, antes da distribuicao ampla, recomenda-se uma conferencia humana curta em Chrome ou Edge nas larguras de notebook, tablet e celular. O acesso por outro dispositivo na rede tambem deve ser confirmado no ambiente final, incluindo a permissao do Firewall do Windows para redes privadas.
+O navegador integrado nao estava disponivel durante esta execucao. Por isso, antes da distribuicao ampla, recomenda-se uma conferencia humana curta em Chrome ou Edge nas larguras de notebook, tablet e celular. A interface de rede local respondeu corretamente pelo IP `10.0.0.155`, mas o acesso por um segundo dispositivo fisico ainda deve ser confirmado no ambiente final, incluindo a permissao do Firewall do Windows para redes privadas.

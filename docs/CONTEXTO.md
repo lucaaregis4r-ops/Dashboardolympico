@@ -5,7 +5,7 @@
 
 ## Estado atual
 
-- Fase ativa: modernizacao concluida ate a Fase 5; o projeto esta pronto para homologacao operacional.
+- Fase ativa: Fase 6 - homologacao visual e operacional. A rede local foi aprovada; falta a conferencia humana da interface.
 - Ultima entrega: validacao final, acessibilidade, PWA e pacote portatil Windows.
 - Fonte de verdade do cliente: `src/client/`.
 - Fonte de verdade do servidor: `src/server/`.
@@ -105,6 +105,7 @@ Direcao visual aprovada como referencia:
 - O relatorio com fisioterapia confirmou o campo `Observacoes`; o cenario sem registros exibiu o estado vazio esperado.
 - Os dois PDFs testados retornaram `application/pdf` com assinatura `%PDF-`.
 - O executavel portatil reconstruido respondeu 200 para pagina, tema, PWA e APIs.
+- O pacote respondeu 200 para pagina, manifesto e APIs por `127.0.0.1` e pelo IP local `10.0.0.155`, com bind em `0.0.0.0`.
 - O checklist completo esta em `docs/VALIDACAO-FINAL.md`.
 - Permanecem para homologacao humana a inspecao visual em navegador real e o acesso por um segundo dispositivo fisico; o navegador integrado nao estava disponivel nesta sessao.
 

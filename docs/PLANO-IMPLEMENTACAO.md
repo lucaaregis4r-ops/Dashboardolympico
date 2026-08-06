@@ -16,6 +16,7 @@ Entregar um dashboard profissional, flat e esportivo, com identidade do Olympico
 | 3 | API e area de Fisioterapia no dashboard | Concluida em 2026-08-06 |
 | 4 | Redesign flat/esportivo | Concluida em 2026-08-06 |
 | 5 | Validacao, acessibilidade e distribuicao | Concluida em 2026-08-06 |
+| 6 | Homologacao visual e operacional | Em andamento: rede aprovada; inspecao humana pendente |
 
 ## Fase 0 - Inventario e base de trabalho
 
@@ -208,6 +209,26 @@ Resultado:
 - executavel portatil reconstruido e validado nas rotas principais;
 - pacote final regenerado em `output/releases/ENTREGAR-DASHBOARD-OLYMPICO`;
 - detalhes e limitacoes registrados em `docs/VALIDACAO-FINAL.md`.
+
+## Fase 6 - Homologacao visual e operacional
+
+Objetivo: confirmar o pacote final no ambiente de uso antes da distribuicao ampla.
+
+Concluido em 2026-08-06:
+
+- servidor do pacote iniciado com bind em `0.0.0.0`;
+- pagina, manifesto, API de atletas e API de fisioterapia responderam 200 por `127.0.0.1`;
+- as mesmas quatro rotas responderam 200 pelo IP local `10.0.0.155`;
+- o pacote esta tecnicamente acessivel pela interface de rede local.
+
+Pendente de homologacao humana:
+
+- abrir em Chrome ou Edge e conferir login, navegacao, graficos, calendario, drawer e fisioterapia;
+- conferir as larguras de notebook, tablet e celular;
+- acessar por um segundo dispositivo na mesma rede e aceitar o Firewall para rede privada, se solicitado;
+- registrar aprovacao visual ou anotar ajustes finais.
+
+O navegador integrado continuou indisponivel nesta sessao, portanto essa aprovacao visual nao deve ser inferida apenas dos testes estruturais.
 
 ## Registro de decisoes e atualizacoes
 
