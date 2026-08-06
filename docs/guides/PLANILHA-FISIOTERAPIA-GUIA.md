@@ -15,7 +15,7 @@ Registrar cada atendimento em uma linha, de forma simples, para depois filtrar p
 - `attendance_id`: identificador unico do atendimento
 - `attendance_date`: data do atendimento em `AAAA-MM-DD`
 - `week_reference`: referencia da semana, por exemplo `2026-S22`
-- `athlete_id`: usar o mesmo ID do arquivo `docs/atletas.csv`
+- `athlete_id`: usar o mesmo ID do arquivo `data/reference/athletes.csv`
 - `athlete_name`: nome do atleta
 - `category`: categoria/equipe
 - `modality_id`: modalidade padronizada
@@ -36,7 +36,7 @@ Registrar cada atendimento em uma linha, de forma simples, para depois filtrar p
 - Uma linha por atendimento
 - Nao misturar dois atletas na mesma linha
 - Sempre preencher `athlete_id` antes de salvar
-- Se o atleta nao estiver no cadastro, atualizar primeiro `docs/atletas.csv`
+- Se o atleta nao estiver no cadastro, atualizar primeiro `data/reference/athletes.csv`
 - Usar os mesmos nomes de modalidade para evitar duplicidades
 
 ## Geracao do relatorio semanal

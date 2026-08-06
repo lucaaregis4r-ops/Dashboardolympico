@@ -2,21 +2,23 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const ATHLETES_CSV = path.join(ROOT, "docs", "atletas.csv");
-const ATHLETE_IDENTIFIERS_CSV = path.join(ROOT, "atletas_identificadores.csv");
+const ATHLETES_CSV = path.join(ROOT, "data", "reference", "athletes.csv");
+const ATHLETE_IDENTIFIERS_CSV = path.join(ROOT, "data", "reference", "athlete-identifiers.csv");
 const OUTPUT_XLS = path.join(
   ROOT,
-  "docs",
+  "data",
+  "templates",
   "google-fisioterapia",
   "modelo-fisioterapia-olympico.xls"
 );
 const OUTPUT_XLSX = path.join(
   ROOT,
-  "docs",
+  "data",
+  "templates",
   "google-fisioterapia",
   "modelo-fisioterapia-olympico.xlsx"
 );
-const PSYCHOLOGY_DIR = path.join(ROOT, "docs", "google-psicologia");
+const PSYCHOLOGY_DIR = path.join(ROOT, "data", "templates", "google-psicologia");
 const PSYCHOLOGY_OUTPUT_XLS = path.join(PSYCHOLOGY_DIR, "modelo-psicologia-olympico.xls");
 const PSYCHOLOGY_OUTPUT_XLSX = path.join(PSYCHOLOGY_DIR, "modelo-psicologia-olympico.xlsx");
 

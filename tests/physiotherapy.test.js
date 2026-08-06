@@ -4,7 +4,7 @@ const assert = require("node:assert/strict");
 const {
   buildPhysioDemandPanelHtml,
   transformPhysioModalityRows,
-} = require("../server");
+} = require("../src/server");
 
 test("le observacoes da secao de atletas em tratamento como campo proprio", () => {
   const rows = [

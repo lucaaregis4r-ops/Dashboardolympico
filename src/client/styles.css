@@ -52,7 +52,7 @@ canvas {
   padding: 24px;
   background:
     linear-gradient(135deg, rgba(13, 18, 50, 0.82), rgba(23, 29, 73, 0.92)),
-    url("./Olímpico_Clube_escudo.png") center/360px no-repeat;
+    url("/assets/olympico-crest.png") center/360px no-repeat;
 }
 
 .login-card {

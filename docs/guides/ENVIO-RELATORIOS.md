@@ -4,7 +4,7 @@
 
 1. Baixe/salve os PDFs dos relatorios em uma pasta, por exemplo:
 
-`Relatorio dia 18 Junho`
+`output/reports/2026-06-18-original`
 
 2. Rode o atalho:
 
@@ -12,11 +12,11 @@
 
 Ou pelo terminal:
 
-`npm run reports:delivery -- "Relatório dia 18 Junho"`
+`npm run reports:delivery -- "output/reports/2026-06-18-original"`
 
 3. Abra o arquivo gerado:
 
-`Relatório dia 18 Junho/_envio/controle-envio-relatorios.csv`
+`output/reports/2026-06-18-original/_envio/controle-envio-relatorios.csv`
 
 4. Preencha as colunas:
 
@@ -30,7 +30,7 @@ Ou pelo terminal:
 
 6. Abra:
 
-`Relatório dia 18 Junho/_envio/links-whatsapp.md`
+`output/reports/2026-06-18-original/_envio/links-whatsapp.md`
 
 7. Clique/copiar os links do WhatsApp gerados para enviar as mensagens.
 

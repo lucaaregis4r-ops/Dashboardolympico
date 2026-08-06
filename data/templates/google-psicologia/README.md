@@ -5,8 +5,8 @@ Este modelo prepara uma planilha separada para acompanhamento da Psicologia, usa
 ## Abas
 
 1. `Atletas`
-   - Lista de atletas vindos de `docs/atletas.csv`.
-   - A coluna `athlete_id` usa `atletas_identificadores.csv`.
+   - Lista de atletas vindos de `data/reference/athletes.csv`.
+   - A coluna `athlete_id` usa `data/reference/athlete-identifiers.csv`.
    - Marque `enviar_para_acompanhamento` e use o menu para enviar em lote.
 
 2. `Em_Acompanhamento`
@@ -30,7 +30,7 @@ Este modelo prepara uma planilha separada para acompanhamento da Psicologia, usa
 
 ## Atualizar atletas
 
-Se `docs/atletas.csv` ou `atletas_identificadores.csv` mudar, rode:
+Se `data/reference/athletes.csv` ou `data/reference/athlete-identifiers.csv` mudar, rode:
 
 `npm run workbook:fisio`
 

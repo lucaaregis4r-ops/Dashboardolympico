@@ -3,8 +3,9 @@ const fsSync = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const DEFAULT_REPORTS_DIR = path.join(ROOT, "Relatorio dia 18 Junho");
-const FALLBACK_REPORTS_DIR = path.join(ROOT, "Relatório dia 18 Junho");
+const REPORTS_ROOT = path.join(ROOT, "output", "reports");
+const DEFAULT_REPORTS_DIR = path.join(REPORTS_ROOT, "2026-06-18-original");
+const FALLBACK_REPORTS_DIR = path.join(REPORTS_ROOT, "2026-06-18-copy");
 const OUTPUT_DIR_NAME = "_envio";
 const MANIFEST_FILE = "controle-envio-relatorios.csv";
 const WHATSAPP_FILE = "links-whatsapp.md";

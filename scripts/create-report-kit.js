@@ -3,6 +3,7 @@ const path = require("path");
 const { spawn } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
+const REPORTS_ROOT = path.join(ROOT, "output", "reports");
 const DEFAULT_PORT = 3147;
 const HOST = "127.0.0.1";
 
@@ -104,7 +105,7 @@ async function waitForApi(baseUrl) {
 }
 
 function startServer(port) {
-  const child = spawn(process.execPath, ["server.js"], {
+  const child = spawn(process.execPath, [path.join("src", "server", "index.js")], {
     cwd: ROOT,
     env: {
       ...process.env,
@@ -177,7 +178,7 @@ async function main() {
 
   try {
     const payload = await waitForApi(baseUrl);
-    const outputDir = path.join(ROOT, formatReportFolderName(payload.updatedAt));
+    const outputDir = path.join(REPORTS_ROOT, formatReportFolderName(payload.updatedAt));
     const reports = buildReportList(payload.categories || []);
 
     console.log(`Kit: ${outputDir}`);

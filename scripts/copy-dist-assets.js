@@ -3,15 +3,6 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
-const FILES = [
-  "index.html",
-  "styles.css",
-  "app.js",
-  "manifest.webmanifest",
-  "service-worker.js",
-  "Olímpico_Clube_escudo.png",
-];
-
 async function copyDirectory(source, target) {
   await fs.mkdir(target, { recursive: true });
   const entries = await fs.readdir(source, { withFileTypes: true });
@@ -31,10 +22,8 @@ async function copyDirectory(source, target) {
 async function main() {
   await fs.mkdir(DIST, { recursive: true });
 
-  await Promise.all(
-    FILES.map((fileName) => fs.copyFile(path.join(ROOT, fileName), path.join(DIST, fileName)))
-  );
-
+  await copyDirectory(path.join(ROOT, "src"), path.join(DIST, "src"));
+  await copyDirectory(path.join(ROOT, "assets"), path.join(DIST, "assets"));
   await copyDirectory(path.join(ROOT, "docs"), path.join(DIST, "docs"));
 }
 

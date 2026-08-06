@@ -8,7 +8,7 @@ Use:
 
 O atalho gera automaticamente uma pasta com a data da planilha, por exemplo:
 
-`Relatórios 18 de junho`
+`output/reports/Relatórios 18 de junho`
 
 Dentro dela entram os PDFs:
 

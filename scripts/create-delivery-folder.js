@@ -3,7 +3,7 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const SOURCE = path.join(ROOT, "dist");
-const TARGET = path.join(ROOT, "ENTREGAR-DASHBOARD-OLYMPICO");
+const TARGET = path.join(ROOT, "output", "releases", "ENTREGAR-DASHBOARD-OLYMPICO");
 
 async function copyDirectory(source, target) {
   await fs.mkdir(target, { recursive: true });

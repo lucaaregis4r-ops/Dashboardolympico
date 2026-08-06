@@ -7,10 +7,14 @@ const path = require("path");
 const { execFile } = require("child_process");
 const { randomUUID } = require("crypto");
 const { URL, pathToFileURL } = require("url");
+const paths = require("./config/paths");
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
-const ROOT = process.pkg ? path.dirname(process.execPath) : __dirname;
+const ROOT = paths.projectRoot;
+const CLIENT_DIR = paths.clientDir;
+const ASSETS_DIR = paths.assetsDir;
+const DOCS_DIR = paths.docsDir;
 const SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/15B29MdEXNsDVq4fCJVUffznul--C1Mb5B7pZtmWqmOY/export?format=csv&gid=1847097737";
 const PHYSIO_DEMANDS_SHEET_ID = "1RzfD3RM0PEBXCPZdthVeIWu7G0mYIENlsP1_ToV6Xzs";
@@ -87,6 +91,9 @@ function openUrlInDefaultBrowser(url) {
 }
 
 function shouldOpenBrowser() {
+  if (process.env.OLYMPICO_NO_OPEN === "1") {
+    return false;
+  }
   return process.argv.includes("--open") || process.env.OPEN_BROWSER === "1" || Boolean(process.pkg);
 }
 
@@ -140,13 +147,12 @@ function escapeHtml(value) {
 }
 
 async function getCrestDataUrl() {
-  const crestFile = (await fs.readdir(ROOT)).find((fileName) => /\.png$/i.test(fileName));
-  if (!crestFile) {
+  const crestFile = path.join(ASSETS_DIR, "olympico-crest.png");
+  if (!fsSync.existsSync(crestFile)) {
     return "";
   }
 
-  const filePath = path.join(ROOT, crestFile);
-  const buffer = await fs.readFile(filePath);
+  const buffer = await fs.readFile(crestFile);
   return `data:image/png;base64,${buffer.toString("base64")}`;
 }
 
@@ -3125,6 +3131,31 @@ async function serveFile(filePath, response) {
   response.end(file);
 }
 
+function resolveStaticFilePath(requestPath) {
+  const decodedPath = decodeURIComponent(requestPath === "/" ? "/index.html" : requestPath);
+  const normalizedPath = path.posix.normalize(decodedPath.replace(/\\/g, "/"));
+  const route = normalizedPath.startsWith("/") ? normalizedPath : `/${normalizedPath}`;
+
+  let root = CLIENT_DIR;
+  let relativePath = route.slice(1);
+
+  if (route === "/assets" || route.startsWith("/assets/")) {
+    root = ASSETS_DIR;
+    relativePath = route.replace(/^\/assets\/?/, "");
+  } else if (route === "/docs" || route.startsWith("/docs/")) {
+    root = DOCS_DIR;
+    relativePath = route.replace(/^\/docs\/?/, "");
+  }
+
+  const resolvedRoot = path.resolve(root);
+  const resolvedPath = path.resolve(resolvedRoot, relativePath);
+  if (resolvedPath !== resolvedRoot && !resolvedPath.startsWith(`${resolvedRoot}${path.sep}`)) {
+    return null;
+  }
+
+  return resolvedPath;
+}
+
 async function handleExportPdf(requestUrl, response) {
   const modalityId = normalizeText(requestUrl.searchParams.get("modality"));
   const modality = getModalityById(modalityId);
@@ -3331,10 +3362,13 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
-  const requestedPath = requestUrl.pathname === "/" ? "/index.html" : requestUrl.pathname;
-  const decodedPath = decodeURIComponent(requestedPath);
-  const safePath = path.normalize(decodedPath).replace(/^(\.\.[/\\])+/, "");
-  const filePath = path.join(ROOT, safePath);
+  const filePath = resolveStaticFilePath(requestUrl.pathname);
+
+  if (!filePath) {
+    response.writeHead(400, { "Content-Type": "text/plain; charset=utf-8" });
+    response.end("Caminho invalido.");
+    return;
+  }
 
   try {
     await serveFile(filePath, response);

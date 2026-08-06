@@ -12,16 +12,6 @@ const NODE_VERSION = "22.11.0";
 const NODE_ZIP = `node-v${NODE_VERSION}-win-x64.zip`;
 const NODE_URL = `https://nodejs.org/dist/v${NODE_VERSION}/${NODE_ZIP}`;
 
-const FILES = [
-  "server.js",
-  "index.html",
-  "styles.css",
-  "app.js",
-  "manifest.webmanifest",
-  "service-worker.js",
-  "Olímpico_Clube_escudo.png",
-];
-
 function execFileAsync(file, args, options = {}) {
   return new Promise((resolve, reject) => {
     execFile(file, args, { windowsHide: true, ...options }, (error, stdout, stderr) => {
@@ -135,7 +125,7 @@ class DashboardOlympicoLauncher {
   static void Main() {
     string root = AppDomain.CurrentDomain.BaseDirectory;
     string node = Path.Combine(root, "runtime", "node.exe");
-    string server = Path.Combine(root, "server.js");
+    string server = Path.Combine(root, "src", "server", "index.js");
 
     if (!File.Exists(node) || !File.Exists(server)) {
       System.Windows.Forms.MessageBox.Show("Arquivos do Dashboard Olympico nao encontrados. Copie a pasta dist inteira.", "Dashboard Olympico");
@@ -149,6 +139,7 @@ class DashboardOlympicoLauncher {
     startInfo.UseShellExecute = false;
     startInfo.CreateNoWindow = true;
     Process.Start(startInfo);
+    Environment.Exit(0);
   }
 }
 `;
@@ -168,9 +159,8 @@ async function main() {
   await fs.rm(DIST, { recursive: true, force: true });
   await fs.mkdir(DIST, { recursive: true });
 
-  await Promise.all(
-    FILES.map((fileName) => fs.copyFile(path.join(ROOT, fileName), path.join(DIST, fileName)))
-  );
+  await copyDirectory(path.join(ROOT, "src"), path.join(DIST, "src"));
+  await copyDirectory(path.join(ROOT, "assets"), path.join(DIST, "assets"));
   await copyDirectory(path.join(ROOT, "docs"), path.join(DIST, "docs"));
   await ensureNodeRuntime();
   await compileLauncher();

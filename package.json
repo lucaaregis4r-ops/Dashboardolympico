@@ -5,8 +5,8 @@
   "description": "Dashboard de atletas alimentado por uma planilha publica do Google Sheets",
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "start": "node server.js",
-    "start:open": "node server.js --open",
+    "start": "node src/server/index.js",
+    "start:open": "node src/server/index.js --open",
     "build:win": "node scripts/create-portable-windows.js",
     "build:portable": "npm run build:win",
     "build:pkg": "pkg . --targets node22-win-x64 --output dist/Dashboard-Olympico.pkg.exe && node scripts/copy-dist-assets.js",
@@ -17,16 +17,15 @@
     "workbook:fisio": "node scripts/create-physio-google-workbook.js",
     "workbook:psico": "node scripts/create-physio-google-workbook.js"
   },
-  "bin": "server.js",
+  "bin": "src/server/index.js",
   "pkg": {
     "assets": [
-      "index.html",
-      "styles.css",
-      "app.js",
-      "manifest.webmanifest",
-      "service-worker.js",
-      "Olímpico_Clube_escudo.png",
+      "src/client/**/*",
+      "assets/**/*",
       "docs/**/*"
     ]
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.20.0"
   }
 }

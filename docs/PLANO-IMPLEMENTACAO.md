@@ -12,8 +12,8 @@ Entregar um dashboard profissional, flat e esportivo, com identidade do Olympico
 | --- | --- | --- |
 | 0 | Inventario, contexto vivo e plano | Concluida em 2026-08-06 |
 | 1 | Observacoes da fisioterapia no relatorio | Concluida em 2026-08-06 |
-| 2 | Organizacao fisica e modularizacao inicial | Proxima |
-| 3 | API e area de Fisioterapia no dashboard | Pendente |
+| 2 | Organizacao fisica e modularizacao inicial | Concluida em 2026-08-06 |
+| 3 | API e area de Fisioterapia no dashboard | Proxima |
 | 4 | Redesign flat/esportivo | Pendente |
 | 5 | Validacao, acessibilidade e distribuicao | Pendente |
 
@@ -216,3 +216,12 @@ Ao finalizar uma fase:
 - Criado `tests/physiotherapy.test.js` com quatro cenarios e comando `npm test`.
 - Validacao ao vivo: `/print-report` retornou 200 e exibiu uma observacao publicada na planilha de Basquete.
 - Validacao de PDF: `/api/export-pdf` retornou `application/pdf`, assinatura `%PDF-` e 228.609 bytes para `BASQUETE SUB-13`.
+- Fase 2 iniciou um repositorio Git e registrou a base anterior no commit `070166e`.
+- Codigo-fonte movido para `src/client/` e `src/server/`; caminhos do servidor centralizados em `src/server/config/paths.js`.
+- Escudo movido para `assets/`; cadastros e modelos movidos para `data/reference/` e `data/templates/`.
+- Guias operacionais movidos para `docs/guides/`; relatorios e releases passaram para `output/`.
+- Snapshot divergente do GitHub preservado em `archive/legacy-snapshots/`.
+- Scripts, atalhos, PWA, testes, pacote portatil e release foram atualizados para os novos caminhos.
+- Validacao do servidor-fonte: pagina, asset, manifesto, service worker, API e relatorio responderam 200.
+- Validacao do executavel: launcher encerrou corretamente, pagina e asset responderam 200, e a API retornou 144 atletas em 14 equipes.
+- `npm test` passou com quatro testes; `npm run reports:kit -- --dry-run` confirmou a nova saida em `output/reports/`.

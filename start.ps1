@@ -10,4 +10,4 @@ if (-not $nodePath) {
   exit 1
 }
 
-& $nodePath "$PSScriptRoot\server.js"
+& $nodePath "$PSScriptRoot\src\server\index.js"

@@ -2,8 +2,8 @@ const fs = require("fs/promises");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const INPUT_FILE = path.join(ROOT, "docs", "fisioterapia_atendimentos.csv");
-const OUTPUT_DIR = path.join(ROOT, "docs", "relatorios");
+const INPUT_FILE = path.join(ROOT, "data", "templates", "physiotherapy-attendances.csv");
+const OUTPUT_DIR = path.join(ROOT, "output", "reports", "physiotherapy-weekly");
 
 function normalizeText(value) {
   return String(value || "")

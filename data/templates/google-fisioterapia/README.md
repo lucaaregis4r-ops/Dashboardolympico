@@ -5,9 +5,9 @@ Este modelo prepara uma segunda planilha no Google Sheets para futura integracao
 ## Abas sugeridas
 
 1. `Atletas`
-   - Lista base de atletas importada de `docs/atletas.csv`, gerada a partir da planilha de carga/check-in.
+   - Lista base de atletas importada de `data/reference/athletes.csv`, gerada a partir da planilha de carga/check-in.
    - O arquivo atual ja vem com 278 atletas preenchidos.
-   - A coluna `athlete_id` usa os IDs oficiais de `atletas_identificadores.csv`, como `ATL001`.
+   - A coluna `athlete_id` usa os IDs oficiais de `data/reference/athlete-identifiers.csv`, como `ATL001`.
    - Esta aba nao traz carga, status, ultimo check-in ou dor; ela serve apenas para identificar e selecionar atletas.
    - Use a coluna `enviar_para_tratamento` como checkbox.
    - O checkbox apenas seleciona; para enviar em lote, use o menu `Fisioterapia > Enviar selecionados`.
@@ -54,6 +54,6 @@ Este modelo prepara uma segunda planilha no Google Sheets para futura integracao
 
 ## Atualizar atletas
 
-Se `docs/atletas.csv` ou `atletas_identificadores.csv` for atualizado, recrie o XLS e o XLSX com:
+Se `data/reference/athletes.csv` ou `data/reference/athlete-identifiers.csv` for atualizado, recrie o XLS e o XLSX com:
 
 `npm run workbook:fisio`

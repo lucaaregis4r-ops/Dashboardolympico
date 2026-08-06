@@ -10,13 +10,13 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "/Olímpico_Clube_escudo.png",
+      "src": "/assets/olympico-crest.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Olímpico_Clube_escudo.png",
+      "src": "/assets/olympico-crest.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

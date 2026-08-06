@@ -1,11 +1,11 @@
-const CACHE_NAME = "dashboard-olympico-v2";
+const CACHE_NAME = "dashboard-olympico-v3";
 const APP_SHELL = [
   "/",
   "/index.html",
   "/styles.css",
   "/app.js",
   "/manifest.webmanifest",
-  "/Olímpico_Clube_escudo.png",
+  "/assets/olympico-crest.png",
 ];
 
 self.addEventListener("install", (event) => {

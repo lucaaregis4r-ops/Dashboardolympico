@@ -5,11 +5,14 @@
 
 ## Estado atual
 
-- Fase ativa: Fase 1 concluida; Fase 2 - organizacao fisica e modularizacao inicial - e a proxima.
-- Ultima entrega: compatibilidade com `OBSERVACOES` na fisioterapia, validada em teste automatizado, relatorio HTML ao vivo e PDF.
-- Fonte de verdade do codigo: arquivos na raiz (`server.js`, `index.html`, `app.js` e `styles.css`).
-- `dist/`, `ENTREGAR-DASHBOARD-OLYMPICO/` e `GITHUB-DASHBOARD-OLYMPICO/` sao copias de distribuicao ou snapshots e nao devem ser editados manualmente.
-- O diretorio ainda nao e um repositorio Git. Antes da reorganizacao fisica, criar um ponto de restauracao/versionamento.
+- Fase ativa: Fase 2 concluida; a proxima entrega funcional sera a Fase 3 - API e area de Fisioterapia.
+- Ultima entrega funcional: compatibilidade com `OBSERVACOES` na fisioterapia, validada em teste automatizado, relatorio HTML ao vivo e PDF.
+- Fonte de verdade do cliente: `src/client/`.
+- Fonte de verdade do servidor: `src/server/`.
+- Assets compartilhados ficam em `assets/`; dados de referencia e modelos ficam em `data/`.
+- Relatorios e releases gerados ficam em `output/`; `dist/` continua sendo um build recriavel.
+- O snapshot antigo do GitHub foi preservado em `archive/legacy-snapshots/` e nao deve ser editado.
+- O projeto agora possui repositorio Git. O commit `070166e` registra a base funcional anterior a reorganizacao.
 
 ## Pedido de modernizacao - 2026-08-06
 
@@ -28,15 +31,17 @@ Direcao visual aprovada como referencia:
 - formas geometricas e detalhes esportivos discretos;
 - evitar excesso de gradientes, transparencias, sombras pesadas e cantos exageradamente arredondados.
 
-## Diagnostico estrutural
+## Estrutura atual
 
-- O front-end atual e estatico e usa `index.html`, `styles.css` e `app.js`.
-- O back-end usa Node.js sem framework em `server.js`.
-- `server.js` concentra API, integracoes Google Sheets, regras de negocio, HTML/CSS do relatorio e exportacao PDF.
-- `app.js` concentra estado, filtros, renderizacao, graficos e eventos da interface.
-- Existem copias divergentes do front-end na raiz, em `dist/`, em `ENTREGAR-DASHBOARD-OLYMPICO/` e em `GITHUB-DASHBOARD-OLYMPICO/`.
-- Relatorios PDF gerados estao em duas pastas de nomes semelhantes na raiz.
-- Scripts e atalhos dependem dos caminhos atuais; por isso a reorganizacao precisa ocorrer depois da compatibilidade clinica e com validacao dos launchers/builds.
+- O front-end estatico usa `src/client/index.html`, `src/client/styles.css` e `src/client/app.js`.
+- O back-end usa Node.js sem framework em `src/server/index.js`.
+- Caminhos do servidor foram centralizados em `src/server/config/paths.js`.
+- `src/server/index.js` ainda concentra API, integracoes Google Sheets, regras de negocio, HTML/CSS do relatorio e exportacao PDF; a extracao por dominio continuara junto das proximas funcionalidades.
+- `src/client/app.js` ainda concentra estado, filtros, renderizacao, graficos e eventos da interface.
+- O escudo oficial usado pela interface fica em `assets/olympico-crest.png`.
+- Cadastros ficam em `data/reference/` e modelos editaveis em `data/templates/`.
+- Relatorios antigos foram preservados em `output/reports/`; a pasta de entrega fica em `output/releases/`.
+- `dist/` e inteiramente recriavel pelo build e mantem a mesma arvore `src/`, `assets/` e `docs/`.
 
 ## Contrato atual da fisioterapia
 
@@ -64,8 +69,8 @@ Este projeto e um dashboard web simples para acompanhar atletas do Olympico Club
 
 ## Como o projeto funciona
 
-1. O front-end fica em `index.html`, `styles.css` e `app.js`.
-2. O servidor local fica em `server.js`.
+1. O front-end fica em `src/client/index.html`, `src/client/styles.css` e `src/client/app.js`.
+2. O servidor local fica em `src/server/index.js`.
 3. O servidor baixa a planilha publica do Google Sheets em CSV pela constante `SHEET_CSV_URL`.
 4. O CSV bruto e transformado em uma lista consolidada de atletas com:
    - nome
@@ -78,14 +83,14 @@ Este projeto e um dashboard web simples para acompanhar atletas do Olympico Club
 
 ## Arquivos principais
 
-- `server.js`: baixa a planilha, transforma os dados e serve a API/local host.
-- `app.js`: renderiza a interface e consome os dados do servidor.
-- `index.html`: estrutura principal da pagina.
-- `styles.css`: estilos do dashboard.
-- `docs/atletas.csv`: cadastro consolidado de atletas com identificador proprio.
-- `docs/fisioterapia_atendimentos.csv`: modelo de planilha para registrar atendimentos.
-- `docs/relatorio-semanal-fisioterapia-modelo.md`: modelo de documento semanal da fisioterapia.
-- `scripts/export-athletes.js`: script para atualizar `docs/atletas.csv`.
+- `src/server/index.js`: baixa as planilhas, transforma os dados, serve a API e gera relatorios.
+- `src/client/app.js`: renderiza a interface e consome os dados do servidor.
+- `src/client/index.html`: estrutura principal da pagina.
+- `src/client/styles.css`: estilos do dashboard.
+- `data/reference/athletes.csv`: cadastro consolidado de atletas com identificador proprio.
+- `data/templates/physiotherapy-attendances.csv`: modelo de planilha para registrar atendimentos.
+- `docs/guides/relatorio-semanal-fisioterapia-modelo.md`: modelo de documento semanal da fisioterapia.
+- `scripts/export-athletes.js`: atualiza `data/reference/athletes.csv`.
 - `scripts/create-physio-weekly-report.js`: gera um relatorio semanal em Markdown a partir da planilha de atendimentos.
 - `scripts/create-report-kit.js`: gera automaticamente o kit de PDFs por equipe/modalidade em uma pasta datada.
 
@@ -120,7 +125,7 @@ Este projeto e um dashboard web simples para acompanhar atletas do Olympico Club
 
 ## Padrao de identificacao de atletas
 
-O arquivo `docs/atletas.csv` usa um `athlete_id` proprio para facilitar integracoes futuras, especialmente com:
+O arquivo `data/reference/athletes.csv` usa um `athlete_id` proprio para facilitar integracoes futuras, especialmente com:
 
 - planilha de atendimentos da fisioterapia
 - relatorios semanais
@@ -138,13 +143,13 @@ Formato atual:
 
 `node scripts/export-athletes.js`
 
-2. Registrar cada atendimento em `docs/fisioterapia_atendimentos.csv`, sempre usando o `athlete_id`.
+2. Registrar cada atendimento em `data/templates/physiotherapy-attendances.csv`, sempre usando o `athlete_id`.
 
 3. Gerar um relatorio automatico com:
 
 `node scripts/create-physio-weekly-report.js 2026-S22`
 
-4. Se preferir ajuste manual, usar `docs/relatorio-semanal-fisioterapia-modelo.md` como base.
+4. Se preferir ajuste manual, usar `docs/guides/relatorio-semanal-fisioterapia-modelo.md` como base.
 
 ## Melhorias futuras recomendadas
 
@@ -163,24 +168,24 @@ Formato atual:
 - Scripts adicionados no `package.json`: `start:open`, `build:win` e `build:portable`.
 - O `build:win` roda `scripts/create-portable-windows.js`, que copia os arquivos do dashboard, baixa/copia `node.exe` para `dist/runtime` e compila um launcher com `csc.exe`.
 - Em 2026-06-16, o pacote portatil foi validado: `dist/Dashboard-Olympico.exe` iniciou o servidor, `/` respondeu 200 e `/api/athletes` respondeu 200.
-- `downloadText` em `server.js` tem timeout de 30 segundos para evitar que o executavel fique preso indefinidamente quando uma planilha demora ou a rede oscila.
+- `downloadText` em `src/server/index.js` tem timeout de 30 segundos para evitar que o executavel fique preso indefinidamente quando uma planilha demora ou a rede oscila.
 - Atletas ficam fora da API, das medias de equipe, dos alertas e dos relatorios quando o ultimo check-in tem mais de 30 dias em relacao a data mais recente da planilha principal; se voltarem a responder, entram automaticamente de novo.
 - O `build:pkg` usa `node22-win-x64`, porque o cache remoto `@yao-pkg/pkg-fetch` tag `v3.6` tem binarios Windows para Node 22/24/26, mas nao para `node-v20.20.2-win-x64`.
 - Arquivo amigavel para compilar: `COMPILAR-EXECUTAVEL.cmd`, que roda `npm run build:win` sem `npm install`.
 - Arquivo amigavel para abrir o executavel gerado: `ABRIR-EXECUTAVEL.cmd`.
-- Guia de distribuicao criado em `docs/DISTRIBUICAO.md`.
-- Script `scripts/create-delivery-folder.js` cria a pasta `ENTREGAR-DASHBOARD-OLYMPICO` copiando tudo de `dist` e adicionando `LEIA-ME.txt`.
-- Em 2026-06-16, `ENTREGAR-DASHBOARD-OLYMPICO\Dashboard-Olympico.exe` foi validado: `/`, `/manifest.webmanifest` e `/api/athletes` responderam 200 na porta de teste `3116`.
+- Guia de distribuicao fica em `docs/guides/DISTRIBUICAO.md`.
+- `scripts/create-delivery-folder.js` cria `output/releases/ENTREGAR-DASHBOARD-OLYMPICO`, copiando tudo de `dist` e adicionando `LEIA-ME.txt`.
+- A validacao historica de 2026-06-16 foi feita na antiga pasta de entrega da raiz; desde a Fase 2, releases ficam em `output/releases/`.
 - O executavel final esperado e `dist/Dashboard-Olympico.exe`; ao abrir, ele sobe o servidor e abre o navegador automaticamente.
-- Quando empacotado, `server.js` usa `path.dirname(process.execPath)` como raiz; portanto a pasta `dist` inteira deve ser copiada, nao apenas o `.exe`.
-- O script `scripts/copy-dist-assets.js` copia `index.html`, `styles.css`, `app.js`, PWA, imagem e `docs/` para `dist` depois do build.
+- Quando empacotado, `src/server/config/paths.js` usa `path.dirname(process.execPath)` como raiz; portanto a pasta `dist` inteira deve ser copiada, nao apenas o `.exe`.
+- `scripts/copy-dist-assets.js` copia `src/`, `assets/` e `docs/` para `dist` depois do build.
 - Para celular, a abordagem definida e PWA/rede local, nao executavel nativo: o celular acessa o IP local do computador e pode usar `Adicionar a tela inicial`.
 - Arquivos PWA adicionados: `manifest.webmanifest` e `service-worker.js`; o service worker cacheia a casca do app e mantem `/api/*` e `/print-report` sempre em rede.
 
 ## Contexto para programar o relatorio de equipe
 
-- O relatorio visual/PDF fica em `server.js`, principalmente nas funcoes `buildPrintReportHtml`, `buildTeamReportSection`, `buildCoachSummaryHtml`, `buildBaselinePanelHtml` e `buildLineChartSvg`.
-- A exportacao abre `/print-report?modality=<id>` a partir de `app.js`; para relatorio individual por equipe, usa tambem `team=<nome da equipe>`.
+- O relatorio visual/PDF fica em `src/server/index.js`, principalmente nas funcoes `buildPrintReportHtml`, `buildTeamReportSection`, `buildCoachSummaryHtml`, `buildBaselinePanelHtml` e `buildLineChartSvg`.
+- A exportacao abre `/print-report?modality=<id>` a partir de `src/client/app.js`; para relatorio individual por equipe, usa tambem `team=<nome da equipe>`.
 - O menu de exportacao oferece `Todas equipes` para a modalidade completa e botoes individuais para gerar relatorios separados por equipe.
 - Para gerar o pacote semanal mais rapido, existe `scripts/create-report-kit.js` e o atalho `GERAR-KIT-RELATORIOS.cmd`. O kit cria uma pasta como `Relatórios 18 de junho` com PDFs de `BASQUETE SUB14`, `BASQUETE SUB 15`, `BASQUETE SUB16`, `BASQUETE SUB17`, `Natação`, `Futsal` e todas as equipes de volei separadas.
 - `NATAÇÃO JUV` e `NATAÇÃO JUVENIL` devem ser tratadas como a mesma equipe, inclusive em categorias da planilha principal, demandas clinicas e selecao de relatorio.
@@ -208,15 +213,15 @@ Formato atual:
 - Essa nova planilha sera integrada ao dashboard em um proximo passo, de forma parecida com a planilha atual de atletas.
 - A planilha precisa permitir registrar atletas em lote e controlar quem esta "Em tratamento".
 - Campos desejados para a futura integracao: atleta, categoria/equipe, status, fase, lesao, observacoes e historico de movimentacao.
-- Foi criado um workbook unico em `docs/google-fisioterapia/modelo-fisioterapia-olympico.xls` com as abas `Atletas`, `Em_Tratamento`, `Historico_Movimentacoes` e `Listas`.
-- Foi criado o Apps Script `docs/google-fisioterapia/planilha-fisioterapia-appscript.gs` para automatizar checkboxes, envio em lote, alta e historico.
-- O workbook foi atualizado para preencher a aba `Atletas` com 278 atletas vindos de `docs/atletas.csv`, que e a base consolidada da planilha de carga/check-in.
+- Foi criado um workbook unico em `data/templates/google-fisioterapia/modelo-fisioterapia-olympico.xls` com as abas `Atletas`, `Em_Tratamento`, `Historico_Movimentacoes` e `Listas`.
+- O Apps Script `data/templates/google-fisioterapia/planilha-fisioterapia-appscript.gs` automatiza checkboxes, envio em lote, alta e historico.
+- O workbook foi atualizado para preencher a aba `Atletas` com 278 atletas vindos de `data/reference/athletes.csv`, que e a base consolidada da planilha de carga/check-in.
 - O script `scripts/create-physio-google-workbook.js` recria o XLS e tambem o XLSX quando a base de atletas mudar.
-- Para uso normal, preferir `docs/google-fisioterapia/modelo-fisioterapia-olympico.xlsx`; o `.xls` e XML Spreadsheet e aparece como texto quando aberto no editor de codigo.
-- A coluna `athlete_id` da planilha de fisioterapia deve usar os IDs oficiais de `atletas_identificadores.csv` (`ATL001`, `ATL002`, etc.), cruzando por nome e categoria.
+- Para uso normal, preferir `data/templates/google-fisioterapia/modelo-fisioterapia-olympico.xlsx`; o `.xls` e XML Spreadsheet e aparece como texto quando aberto no editor de codigo.
+- A coluna `athlete_id` da planilha de fisioterapia deve usar os IDs oficiais de `data/reference/athlete-identifiers.csv` (`ATL001`, `ATL002`, etc.), cruzando por nome e categoria.
 - Ajuste solicitado: a planilha de fisioterapia nao deve trazer dados de carga/check-in/dor; a aba `Atletas` deve conter apenas checkbox, ID oficial, nome, categoria e modalidade.
 - Ajuste solicitado: marcar o checkbox da aba `Atletas` nao deve desmarcar automaticamente nem enviar sozinho; o envio em lote acontece pelo menu `Enviar selecionados`.
-- Foi criada uma planilha equivalente para Psicologia em `docs/google-psicologia/`, com workbook `modelo-psicologia-olympico.xlsx` e Apps Script `planilha-psicologia-appscript.gs`.
+- Foi criada uma planilha equivalente para Psicologia em `data/templates/google-psicologia/`, com workbook `modelo-psicologia-olympico.xlsx` e Apps Script `planilha-psicologia-appscript.gs`.
 - A planilha de Psicologia usa o mesmo fluxo: `Atletas` -> `Em_Acompanhamento` -> `Historico_Movimentacoes`, com listas de fase, demanda e risco.
 - Ajuste solicitado: registros da fisioterapia que estejam abaixo da secao de historico/altas nao devem entrar nos relatorios; altas fora do historico devem ser registradas normalmente.
 - Em 2026-07-03, a planilha real foi conferida pelos GIDs da fisioterapia. O titulo `HISTORICO DE ATENDIMENTOS IMEDIATOS ANTERIORES + ALTAS` contem o texto `ATENDIMENTOS IMEDIATOS`, entao a regra de exclusao de historico/altas precisa ter prioridade antes de reconhecer a secao ativa de atendimentos imediatos.
