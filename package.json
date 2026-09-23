@@ -1,6 +1,6 @@
 {
   "name": "dashboard-olympico",
-  "version": "2.0.0",
+  "version": "2.1.3",
   "private": true,
   "description": "Dashboard de atletas alimentado por uma planilha publica do Google Sheets",
   "scripts": {
@@ -16,6 +16,9 @@
     "export:athletes": "node scripts/export-athletes.js",
     "reports:delivery": "node scripts/prepare-report-delivery.js",
     "reports:kit": "node scripts/create-report-kit.js",
+    "reports:upload": "node scripts/upload-reports-to-drive.js",
+    "drive:auth": "node scripts/configure-google-drive.js",
+    "sources:validate": "node scripts/validate-data-sources.js",
     "report:fisio": "node scripts/create-physio-weekly-report.js",
     "workbook:fisio": "node scripts/create-physio-google-workbook.js",
     "workbook:psico": "node scripts/create-physio-google-workbook.js"

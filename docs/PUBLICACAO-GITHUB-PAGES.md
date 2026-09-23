@@ -1,9 +1,16 @@
 # Publicacao no GitHub Pages
 
+Repositorio: https://github.com/lucaaregis4r-ops/Dashboardolympico
+
+Site: https://lucaaregis4r-ops.github.io/Dashboardolympico/
+
+A versao 2.1.3 substitui a copia estatica enviada manualmente pelo projeto completo.
+O workflow gera o site a partir de `src/client/` e das planilhas; os JSONs gerados ficam em `output/github-pages/`, fora do versionamento.
+
 ## O que foi preparado
 
 - pasta estatica gerada em `output/github-pages/`;
-- dados de atletas e fisioterapia convertidos em JSON durante o build;
+- dados de atletas, presenca (16 categorias) e fisioterapia convertidos em JSON durante o build;
 - caminhos relativos compativeis com `usuario.github.io/nome-do-repositorio/`;
 - PWA e service worker preparados para subcaminhos;
 - geracao de PDF e kit semanal desativados nesta edicao;

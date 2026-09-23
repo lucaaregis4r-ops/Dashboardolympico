@@ -8,6 +8,9 @@ const { execFile } = require("child_process");
 const { randomUUID } = require("crypto");
 const { URL, pathToFileURL } = require("url");
 const paths = require("./config/paths");
+const { PRIMARY_ATHLETES_SOURCE, listAttendanceTeams } = require("./config/data-sources");
+const { getAttendanceData } = require("./integrations/attendance");
+const { applyAttendanceActivity } = require("./domain/attendance-reconciliation");
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
@@ -15,20 +18,16 @@ const ROOT = paths.projectRoot;
 const CLIENT_DIR = paths.clientDir;
 const ASSETS_DIR = paths.assetsDir;
 const DOCS_DIR = paths.docsDir;
-const SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/15B29MdEXNsDVq4fCJVUffznul--C1Mb5B7pZtmWqmOY/export?format=csv&gid=1847097737";
+const SHEET_CSV_URL = PRIMARY_ATHLETES_SOURCE.csvUrl;
 const PHYSIO_DEMANDS_SHEET_ID = "1RzfD3RM0PEBXCPZdthVeIWu7G0mYIENlsP1_ToV6Xzs";
 const PSYCHOLOGY_DEMANDS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/1ZUFyKxUvvxZ41sVGIwr3ophT39SSKjrXDdlnq_S2vI0/export?format=csv&gid=1746478381";
-const ACTIVE_ATHLETE_WINDOW_DAYS = 30;
-const REPORT_KIT_ITEMS = [
-  { modalityId: "basquete", teamName: "BASQUETE SUB14", fileName: "Relatório BASQUETE SUB14.pdf" },
-  { modalityId: "basquete", teamName: "BASQUETE SUB 15", fileName: "Relatório BASQUETE SUB 15.pdf" },
-  { modalityId: "basquete", teamName: "BASQUETE SUB16", fileName: "Relatório BASQUETE SUB16.pdf" },
-  { modalityId: "basquete", teamName: "BASQUETE SUB17", fileName: "Relatório BASQUETE SUB17.pdf" },
-  { modalityId: "natacao", teamName: "", fileName: "Relatório Natação.pdf" },
-  { modalityId: "futsal", teamName: "", fileName: "Relatório Futsal.pdf" },
-];
+const ACTIVE_ATHLETE_WINDOW_DAYS = 20;
+const REPORT_KIT_ITEMS = listAttendanceTeams().map(({ modalityId, teamName }) => ({
+  modalityId,
+  teamName,
+  fileName: `Relatório ${teamName}.pdf`,
+}));
 const MONTHS_PT = [
   "janeiro",
   "fevereiro",
@@ -70,6 +69,12 @@ const BROWSER_CANDIDATES = [
   "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "/usr/bin/chromium",
+  "/usr/bin/chromium-browser",
+  "/usr/bin/google-chrome",
+  "/usr/bin/google-chrome-stable",
+  "/usr/bin/microsoft-edge",
+  "/usr/bin/microsoft-edge-stable",
 ].filter(Boolean);
 
 function getLocalNetworkUrls(port) {
@@ -87,7 +92,9 @@ function openUrlInDefaultBrowser(url) {
         ? ["open", [url]]
         : ["xdg-open", [url]];
 
-  execFile(command[0], command[1], { windowsHide: true }, () => {});
+  execFile(command[0], command[1], { windowsHide: true }, (error) => {
+    if (error) console.warn(`Nao foi possivel abrir o navegador automaticamente. Abra ${url}`);
+  });
 }
 
 function shouldOpenBrowser() {
@@ -430,7 +437,7 @@ function quantile(values, ratio) {
   return validValues[lowerIndex] * (1 - weight) + validValues[upperIndex] * weight;
 }
 
-function transformRows(rows) {
+function transformRows(rows, { attendanceData = null } = {}) {
   if (!rows.length) {
     return {
       updatedAt: null,
@@ -440,11 +447,13 @@ function transformRows(rows) {
       summary: {
         totalAthletes: 0,
         inactiveAthletes: 0,
+        unverifiedAthletes: 0,
         critical: 0,
         warning: 0,
         stable: 0,
       },
       inactiveAthletes: 0,
+      unverifiedAthletes: 0,
       activeAthleteWindowDays: ACTIVE_ATHLETE_WINDOW_DAYS,
     };
   }
@@ -516,11 +525,7 @@ function transformRows(rows) {
     groups.get(key).entries.push(entry);
   }
 
-  const activeThreshold = updatedAt
-    ? updatedAt.getTime() - ACTIVE_ATHLETE_WINDOW_DAYS * 24 * 60 * 60 * 1000
-    : null;
-
-  const allAthletes = Array.from(groups.values())
+  const primaryAthletes = Array.from(groups.values())
     .map((group) => {
       group.entries.sort((left, right) => {
         const leftTime = left.timestampIso ? Date.parse(left.timestampIso) : 0;
@@ -530,16 +535,11 @@ function transformRows(rows) {
 
       const latest = group.entries[0];
       const status = buildStatus(latest);
-      const latestTimestamp = latest.timestampIso ? Date.parse(latest.timestampIso) : null;
-      const isActive =
-        !Number.isFinite(activeThreshold) ||
-        (Number.isFinite(latestTimestamp) && latestTimestamp >= activeThreshold);
-
       return {
         id: group.key,
         name: group.name,
         category: group.category,
-        isActive,
+        isActive: true,
         totalEntries: group.entries.length,
         lastCheckIn: latest.timestampDisplay,
         reportedDate: latest.reportedDate,
@@ -552,8 +552,17 @@ function transformRows(rows) {
     })
     .sort((left, right) => left.name.localeCompare(right.name, "pt-BR"));
 
-  const athletes = allAthletes.filter((athlete) => athlete.isActive);
-  const inactiveAthletes = allAthletes.length - athletes.length;
+  const attendanceActivity = applyAttendanceActivity(
+    primaryAthletes,
+    attendanceData,
+    updatedAt,
+    ACTIVE_ATHLETE_WINDOW_DAYS
+  );
+  const allAthletes = attendanceActivity.athletes;
+
+  const athletes = allAthletes;
+  const inactiveAthletes = athletes.filter((athlete) => !athlete.isActive).length;
+  const unverifiedAthletes = athletes.filter((athlete) => athlete.activityStatus === "unverified").length;
 
   const categories = Array.from(
     new Set(athletes.map((athlete) => athlete.category).filter(Boolean))
@@ -568,6 +577,7 @@ function transformRows(rows) {
     {
       totalAthletes: 0,
       inactiveAthletes,
+      unverifiedAthletes,
       critical: 0,
       warning: 0,
       stable: 0,
@@ -582,13 +592,48 @@ function transformRows(rows) {
     categories,
     summary,
     inactiveAthletes,
+    unverifiedAthletes,
     activeAthleteWindowDays: ACTIVE_ATHLETE_WINDOW_DAYS,
+    attendance: {
+      fetchedAt: attendanceData?.fetchedAt || null,
+      sourceStatus: attendanceData?.teams?.length
+        ? attendanceData.errors.length
+          ? "degraded"
+          : "available"
+        : "unavailable",
+      loadedTeams: attendanceData?.teams?.length || 0,
+      failedTeams: attendanceData?.errors?.length || 0,
+      errors: attendanceData?.errors || [],
+      ...attendanceActivity.reconciliation,
+    },
   };
 }
 
+function extractPrimaryAthleteRoster(rows) {
+  if (!rows.length) return [];
+  const header = rows[0].map((value) => normalizeText(value));
+  const painAreaIndex = header.findIndex((value) => value.includes("DOR MUSCULAR"));
+  const nameStartIndex = 3;
+  const nameEndIndex = painAreaIndex > nameStartIndex ? painAreaIndex - 1 : 18;
+  const athletes = new Map();
+
+  for (const rawRow of rows.slice(1)) {
+    const row = header.map((_, index) => rawRow[index] || "");
+    const category = normalizeTeamName(row[1]);
+    const name = pickFirstFilled(row.slice(nameStartIndex, nameEndIndex + 1));
+    if (!name || !category) continue;
+    const key = `${normalizeKey(name)}|${normalizeKey(category)}`;
+    if (!athletes.has(key)) athletes.set(key, { name, category });
+  }
+
+  return [...athletes.values()].sort(
+    (left, right) => left.category.localeCompare(right.category, "pt-BR") || left.name.localeCompare(right.name, "pt-BR")
+  );
+}
+
 async function fetchAthletesData() {
-  const csv = await downloadText(SHEET_CSV_URL);
-  return transformRows(parseCsv(csv));
+  const [csv, attendanceData] = await Promise.all([downloadText(SHEET_CSV_URL), getAttendanceData()]);
+  return transformRows(parseCsv(csv), { attendanceData });
 }
 
 function normalizeHeaderKey(value) {
@@ -982,6 +1027,64 @@ async function handlePhysiotherapyApi(requestUrl, response) {
   );
 }
 
+function buildAttendanceSummary(items) {
+  return items.reduce(
+    (summary, item) => {
+      summary.athletes += 1;
+      if (["approved", "exact", "alias"].includes(item.matchStatus)) summary.matched += 1;
+      else summary.review += 1;
+      if (Number.isFinite(item.weeklyPercentage)) {
+        summary.weeklyPresent += item.weeklyPresent;
+        summary.weeklyPossible += item.weeklySessions;
+      }
+      return summary;
+    },
+    { athletes: 0, matched: 0, review: 0, weeklyPresent: 0, weeklyPossible: 0 }
+  );
+}
+
+async function handleAttendanceApi(requestUrl, response) {
+  const modalityId = normalizeText(requestUrl.searchParams.get("modality"));
+  const teamName = normalizeText(requestUrl.searchParams.get("team"));
+  const matchStatus = normalizeText(requestUrl.searchParams.get("match"));
+  const payload = await fetchAthletesData();
+  const attendance = payload.attendance || {};
+  const items = (attendance.roster || []).filter((item) => {
+    if (modalityId && item.modalityId !== modalityId) return false;
+    if (teamName && normalizeTeamLookupKey(item.teamName) !== normalizeTeamLookupKey(teamName)) return false;
+    return !matchStatus || item.matchStatus === matchStatus;
+  });
+  const teams = Array.from(new Set((attendance.roster || []).map((item) => item.teamName).filter(Boolean))).sort(
+    (left, right) => left.localeCompare(right, "pt-BR")
+  );
+  const summary = buildAttendanceSummary(items);
+
+  response.writeHead(200, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
+  });
+  response.end(
+    JSON.stringify({
+      updatedAt: attendance.lastSessionDate || attendance.fetchedAt,
+      sourceStatus: attendance.sourceStatus || "unavailable",
+      loadedTeams: attendance.loadedTeams || 0,
+      failedTeams: attendance.failedTeams || 0,
+      errors: attendance.errors || [],
+      referenceDate: attendance.referenceDate || payload.updatedAt?.slice(0, 10) || null,
+      activeWindowDays: payload.activeAthleteWindowDays,
+      modalities: MODALITY_DEFS.map(({ id, label }) => ({ id, label })),
+      teams,
+      summary: {
+        ...summary,
+        weeklyPercentage: summary.weeklyPossible
+          ? Math.round((summary.weeklyPresent / summary.weeklyPossible) * 1000) / 10
+          : null,
+      },
+      items,
+    })
+  );
+}
+
 async function fetchPsychologyDemandsData() {
   try {
     const csv = await downloadText(PSYCHOLOGY_DEMANDS_CSV_URL);
@@ -1188,23 +1291,10 @@ function getReportFileSafeTeamName(teamName) {
 }
 
 function buildWeeklyReportKitItems(categories) {
-  const items = REPORT_KIT_ITEMS.map((item) => ({
+  return REPORT_KIT_ITEMS.map((item) => ({
     ...item,
-    teamName: item.teamName ? resolveReportTeam(categories, item.teamName) : "",
+    teamName: resolveReportTeam(categories, item.teamName),
   }));
-
-  categories
-    .filter((teamName) => ["volei-feminino", "volei-masculino"].includes(inferModalityId(teamName)))
-    .sort((left, right) => left.localeCompare(right, "pt-BR"))
-    .forEach((teamName) => {
-      items.push({
-        modalityId: inferModalityId(teamName),
-        teamName,
-        fileName: `Relatório ${getReportFileSafeTeamName(teamName)}.pdf`,
-      });
-    });
-
-  return items;
 }
 
 function filterEntriesByDays(entries, updatedAtIso, days) {
@@ -1837,6 +1927,47 @@ function getTeamClinicalItems(items, teamName) {
   });
 }
 
+function summarizeTeamAttendance(attendance = {}, teamName) {
+  const normalizedTeam = normalizeTeamLookupKey(teamName);
+  const items = (attendance.roster || []).filter(
+    (item) => normalizeTeamLookupKey(item.teamName) === normalizedTeam
+  );
+  const sourceError = (attendance.errors || []).find(
+    (error) => normalizeTeamLookupKey(error.teamName) === normalizedTeam
+  );
+  const weeklyPresent = items.reduce((total, item) => total + (item.weeklyPresent || 0), 0);
+  const weeklyPossible = items.reduce((total, item) => total + (item.weeklySessions || 0), 0);
+  const weeklyPercentage = weeklyPossible
+    ? Math.round((weeklyPresent / weeklyPossible) * 1000) / 10
+    : null;
+  const status = weeklyPossible
+    ? "available"
+    : sourceError || attendance.sourceStatus === "unavailable"
+      ? "unavailable"
+      : "no-sessions";
+
+  return {
+    status,
+    athletes: items.length,
+    weeklyPresent,
+    weeklyPossible,
+    weeklyPercentage,
+    lastSessionDate: attendance.lastSessionDate || null,
+  };
+}
+
+function formatReportAttendancePercentage(summary) {
+  if (summary.status === "unavailable") return "Indisponível";
+  if (!Number.isFinite(summary.weeklyPercentage)) return "Sem sessão";
+  return `${String(summary.weeklyPercentage).replace(".", ",")}%`;
+}
+
+function getReportAttendanceNote(summary) {
+  if (summary.status === "unavailable") return "Fonte suplementar sem acesso";
+  if (!summary.weeklyPossible) return "Nenhuma sessão válida nos últimos 7 dias";
+  return `${summary.weeklyPresent} presenças em ${summary.weeklyPossible} oportunidades`;
+}
+
 function getSyntheticTeamPrefix(modality) {
   const prefixes = {
     basquete: "BASQUETE",
@@ -1862,8 +1993,14 @@ function buildSyntheticTeamName(modality, teamName) {
   return alreadyIncludesModality ? cleanTeamName : `${getSyntheticTeamPrefix(modality)} ${cleanTeamName}`;
 }
 
-function buildReportCategories(loadCategories, modality, physioDemands = []) {
+function buildReportCategories(loadCategories, modality, physioDemands = [], configuredCategories = []) {
   const reportCategories = [...loadCategories];
+
+  configuredCategories.forEach((teamName) => {
+    if (!reportCategories.some((current) => normalizeTeamLookupKey(current) === normalizeTeamLookupKey(teamName))) {
+      reportCategories.push(teamName);
+    }
+  });
 
   physioDemands.forEach((item) => {
     if (!item.teamName) {
@@ -2243,7 +2380,15 @@ function buildSupportPanelHtml(attentionItems, physioAlert, psychologyItems) {
   `;
 }
 
-function buildTeamOverviewRows(athletes, categories, updatedAtIso, modalityId, physioDemands, psychologyDemands) {
+function buildTeamOverviewRows(
+  athletes,
+  categories,
+  updatedAtIso,
+  modalityId,
+  physioDemands,
+  psychologyDemands,
+  attendance = {}
+) {
   return categories
     .filter((category) => inferModalityId(category) === modalityId)
     .map((teamName) => {
@@ -2255,6 +2400,7 @@ function buildTeamOverviewRows(athletes, categories, updatedAtIso, modalityId, p
       const attentionItems = buildAttentionItems(teamAthletes);
       const teamPhysio = getTeamClinicalItems(physioDemands, teamName);
       const teamPsychology = getTeamClinicalItems(psychologyDemands, teamName);
+      const attendanceSummary = summarizeTeamAttendance(attendance, teamName);
       const highPriority = attentionItems.filter((item) => item.tone === "high").length;
       const physioPriorityCount = teamPhysio.filter((item) => isPhysioRed(item) || hasVetoText(item)).length;
       const synthesis = highPriority
@@ -2276,6 +2422,8 @@ function buildTeamOverviewRows(athletes, categories, updatedAtIso, modalityId, p
         attentionCount: attentionItems.length,
         physioCount: teamPhysio.length,
         psychologyCount: teamPsychology.length,
+        attendancePercentage: attendanceSummary.weeklyPercentage,
+        attendanceStatus: attendanceSummary.status,
         synthesis,
         sortScore: attentionItems.length * 3 + teamPhysio.filter((item) => isPhysioRed(item) || hasVetoText(item)).length * 5,
       };
@@ -2283,14 +2431,24 @@ function buildTeamOverviewRows(athletes, categories, updatedAtIso, modalityId, p
     .sort((left, right) => right.sortScore - left.sortScore || left.teamName.localeCompare(right.teamName, "pt-BR"));
 }
 
-function buildOverviewPageHtml(athletes, categories, updatedAtIso, modality, crestDataUrl, physioDemands, psychologyDemands) {
+function buildOverviewPageHtml(
+  athletes,
+  categories,
+  updatedAtIso,
+  modality,
+  crestDataUrl,
+  physioDemands,
+  psychologyDemands,
+  attendance = {}
+) {
   const rows = buildTeamOverviewRows(
     athletes,
     categories,
     updatedAtIso,
     modality.id,
     physioDemands,
-    psychologyDemands
+    psychologyDemands,
+    attendance
   );
   const totalAthletes = rows.reduce((total, row) => total + row.athletesCount, 0);
   const totalAttention = rows.reduce((total, row) => total + row.attentionCount, 0);
@@ -2340,6 +2498,7 @@ function buildOverviewPageHtml(athletes, categories, updatedAtIso, modality, cre
               <th>Atenção</th>
               <th>Fisio</th>
               <th>Psico</th>
+              <th>Presença PF</th>
               <th>Síntese</th>
             </tr>
           </thead>
@@ -2356,6 +2515,10 @@ function buildOverviewPageHtml(athletes, categories, updatedAtIso, modality, cre
                     <td>${row.attentionCount}</td>
                     <td>${row.physioCount}</td>
                     <td>${row.psychologyCount}</td>
+                    <td>${escapeHtml(formatReportAttendancePercentage({
+                      status: row.attendanceStatus,
+                      weeklyPercentage: row.attendancePercentage,
+                    }))}</td>
                     <td>${escapeHtml(row.synthesis)}</td>
                   </tr>
                 `
@@ -2377,6 +2540,7 @@ function buildOverviewPageHtml(athletes, categories, updatedAtIso, modality, cre
             <span><strong>Carga mediana da semana:</strong> valor central da carga recente da equipe.</span>
             <span><strong>Em atenção:</strong> atletas classificados por percentil equipe, MM3, recuperação baixa e estresse alto.</span>
             <span><strong>Fisio/Psico:</strong> registros ativos nas abas clínicas, filtrados pela equipe.</span>
+            <span><strong>Presença PF:</strong> presenças divididas pelas oportunidades nas sessões válidas dos últimos 7 dias.</span>
           </div>
         </article>
         <article class="report-panel report-panel--support">
@@ -2405,7 +2569,8 @@ function buildTeamReportSection(
   teamName,
   crestDataUrl,
   physioDemands = [],
-  psychologyDemands = []
+  psychologyDemands = [],
+  attendance = {}
 ) {
   const teamAthletes = getAthletesByTeam(athletes, teamName);
   const trendSeries = buildTrendSeries(athletes, teamName, updatedAtIso);
@@ -2422,6 +2587,7 @@ function buildTeamReportSection(
   const physioAlert = null;
   const physioItems = getTeamClinicalItems(physioDemands, teamName);
   const psychologyItems = getTeamClinicalItems(psychologyDemands, teamName);
+  const attendanceSummary = summarizeTeamAttendance(attendance, teamName);
   const hasLoadReport = teamAthletes.length > 0;
 
   if (!hasLoadReport && physioItems.length) {
@@ -2463,6 +2629,11 @@ function buildTeamReportSection(
           <article class="report-stat">
             <span>Prioritários</span>
             <strong>${priorityCount}</strong>
+          </article>
+          <article class="report-stat report-stat--attendance">
+            <span>Presença PF (7 dias)</span>
+            <strong>${escapeHtml(formatReportAttendancePercentage(attendanceSummary))}</strong>
+            <small>${escapeHtml(getReportAttendanceNote(attendanceSummary))}</small>
           </article>
         </section>
 
@@ -2524,6 +2695,11 @@ function buildTeamReportSection(
           <span>Estresse</span>
           <strong>${escapeHtml(formatRatio(stressMean))}</strong>
         </article>
+        <article class="report-stat report-stat--attendance">
+          <span>Presença PF (7 dias)</span>
+          <strong>${escapeHtml(formatReportAttendancePercentage(attendanceSummary))}</strong>
+          <small>${escapeHtml(getReportAttendanceNote(attendanceSummary))}</small>
+        </article>
       </section>
 
       <section class="report-main-grid">
@@ -2564,7 +2740,10 @@ function buildPrintReportHtml(
 
   const athletes = enrichAthletes(payload.athletes);
   const loadCategories = payload.categories.filter((category) => inferModalityId(category) === modalityId);
-  const categories = buildReportCategories(loadCategories, modality, physioDemands);
+  const configuredCategories = listAttendanceTeams()
+    .filter((item) => item.modalityId === modalityId)
+    .map((item) => item.teamName);
+  const categories = buildReportCategories(loadCategories, modality, physioDemands, configuredCategories);
   if (!categories.length) {
     throw new Error("Nenhuma equipe encontrada para a modalidade selecionada.");
   }
@@ -2587,7 +2766,8 @@ function buildPrintReportHtml(
         modality,
         crestDataUrl,
         physioDemands,
-        psychologyDemands
+        psychologyDemands,
+        payload.attendance
       );
 
   const pages = overviewPage + reportCategories
@@ -2600,7 +2780,8 @@ function buildPrintReportHtml(
         teamName,
         crestDataUrl,
         physioDemands,
-        psychologyDemands
+        psychologyDemands,
+        payload.attendance
       )
     )
     .join("");
@@ -2753,7 +2934,7 @@ function buildPrintReportHtml(
 
         .report-stats {
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(5, minmax(0, 1fr));
           gap: 2.4mm;
           margin-bottom: 3mm;
         }
@@ -2782,6 +2963,18 @@ function buildPrintReportHtml(
         .report-stat strong {
           font-size: 16px;
           color: var(--navy);
+        }
+
+        .report-stat small {
+          display: block;
+          margin-top: 1mm;
+          color: var(--muted);
+          font-size: 8px;
+          line-height: 1.25;
+        }
+
+        .report-stat--attendance {
+          border-top: 1.2mm solid #168a64;
         }
 
         .report-panel {
@@ -3460,6 +3653,24 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
+  if (requestUrl.pathname === "/api/attendance") {
+    try {
+      await handleAttendanceApi(requestUrl, response);
+    } catch (error) {
+      response.writeHead(500, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+      });
+      response.end(
+        JSON.stringify({
+          message: "Nao foi possivel carregar a presenca da preparacao fisica agora.",
+          details: error.message,
+        })
+      );
+    }
+    return;
+  }
+
   if (requestUrl.pathname === "/api/export-pdf") {
     try {
       await handleExportPdf(requestUrl, response);
@@ -3552,19 +3763,23 @@ function startServer(port, attempt = 0) {
     process.exitCode = 1;
   });
 
-  server.listen(port, HOST, () => {
-    announceServer(port);
-  });
+  server.listen(port, HOST);
 }
 
 if (require.main === module) {
+  server.once("listening", () => announceServer(server.address().port));
   startServer(PORT);
 }
 
 module.exports = {
+  buildPrintReportHtml,
   buildPhysioDemandPanelHtml,
+  buildTeamReportSection,
+  extractPrimaryAthleteRoster,
   filterPhysiotherapyItems,
   getPhysioVetoLevel,
+  summarizeTeamAttendance,
   summarizePhysiotherapyItems,
+  transformRows,
   transformPhysioModalityRows,
 };

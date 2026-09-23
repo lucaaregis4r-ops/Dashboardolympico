@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-title" content="Olympico" />
     <title>Dashboard Olympico | Atletas</title>
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="/assets/olympico-crest.png" />
+    <link rel="apple-touch-icon" href="./assets/olympico-crest.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,7 +32,7 @@
       <form class="login-card" id="login-form">
         <img
           class="login-card__crest"
-          src="/assets/olympico-crest.png"
+          src="./assets/olympico-crest.png"
           alt="Escudo do Olympico Clube"
         />
         <div>
@@ -75,7 +75,7 @@
         <div class="sidebar__brand">
           <img
             class="sidebar__crest"
-            src="/assets/olympico-crest.png"
+            src="./assets/olympico-crest.png"
             alt="Escudo do Olímpico Clube"
           />
           <div>
@@ -93,6 +93,9 @@
           </button>
           <button class="sidebar__link" id="nav-physiotherapy-button" type="button" aria-controls="physiotherapy-workspace">
             Fisioterapia
+          </button>
+          <button class="sidebar__link" id="nav-attendance-button" type="button" aria-controls="attendance-workspace">
+            Preparação física
           </button>
           <button class="sidebar__link" id="nav-athletes-button" type="button" aria-controls="panel-workspace">
             Atletas
@@ -334,6 +337,65 @@
               Nenhum atleta encontrado com os filtros atuais.
             </div>
             <div class="empty hidden" id="error-state"></div>
+          </section>
+
+          <section class="attendance-workspace hidden" id="attendance-workspace">
+            <article class="physio-hero attendance-hero">
+              <div>
+                <p class="chart-card__eyebrow">Frequência semanal</p>
+                <h3>Preparação física</h3>
+                <p>Presenças registradas nas chamadas, separadas da base principal de carga e check-ins.</p>
+              </div>
+              <div class="physio-hero__status">
+                <span>Última sessão</span>
+                <strong id="attendance-updated-at">Ainda não consultado</strong>
+                <button class="physio-refresh" id="attendance-refresh" type="button">Atualizar presenças</button>
+              </div>
+            </article>
+
+            <div class="physio-filters attendance-filters" aria-label="Filtros da preparação física">
+              <label class="field">
+                <span>Buscar</span>
+                <input id="attendance-search" type="search" placeholder="Nome na chamada ou cadastro" />
+              </label>
+              <label class="field">
+                <span>Modalidade</span>
+                <select id="attendance-modality"><option value="">Todas</option></select>
+              </label>
+              <label class="field">
+                <span>Categoria</span>
+                <select id="attendance-team"><option value="">Todas</option></select>
+              </label>
+              <label class="field">
+                <span>Vínculo</span>
+                <select id="attendance-match">
+                  <option value="">Todos</option>
+                  <option value="matched">Vinculados</option>
+                  <option value="review">Revisão necessária</option>
+                </select>
+              </label>
+            </div>
+
+            <section class="physio-stats" id="attendance-stats" aria-label="Indicadores de presença"></section>
+            <div class="physio-results__bar">
+              <p id="attendance-results-count" aria-live="polite">Selecione Preparação física para carregar.</p>
+              <span>Janela móvel de 7 dias</span>
+            </div>
+            <div class="physio-state hidden" id="attendance-state" role="status" aria-live="polite"></div>
+            <div class="attendance-table-shell">
+              <table class="attendance-table">
+                <thead>
+                  <tr>
+                    <th>Atleta</th>
+                    <th>Categoria</th>
+                    <th>Presença semanal</th>
+                    <th>Sessões</th>
+                    <th>Vínculo</th>
+                  </tr>
+                </thead>
+                <tbody id="attendance-list"></tbody>
+              </table>
+            </div>
           </section>
 
           <section class="physio-workspace hidden" id="physiotherapy-workspace">

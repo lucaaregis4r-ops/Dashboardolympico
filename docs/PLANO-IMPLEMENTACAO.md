@@ -18,6 +18,7 @@ Entregar um dashboard profissional, flat e esportivo, com identidade do Olympico
 | 5 | Validacao, acessibilidade e distribuicao | Concluida em 2026-08-06 |
 | 6 | Homologacao visual e operacional | Em andamento: rede aprovada; inspecao humana pendente |
 | 7 | Edicao GitHub Pages | Concluida em 2026-08-06 |
+| 8 | Linux e publicacao das novas conexoes | Concluida em 2026-09-23: launcher, atalho e build com 16 categorias validados |
 
 ## Fase 0 - Inventario e base de trabalho
 

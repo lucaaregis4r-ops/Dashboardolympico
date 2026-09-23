@@ -7,7 +7,7 @@ const OUTPUT_DIR = path.join(ROOT, "data", "reference");
 const OUTPUT_FILE = path.join(OUTPUT_DIR, "athletes.csv");
 const SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/15B29MdEXNsDVq4fCJVUffznul--C1Mb5B7pZtmWqmOY/export?format=csv&gid=1847097737";
-const ACTIVE_ATHLETE_WINDOW_DAYS = 30;
+const ACTIVE_ATHLETE_WINDOW_DAYS = 70;
 
 function normalizeText(value) {
   return String(value || "")

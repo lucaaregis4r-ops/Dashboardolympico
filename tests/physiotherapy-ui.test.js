@@ -130,7 +130,7 @@ test("manifesto PWA declara o tamanho real do escudo e usa caminhos portaveis", 
   assert.equal(manifest.icons.length, 1);
   assert.equal(manifest.icons[0].sizes, `${width}x${height}`);
   assert.equal(manifest.icons[0].purpose, "any");
-  assert.match(serviceWorker, /dashboard-olympico-v7/);
+  assert.match(serviceWorker, /dashboard-olympico-v10/);
   assert.match(serviceWorker, /"\.\/deployment-config\.js"/);
 });
 

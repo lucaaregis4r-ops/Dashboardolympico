@@ -86,6 +86,7 @@ async function main() {
   try {
     const athletes = await waitForServer(server);
     const physiotherapy = await fetchJson("/api/physiotherapy");
+    const attendance = await fetchJson("/api/attendance");
 
     await fs.rm(TARGET, { recursive: true, force: true });
     await copyDirectory(CLIENT, TARGET);
@@ -93,11 +94,12 @@ async function main() {
     await fs.mkdir(DATA, { recursive: true });
 
     const generatedAt = new Date().toISOString();
-    const config = `window.OLYMPICO_CONFIG = Object.freeze({\n  staticHosting: true,\n  reportsEnabled: false,\n  athletesUrl: "./data/athletes.json",\n  physiotherapyUrl: "./data/physiotherapy.json",\n  generatedAt: "${generatedAt}"\n});\n`;
+    const config = `window.OLYMPICO_CONFIG = Object.freeze({\n  staticHosting: true,\n  reportsEnabled: false,\n  athletesUrl: "./data/athletes.json",\n  attendanceUrl: "./data/attendance.json",\n  physiotherapyUrl: "./data/physiotherapy.json",\n  generatedAt: "${generatedAt}"\n});\n`;
 
     await Promise.all([
       fs.writeFile(path.join(TARGET, "deployment-config.js"), config, "utf8"),
       fs.writeFile(path.join(DATA, "athletes.json"), JSON.stringify(athletes), "utf8"),
+      fs.writeFile(path.join(DATA, "attendance.json"), JSON.stringify(attendance), "utf8"),
       fs.writeFile(path.join(DATA, "physiotherapy.json"), JSON.stringify(physiotherapy), "utf8"),
       fs.writeFile(path.join(TARGET, ".nojekyll"), "", "utf8"),
       fs.copyFile(path.join(TARGET, "index.html"), path.join(TARGET, "404.html")),
@@ -107,6 +109,7 @@ async function main() {
       generatedAt,
       athletes: athletes.athletes?.length || 0,
       teams: athletes.categories?.length || 0,
+      attendanceRecords: attendance.items?.length || 0,
       physiotherapyRecords: physiotherapy.items?.length || 0,
       reportsEnabled: false,
     };

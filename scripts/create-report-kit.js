@@ -1,11 +1,14 @@
 const fs = require("fs/promises");
 const path = require("path");
 const { spawn } = require("child_process");
+const { listAttendanceTeams } = require("../src/server/config/data-sources");
 
 const ROOT = path.resolve(__dirname, "..");
 const REPORTS_ROOT = path.join(ROOT, "output", "reports");
 const DEFAULT_PORT = 3147;
 const HOST = "127.0.0.1";
+const DEFAULT_REPORT_TIMEOUT_MS = 180000;
+const DEFAULT_RETRIES = 2;
 
 const MONTHS_PT = [
   "janeiro",
@@ -22,14 +25,11 @@ const MONTHS_PT = [
   "dezembro",
 ];
 
-const FIXED_REPORTS = [
-  { modality: "basquete", team: "BASQUETE SUB14", fileName: "Relatório BASQUETE SUB14.pdf" },
-  { modality: "basquete", team: "BASQUETE SUB 15", fileName: "Relatório BASQUETE SUB 15.pdf" },
-  { modality: "basquete", team: "BASQUETE SUB16", fileName: "Relatório BASQUETE SUB16.pdf" },
-  { modality: "basquete", team: "BASQUETE SUB17", fileName: "Relatório BASQUETE SUB17.pdf" },
-  { modality: "natacao", team: "", fileName: "Relatório Natação.pdf" },
-  { modality: "futsal", team: "", fileName: "Relatório Futsal.pdf" },
-];
+const FIXED_REPORTS = listAttendanceTeams().map(({ modalityId, teamName }) => ({
+  modality: modalityId,
+  team: teamName,
+  fileName: `Relatório ${teamName}.pdf`,
+}));
 
 function normalizeText(value) {
   return String(value || "")
@@ -70,9 +70,21 @@ function hasFlag(name) {
   return process.argv.slice(2).includes(`--${name}`);
 }
 
+function getPositiveIntegerArg(name, fallback) {
+  const raw = getArgValue(name);
+  if (!raw) return fallback;
+  const value = Number(raw);
+  if (!Number.isInteger(value) || value <= 0) {
+    throw new Error(`--${name} deve ser um numero inteiro positivo.`);
+  }
+  return value;
+}
+
 function formatReportFolderName(updatedAtIso) {
   const dateArg = getArgValue("date");
-  const date = dateArg ? new Date(`${dateArg}T12:00:00`) : updatedAtIso ? new Date(updatedAtIso) : new Date();
+  // O nome do kit representa quando ele foi gerado, e não quando houve
+  // o último check-in. --date continua permitindo uma data manual.
+  const date = dateArg ? new Date(`${dateArg}T12:00:00`) : new Date();
   if (Number.isNaN(date.getTime())) {
     throw new Error("Data invalida. Use --date=AAAA-MM-DD, por exemplo --date=2026-06-18.");
   }
@@ -129,45 +141,76 @@ function resolveTeam(categories, requestedTeam) {
 }
 
 function buildReportList(categories) {
-  const reports = FIXED_REPORTS.map((report) => ({
+  return FIXED_REPORTS.map((report) => ({
     ...report,
-    team: report.team ? resolveTeam(categories, report.team) : "",
+    team: resolveTeam(categories, report.team),
   }));
-
-  categories
-    .filter((teamName) => ["volei-feminino", "volei-masculino"].includes(inferModalityId(teamName)))
-    .sort((left, right) => left.localeCompare(right, "pt-BR"))
-    .forEach((teamName) => {
-      reports.push({
-        modality: inferModalityId(teamName),
-        team: teamName,
-        fileName: `Relatório ${fileSafeTeamName(teamName)}.pdf`,
-      });
-    });
-
-  return reports;
 }
 
 async function downloadReport(baseUrl, report, outputDir) {
+  const timeoutMs = getPositiveIntegerArg("timeout-seconds", DEFAULT_REPORT_TIMEOUT_MS / 1000) * 1000;
+  const retries = getPositiveIntegerArg("retries", DEFAULT_RETRIES);
+  const force = hasFlag("force");
+  const outputPath = path.join(outputDir, report.fileName);
+  const partialPath = `${outputPath}.partial`;
+
+  if (!force) {
+    const current = await fs.stat(outputPath).catch(() => null);
+    if (current?.isFile() && current.size >= 1000) {
+      console.log(`  Ja existe (${Math.round(current.size / 1024)} KB); pulando.`);
+      return { path: outputPath, skipped: true, size: current.size };
+    }
+  }
+
   const params = new URLSearchParams({ modality: report.modality });
   if (report.team) {
     params.set("team", report.team);
   }
 
   const url = `${baseUrl}/api/export-pdf?${params.toString()}`;
-  const response = await fetch(url, { cache: "no-store" });
+  let lastError = null;
 
-  if (!response.ok) {
-    const text = await response.text().catch(() => "");
-    throw new Error(`${report.fileName}: falha ${response.status} ${text}`);
+  for (let attempt = 1; attempt <= retries; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    const startedAt = Date.now();
+    const heartbeat = setInterval(() => {
+      const elapsed = Math.round((Date.now() - startedAt) / 1000);
+      console.log(`  Ainda processando ${report.fileName} (${elapsed}s)...`);
+    }, 10000);
+
+    try {
+      if (attempt > 1) console.log(`  Nova tentativa ${attempt}/${retries}...`);
+      const response = await fetch(url, { cache: "no-store", signal: controller.signal });
+      if (!response.ok) {
+        const text = await response.text().catch(() => "");
+        throw new Error(`falha ${response.status} ${text}`);
+      }
+
+      const buffer = Buffer.from(await response.arrayBuffer());
+      if (buffer.length < 1000 || buffer.subarray(0, 5).toString("ascii") !== "%PDF-") {
+        throw new Error("PDF retornou vazio, incompleto ou com assinatura invalida.");
+      }
+
+      await fs.writeFile(partialPath, buffer);
+      await fs.rm(outputPath, { force: true });
+      await fs.rename(partialPath, outputPath);
+      console.log(`  Concluido em ${Math.round((Date.now() - startedAt) / 1000)}s (${Math.round(buffer.length / 1024)} KB).`);
+      return { path: outputPath, skipped: false, size: buffer.length };
+    } catch (error) {
+      await fs.rm(partialPath, { force: true }).catch(() => {});
+      lastError = error?.name === "AbortError"
+        ? new Error(`tempo limite de ${Math.round(timeoutMs / 1000)}s excedido`)
+        : error;
+      console.error(`  Tentativa ${attempt}/${retries} falhou: ${lastError.message}`);
+      if (attempt < retries) await wait(2000);
+    } finally {
+      clearTimeout(timeout);
+      clearInterval(heartbeat);
+    }
   }
 
-  const buffer = Buffer.from(await response.arrayBuffer());
-  if (buffer.length < 1000) {
-    throw new Error(`${report.fileName}: PDF retornou vazio ou incompleto.`);
-  }
-
-  await fs.writeFile(path.join(outputDir, report.fileName), buffer);
+  throw new Error(`${report.fileName}: ${lastError?.message || "falha desconhecida"}`);
 }
 
 async function main() {
@@ -178,7 +221,7 @@ async function main() {
 
   try {
     const payload = await waitForApi(baseUrl);
-    const outputDir = path.join(REPORTS_ROOT, formatReportFolderName(payload.updatedAt));
+    const outputDir = path.join(REPORTS_ROOT, formatReportFolderName());
     const reports = buildReportList(payload.categories || []);
 
     console.log(`Kit: ${outputDir}`);
@@ -197,6 +240,15 @@ async function main() {
     }
 
     console.log(`Kit concluido com ${reports.length} PDFs em ${outputDir}`);
+
+    if (hasFlag("upload-drive")) {
+      const { uploadReportDirectory } = require("./google-drive");
+      console.log("Enviando o kit para o Google Drive...");
+      const driveResult = await uploadReportDirectory(outputDir, {
+        parentFolderId: getArgValue("drive-parent-id") || "",
+      });
+      console.log(`Drive concluido: ${driveResult.folder.webViewLink || driveResult.folder.id}`);
+    }
   } finally {
     if (!server.killed) {
       server.kill();
@@ -204,7 +256,17 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  buildReportList,
+  downloadReport,
+  formatReportFolderName,
+  normalizeKey,
+  resolveTeam,
+};

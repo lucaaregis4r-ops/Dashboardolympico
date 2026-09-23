@@ -1,4 +1,4 @@
-const CACHE_NAME = "dashboard-olympico-v7";
+const CACHE_NAME = "dashboard-olympico-v10";
 const APP_SHELL = [
   "./",
   "./index.html",

@@ -25,6 +25,7 @@ const DEPLOYMENT = {
   staticHosting: false,
   reportsEnabled: true,
   athletesUrl: "/api/athletes",
+  attendanceUrl: "/api/attendance",
   physiotherapyUrl: "/api/physiotherapy",
   ...(window.OLYMPICO_CONFIG || {}),
 };
@@ -86,6 +87,19 @@ const state = {
       severity: "",
     },
   },
+  attendance: {
+    items: [],
+    modalities: [],
+    teams: [],
+    summary: {},
+    sourceStatus: "unavailable",
+    failedTeams: 0,
+    updatedAt: "",
+    loaded: false,
+    loading: false,
+    error: "",
+    filters: { search: "", modality: "", team: "", match: "" },
+  },
 };
 
 const elements = {
@@ -112,6 +126,7 @@ const elements = {
   navTeamsButton: document.querySelector("#nav-teams-button"),
   navCalendarButton: document.querySelector("#nav-calendar-button"),
   navPhysiotherapyButton: document.querySelector("#nav-physiotherapy-button"),
+  navAttendanceButton: document.querySelector("#nav-attendance-button"),
   topbarEyebrow: document.querySelector("#topbar-eyebrow"),
   topbarTitle: document.querySelector("#topbar-title"),
   topbarActions: document.querySelector("#topbar-actions"),
@@ -128,6 +143,17 @@ const elements = {
   physiotherapyResultsCount: document.querySelector("#physiotherapy-results-count"),
   physiotherapyState: document.querySelector("#physiotherapy-state"),
   physiotherapyList: document.querySelector("#physiotherapy-list"),
+  attendanceWorkspace: document.querySelector("#attendance-workspace"),
+  attendanceUpdatedAt: document.querySelector("#attendance-updated-at"),
+  attendanceRefresh: document.querySelector("#attendance-refresh"),
+  attendanceSearch: document.querySelector("#attendance-search"),
+  attendanceModality: document.querySelector("#attendance-modality"),
+  attendanceTeam: document.querySelector("#attendance-team"),
+  attendanceMatch: document.querySelector("#attendance-match"),
+  attendanceStats: document.querySelector("#attendance-stats"),
+  attendanceResultsCount: document.querySelector("#attendance-results-count"),
+  attendanceState: document.querySelector("#attendance-state"),
+  attendanceList: document.querySelector("#attendance-list"),
   calendarTeamSelect: document.querySelector("#calendar-team-select"),
   trainingCalendarView: document.querySelector("#training-calendar-view"),
   template: document.querySelector("#athlete-card-template"),
@@ -1219,6 +1245,15 @@ function handleStaffDrawerKeydown(event) {
   }
 }
 
+function getActivitySummaryNote() {
+  const recent = state.athletes.filter((athlete) => athlete.activityStatus === "active").length;
+  const inactive = state.athletes.filter((athlete) => athlete.activityStatus === "inactive").length;
+  const unverified = state.athletes.filter((athlete) => athlete.activityStatus === "unverified").length;
+  return unverified
+    ? `${recent} recentes Â· ${unverified} a confirmar`
+    : `${recent} ativos Â· ${inactive} inativos`;
+}
+
 function renderStatsLegacy() {
   const activeTeam = getActiveTeam();
   const teamAthletes = activeTeam ? getAthletesByTeam(activeTeam) : [];
@@ -1232,9 +1267,9 @@ function renderStatsLegacy() {
 
   const cards = [
     {
-      label: "Atletas monitorados",
+      label: "Atletas na base",
       value: state.athletes.length,
-      note: `${state.categories.length} equipes na base`,
+      note: getActivitySummaryNote(),
     },
     {
       label: "Equipe em foco",
@@ -1283,9 +1318,9 @@ function renderStats() {
 
   const cards = [
     {
-      label: "Atletas monitorados",
+      label: "Atletas na base",
       value: state.athletes.length,
-      note: `${state.categories.length} equipes na base`,
+      note: getActivitySummaryNote(),
     },
     {
       label: "Equipe em foco",
@@ -2631,16 +2666,171 @@ async function loadPhysiotherapy(force = false) {
   }
 }
 
+function getAttendanceModalityLabel(modalityId) {
+  return state.attendance.modalities.find((modality) => modality.id === modalityId)?.label || modalityId;
+}
+
+function populateAttendanceFilters() {
+  const attendance = state.attendance;
+  elements.attendanceModality.innerHTML = [
+    '<option value="">Todas</option>',
+    ...attendance.modalities.map(
+      (modality) => `<option value="${escapeHtml(modality.id)}">${escapeHtml(modality.label)}</option>`
+    ),
+  ].join("");
+  elements.attendanceModality.value = attendance.filters.modality;
+
+  const teams = [...new Set(
+    attendance.items
+      .filter((item) => !attendance.filters.modality || item.modalityId === attendance.filters.modality)
+      .map((item) => item.teamName)
+  )].sort((left, right) => left.localeCompare(right, "pt-BR"));
+  if (attendance.filters.team && !teams.includes(attendance.filters.team)) attendance.filters.team = "";
+  elements.attendanceTeam.innerHTML = [
+    '<option value="">Todas</option>',
+    ...teams.map((team) => `<option value="${escapeHtml(team)}">${escapeHtml(team)}</option>`),
+  ].join("");
+  elements.attendanceTeam.value = attendance.filters.team;
+}
+
+function getFilteredAttendanceItems() {
+  const { filters } = state.attendance;
+  const search = normalizeSearchValue(filters.search);
+  return state.attendance.items.filter((item) => {
+    if (filters.modality && item.modalityId !== filters.modality) return false;
+    if (filters.team && item.teamName !== filters.team) return false;
+    if (filters.match === "matched" && !["approved", "exact", "alias"].includes(item.matchStatus)) return false;
+    if (filters.match === "review" && ["approved", "exact", "alias"].includes(item.matchStatus)) return false;
+    return !search || normalizeSearchValue(
+      `${item.attendanceName} ${item.primaryAthleteName} ${item.teamName}`
+    ).includes(search);
+  });
+}
+
+function formatAttendancePercentage(value) {
+  return Number.isFinite(value) ? `${String(value).replace(".", ",")}%` : "Sem sessão";
+}
+
+function renderAttendance() {
+  const attendance = state.attendance;
+  elements.attendanceRefresh.disabled = attendance.loading;
+  elements.attendanceRefresh.textContent = attendance.loading ? "Atualizando..." : "Atualizar presenças";
+  elements.attendanceUpdatedAt.textContent = attendance.updatedAt || "Sem sessão disponível";
+
+  if (attendance.loading && !attendance.loaded) {
+    elements.attendanceState.textContent = "Carregando chamadas da preparação física...";
+    elements.attendanceState.className = "physio-state";
+    elements.attendanceList.innerHTML = "";
+    return;
+  }
+
+  const items = getFilteredAttendanceItems();
+  const matched = items.filter((item) => ["approved", "exact", "alias"].includes(item.matchStatus)).length;
+  const weeklyPresent = items.reduce((total, item) => total + (item.weeklyPresent || 0), 0);
+  const weeklyPossible = items.reduce((total, item) => total + (item.weeklySessions || 0), 0);
+  const cards = [
+    { label: "Atletas na chamada", value: items.length, note: "Com os filtros atuais", tone: "blue" },
+    { label: "Vinculados", value: matched, note: "Identidade segura", tone: "green" },
+    { label: "Revisão", value: items.length - matched, note: "Nomes sem vínculo seguro", tone: "yellow" },
+    {
+      label: "Presença semanal",
+      value: weeklyPossible ? formatAttendancePercentage(Math.round((weeklyPresent / weeklyPossible) * 1000) / 10) : "Sem base",
+      note: "Ultimos 7 dias",
+      tone: "purple",
+    },
+  ];
+  elements.attendanceStats.innerHTML = cards.map((card) => `
+    <article class="physio-stat physio-stat--${card.tone}">
+      <p>${card.label}</p><strong>${card.value}</strong><span>${card.note}</span>
+    </article>
+  `).join("");
+  elements.attendanceResultsCount.textContent = `${items.length} atleta${items.length === 1 ? "" : "s"} exibido${items.length === 1 ? "" : "s"}`;
+  elements.attendanceList.innerHTML = items.map((item) => {
+    const matchedItem = ["approved", "exact", "alias"].includes(item.matchStatus);
+    const matchLabel = item.matchStatus === "approved"
+      ? "Unificado"
+      : item.matchStatus === "exact"
+        ? "Exato"
+        : item.matchStatus === "alias"
+          ? "Nome abreviado"
+          : item.matchStatus === "suggested"
+            ? "Sugestão"
+            : "Sem cadastro";
+    return `
+      <tr>
+        <td class="attendance-table__athlete">
+          <strong>${escapeHtml(item.primaryAthleteName || item.attendanceName)}</strong>
+          ${item.primaryAthleteName && item.primaryAthleteName !== item.attendanceName ? `<span>Na chamada: ${escapeHtml(item.attendanceName)}</span>` : ""}
+        </td>
+        <td>${escapeHtml(item.teamName)}</td>
+        <td><strong>${escapeHtml(formatAttendancePercentage(item.weeklyPercentage))}</strong></td>
+        <td>${item.weeklyPresent || 0}/${item.weeklySessions || 0}</td>
+        <td><span class="attendance-match ${matchedItem ? "" : "attendance-match--review"}">${escapeHtml(matchLabel)}</span></td>
+      </tr>
+    `;
+  }).join("");
+
+  if (attendance.error) {
+    elements.attendanceState.textContent = attendance.error;
+    elements.attendanceState.className = "physio-state physio-state--error";
+  } else if (attendance.failedTeams) {
+    elements.attendanceState.textContent = `${attendance.failedTeams} categoria(s) não puderam ser lidas. Verifique o acesso das planilhas.`;
+    elements.attendanceState.className = "physio-state physio-state--error";
+  } else if (!items.length) {
+    elements.attendanceState.textContent = "Nenhum registro encontrado com os filtros atuais.";
+    elements.attendanceState.className = "physio-state";
+  } else {
+    elements.attendanceState.className = "physio-state hidden";
+  }
+}
+
+async function loadAttendance(force = false) {
+  if (state.attendance.loading || (state.attendance.loaded && !force)) {
+    renderAttendance();
+    return;
+  }
+  state.attendance.loading = true;
+  state.attendance.error = "";
+  renderAttendance();
+  try {
+    const response = await fetch(DEPLOYMENT.attendanceUrl, { cache: "no-store" });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.details || payload.message || "Erro ao carregar presenças.");
+    state.attendance.items = payload.items || [];
+    state.attendance.modalities = payload.modalities || [];
+    state.attendance.teams = payload.teams || [];
+    state.attendance.summary = payload.summary || {};
+    state.attendance.sourceStatus = payload.sourceStatus || "unavailable";
+    state.attendance.failedTeams = payload.failedTeams || 0;
+    state.attendance.updatedAt = payload.updatedAt
+      ? new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(new Date(`${payload.updatedAt}T12:00:00Z`))
+      : "";
+    state.attendance.loaded = true;
+    populateAttendanceFilters();
+  } catch (error) {
+    state.attendance.error = error.message;
+  } finally {
+    state.attendance.loading = false;
+    renderAttendance();
+  }
+}
+
 function renderActiveWorkspace() {
   const isCalendar = state.activeSection === "calendar";
   const isPhysiotherapy = state.activeSection === "physiotherapy";
-  elements.panelWorkspace.classList.toggle("hidden", isCalendar || isPhysiotherapy);
+  const isAttendance = state.activeSection === "attendance";
+  elements.panelWorkspace.classList.toggle("hidden", isCalendar || isPhysiotherapy || isAttendance);
   elements.calendarWorkspace.classList.toggle("hidden", !isCalendar);
   elements.physiotherapyWorkspace.classList.toggle("hidden", !isPhysiotherapy);
-  elements.stats.classList.toggle("hidden", isPhysiotherapy);
-  elements.topbarActions.classList.toggle("hidden", isPhysiotherapy);
+  elements.attendanceWorkspace.classList.toggle("hidden", !isAttendance);
+  elements.stats.classList.toggle("hidden", isPhysiotherapy || isAttendance);
+  elements.topbarActions.classList.toggle("hidden", isPhysiotherapy || isAttendance);
   elements.topbarEyebrow.textContent = isPhysiotherapy ? "Núcleo de saúde" : "Centro de análise";
   elements.topbarTitle.textContent = isPhysiotherapy ? "Fisioterapia" : "Atletas e equipes";
+  if (isAttendance) {
+    elements.topbarEyebrow.textContent = "Núcleo de performance";
+    elements.topbarTitle.textContent = "Preparação física";
+  }
 
   if (isCalendar) {
     elements.calendarTeamSelect.value = getActiveTeam();
@@ -2652,6 +2842,9 @@ function renderActiveWorkspace() {
 
   if (isPhysiotherapy) {
     loadPhysiotherapy();
+  }
+  if (isAttendance) {
+    loadAttendance();
   }
 }
 
@@ -2848,6 +3041,7 @@ function setSidebarActive(target) {
     teams: elements.navTeamsButton,
     calendar: elements.navCalendarButton,
     physiotherapy: elements.navPhysiotherapyButton,
+    attendance: elements.navAttendanceButton,
   };
 
   Object.entries(mapping).forEach(([key, button]) => {
@@ -2886,7 +3080,14 @@ function renderAthletes() {
       card.classList.add("card--selected");
     }
 
-    card.querySelector(".card__category").textContent = athlete.category;
+    card.classList.toggle("card--inactive", athlete.activityStatus === "inactive");
+    card.classList.toggle("card--unverified", athlete.activityStatus === "unverified");
+    const activityLabel = athlete.activityStatus === "inactive"
+      ? " Â· INATIVO"
+      : athlete.activityStatus === "unverified"
+        ? " Â· A CONFIRMAR"
+        : "";
+    card.querySelector(".card__category").textContent = `${athlete.category}${activityLabel}`;
     card.querySelector(".card__name").textContent = athlete.name;
     card.querySelector(".card__team-percentile").textContent = formatPercentile(summary.teamPercentile);
     card.querySelector(".card__checkin").textContent = athlete.lastCheckIn || "Sem data";
@@ -2969,6 +3170,8 @@ async function loadAthletes() {
     setSidebarActive(
       state.activeSection === "physiotherapy"
         ? "physiotherapy"
+        : state.activeSection === "attendance"
+          ? "attendance"
         : state.activeSection === "calendar"
           ? "calendar"
           : state.viewMode === "team"
@@ -3449,6 +3652,25 @@ elements.physiotherapySeverity.addEventListener("change", (event) => {
   renderPhysiotherapy();
 });
 
+elements.attendanceRefresh.addEventListener("click", () => loadAttendance(true));
+elements.attendanceSearch.addEventListener("input", (event) => {
+  state.attendance.filters.search = event.target.value;
+  renderAttendance();
+});
+elements.attendanceModality.addEventListener("change", (event) => {
+  state.attendance.filters.modality = event.target.value;
+  populateAttendanceFilters();
+  renderAttendance();
+});
+elements.attendanceTeam.addEventListener("change", (event) => {
+  state.attendance.filters.team = event.target.value;
+  renderAttendance();
+});
+elements.attendanceMatch.addEventListener("change", (event) => {
+  state.attendance.filters.match = event.target.value;
+  renderAttendance();
+});
+
 elements.staffOpenButton.addEventListener("click", () => {
   openStaffDrawer();
 });
@@ -3514,6 +3736,13 @@ elements.navPhysiotherapyButton.addEventListener("click", () => {
   setSidebarActive("physiotherapy");
   renderActiveWorkspace();
   elements.physiotherapyWorkspace.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+elements.navAttendanceButton.addEventListener("click", () => {
+  state.activeSection = "attendance";
+  setSidebarActive("attendance");
+  renderActiveWorkspace();
+  elements.attendanceWorkspace.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 elements.calendarTeamSelect.addEventListener("change", (event) => {

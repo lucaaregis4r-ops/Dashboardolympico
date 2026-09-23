@@ -52,7 +52,7 @@ canvas {
   padding: 24px;
   background:
     linear-gradient(135deg, rgba(13, 18, 50, 0.82), rgba(23, 29, 73, 0.92)),
-    url("/assets/olympico-crest.png") center/360px no-repeat;
+    url("./assets/olympico-crest.png") center/360px no-repeat;
 }
 
 .login-card {
@@ -1002,6 +1002,77 @@ canvas {
   gap: 16px;
 }
 
+.attendance-workspace {
+  display: grid;
+  gap: 16px;
+}
+
+.attendance-hero {
+  background: linear-gradient(135deg, rgba(18, 65, 82, 0.98), rgba(18, 24, 61, 0.98));
+}
+
+.attendance-filters {
+  grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(150px, 1fr));
+}
+
+.attendance-table-shell {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  background: rgba(18, 24, 61, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.attendance-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.attendance-table th,
+.attendance-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.attendance-table th {
+  color: #aeb9ed;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+}
+
+.attendance-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.attendance-table__athlete strong,
+.attendance-table__athlete span {
+  display: block;
+}
+
+.attendance-table__athlete span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.attendance-match {
+  display: inline-flex;
+  padding: 6px 9px;
+  border-radius: 7px;
+  color: #d7e7ff;
+  background: rgba(74, 144, 226, 0.18);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.attendance-match--review {
+  color: #ffe2aa;
+  background: rgba(255, 191, 85, 0.16);
+}
+
 .physio-hero,
 .physio-filters,
 .physio-stat,
@@ -1111,6 +1182,10 @@ canvas {
 
 .physio-stat--yellow::before {
   background: #ffbf55;
+}
+
+.physio-stat--green::before {
+  background: #4fe0a2;
 }
 
 .physio-stat--purple::before {
@@ -1518,6 +1593,26 @@ canvas {
   box-shadow:
     0 28px 60px rgba(7, 11, 31, 0.46),
     0 0 0 1px rgba(243, 55, 74, 0.12);
+}
+
+.card--inactive {
+  border-color: rgba(91, 101, 130, 0.28);
+}
+
+.card--inactive .card__accent {
+  background: #6b7280;
+}
+
+.card--inactive .card__category {
+  color: #5b647a;
+}
+
+.card--unverified .card__accent {
+  background: #d98418;
+}
+
+.card--unverified .card__category {
+  color: #9a5a08;
 }
 
 .card__top,

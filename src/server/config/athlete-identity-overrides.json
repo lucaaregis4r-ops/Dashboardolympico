@@ -1,0 +1,1243 @@
+{
+  "version": 1,
+  "reviewSpreadsheetId": "1A-B0WNGsiQa-yZsPsoUNieP926QqfioV-WDX9zEdIlw",
+  "generatedAt": "2026-08-21",
+  "mappings": [
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "ALEXANDRE GABRIEL LOPES BEBIANO",
+      "primaryName": "ALEXANDRE LOPES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "ANTONIO VAN DEN BERGEN LUSTOSA",
+      "primaryName": "ANTÔNIO LUSTOSA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "BRENO VINICIUS CARDOSO DE MATOS",
+      "primaryName": "BRENO VINÍCIUS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "DANIEL GUEDES SANTOS OLIVEIRA",
+      "primaryName": "DANIEL GUEDES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "DAVI ENZO DA SILVA",
+      "primaryName": "DAVI ENZO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "EZEQUIEL HENRIQUE ROCHA DA SILVA",
+      "primaryName": "EZEQUIEL HENRIQUE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "GABRIEL LOURENÇO DE ALMEIDA MARTINS",
+      "primaryName": "GABRIEL LOURENÇO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "HENRIQUE ORTEGA MALTA",
+      "primaryName": "HENRIQUE ORTEGA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "JOÃO PEDRO MUNIZ FREITAS",
+      "primaryName": "JOÃO PEDRO MUNIZ",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "LEONARDO HENRIQUE MACHADO GONÇALVES",
+      "primaryName": "LEONARDO HENRIQUE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "LUCAS ARTHUR ASSIS SANTOS",
+      "primaryName": "LUCAS ARTHUR",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "MIGUEL MACEDO AFFONSO",
+      "primaryName": "MIGUEL MACEDO AFFONSO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "MURILO BARSAGLINI MARTINS DA SILVA",
+      "primaryName": "MURILO MARTINS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "PEDRO DA SILVA BARBOSA BRAGA",
+      "primaryName": "PEDRO DA SILVA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB 15",
+      "attendanceName": "PEDRO HENRIQUE CAVALCANTE E FIGUEIREDO",
+      "primaryName": "PEDRO HENRIQUE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Bernardo Assunção Verdade",
+      "primaryName": "BERNARDO ASSUNÇÃO VERDADE",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "BERNARDO SALES",
+      "primaryName": "BERNARDO SALES OLIVEIRA SILVA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Davi Emerick Reis Delecrodi Gomes",
+      "primaryName": "DAVI EMERICK REIS DELECRODI GOMES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Davi Guedes Lopes",
+      "primaryName": "DAVI GUEDES LOPES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Diogo Silva Araujo",
+      "primaryName": "DIOGO SILVA ARAÚJO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Gustavo Moreira Ferreira  ( Não vem segunda-feira e terça feira )",
+      "primaryName": "GUSTAVO MOREIRA FERREIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Kayo Luis Alves da Silva",
+      "primaryName": "KAYO LUIS ALVES DA SILVA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Lorenzo França Rena",
+      "primaryName": "LORENZO FRANÇA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Lucas Kauã Francisco Alves Ricardo",
+      "primaryName": "LUCAS KAUÃ FRANCISCO ALVES RICARDO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Marcel Morais Leite Oliveira",
+      "primaryName": "MARCEL MORAIS LEITE OLIVEIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Nicolas Cançado Loureiro",
+      "primaryName": "NICOLAS CANÇADO LOUREIRO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Raphael Augusto Rodrigues Barbosa",
+      "primaryName": "RAPHAEL AUGUSTO RODRIGUES BARBOSA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Raul Camargos Chaves e Silva",
+      "primaryName": "RAUL CAMARGOS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Silvio Leonardo Amoreli Guedes",
+      "primaryName": "SILVIO LEONARDO AMORELI GUEDES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Tiago Naoki Yogi",
+      "primaryName": "TIAGO NAOKI YOGI",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB14",
+      "attendanceName": "Vicente Ferreira Melo",
+      "primaryName": "VICENTE FERREIRA MELO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "BERNARDO DE SOUZA BRANDÃO FIGUEIREDO",
+      "primaryName": "BERNARDO DE SOUZA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "DANIEL TEIXEIRA DE CASTRO",
+      "primaryName": "DANIEL TEIXEIRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "DAVI MACIEL ROSESTOLATO",
+      "primaryName": "DAVI MACIEL",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "GUILHERME DE ANDRADE DIAS DOMINGOS",
+      "primaryName": "GUILHERME DE ANDRADE DIAS DOMINGOS",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "JOAO HENRIQUE DRUMOND POMPEO BRUZZI",
+      "primaryName": "JOÃO BRUZZI",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "JOAQUIM FERREIRA DE ALMEIDA",
+      "primaryName": "JOAQUIM FERREIRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "LEONARDO VICENTE BRUCCI",
+      "primaryName": "LEONARDO VICENTE BRUCCI",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "MATHEUS DE SOUZA BRANDAO FIGUEIREDO",
+      "primaryName": "MATHEUS DE SOUZA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "MATHEUS VICTOR SALLES PEREIRA",
+      "primaryName": "MATHEUS VICTOR",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "PEDRO RICARDO HERCULANO MARINHO DOS SANTOS",
+      "primaryName": "PEDRO RICARDO HERCULANO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "SAMUEL DE OLIVEIRA MONTEIRO",
+      "primaryName": "SAMUEL DE OLIVEIRA MONTEIRO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "THALLES JOHANN DIAS AGUIAR",
+      "primaryName": "THALLES DIAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB16",
+      "attendanceName": "WARLEY DOS SANTOS FERREIRA",
+      "primaryName": "WARLEY DOS SANTOS FERREIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "ABNER DAVI DIAS FREITAS",
+      "primaryName": "DAVI DIAS FREITAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "ADAN PALHARES VIEIRA",
+      "primaryName": "ADAN PALHARES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "ARTHUR PEREIRA SANCHES",
+      "primaryName": "ARTHUR PEREIRA SANCHES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "DAVI GUILHERME NAVARRO DE OLIVEIRA",
+      "primaryName": "DAVI GUILHERME NAVARRO DE OLIVEIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "DAVI LUCAS JUSTINO SILVA",
+      "primaryName": "DAVI LUCAS JUSTINO SILVA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "FILIPE AUGUSTO SILVA MOREIRA",
+      "primaryName": "FILIPE AUGUSTO SILVA MOREIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "GUILHERME GUIMARAES FASSBENDER",
+      "primaryName": "GUILHERME GUIMARÃES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "JOAO PEDRO MELO DOS SANTOS",
+      "primaryName": "JOÃO PEDRO MELO DOS SANTOS",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "LUIZ FERNANDO FERREIRA DE JESUS GODOY",
+      "primaryName": "LUIZ FERNANDO FERREIRA DE JESUS GODOY",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "MAX STWART SANTOS DE SOUZA",
+      "primaryName": "MAX STWART SANTOS DE SOUZA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "BASQUETE SUB17",
+      "attendanceName": "RAFAEL MIRANDA DO AMARAL",
+      "primaryName": "RAFAEL MIRANDA DO AMARAL",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "ANTONIO MEIRELES PENIDO DE TOLEDO",
+      "primaryName": "ANTÔNIO TOLEDO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "BERNARDO BRETAS CABRAL RIBEIRO",
+      "primaryName": "BERNARDO BRETAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "BERNARDO DE OLIVEIRA CORDOVAL",
+      "primaryName": "BERNARDO DE OLIVEIRA CORDOVAL",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "BRYAN EDUARDO GANDRA",
+      "primaryName": "BRYAN EDUARDO GANDRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "CAIO DE QUEIROZ XAVIER TAVARES",
+      "primaryName": "CAIO DE QUEIROZ",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "DAVID HANAN",
+      "primaryName": "DAVID HANAN",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "GABRIEL PARDINI COELHO MELGAÇO GONÇALVES",
+      "primaryName": "GABRIEL PARDINI COELHO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "GABRIEL SECUNDINO MADEIRA",
+      "primaryName": "GABRIEL SECUNDINO MADEIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "GUSTAVO VIANA MELO LARA",
+      "primaryName": "GUSTAVO VIANA MELO LARA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "HENRIQUE MARCONDES FREITAS",
+      "primaryName": "HENRIQUE MARCONDES FREITAS",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "IAN ALEXANDRE RUFINO DE OLIVEIRA",
+      "primaryName": "IAN ALEXANDRE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "LUCA PEDERCINI REIS LANZA",
+      "primaryName": "LUCA LANZA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "LUCAS EDUARDO DE SOUZA NUNES",
+      "primaryName": "LUCAS EDUARDO SOUZA NUNES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "LUCAYAN BARROS TAVEIRA",
+      "primaryName": "LUCAYAN BARROS TAVEIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "PEDRO YOSHI TOBA VIEIRA",
+      "primaryName": "PEDRO YOSHI VIEIRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "RAFAEL JUNQUEIRA GOUTHIER",
+      "primaryName": "RAFAEL JUNQUEIRA GOUTHIER",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "RAFAEL SOUZA DO AMARAL",
+      "primaryName": "RAFAEL SOUZA DO AMARAL",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB15",
+      "attendanceName": "Vitor Teles",
+      "primaryName": "VITOR TELES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "ANDERSON FERNANDES JUNIOR",
+      "primaryName": "ANDERSON FERNANDES JUNIOR",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "BERNARDO GUIMARAES VERSIANI",
+      "primaryName": "BERNARDO VERSIANI",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "CARLOS HENRIQUE MANJA DA SILVA",
+      "primaryName": "CARLOS HENRIQUE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "CASSIANO NOVAIS E SILVA CARVALHO",
+      "primaryName": "CASSIANO NOVAIS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "CAUA LELES",
+      "primaryName": "CAUÃ LELES SOUZA BERNARDO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "DAVI CANGUSSU MONTEIRO DE CASTRO",
+      "primaryName": "DAVI CANGUSSU",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "Davi Emanuel Martins Ferreira",
+      "primaryName": "DAVI EMANUEL",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "GABRIEL DOS ANJOS OLIVEIRA",
+      "primaryName": "GABRIEL DOS ANJOS OLIVEIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "GUSTAVO HENRIQUE DA SILVA MACHADO",
+      "primaryName": "GUSTAVO HENRIQUE DA SILVA MACHADO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "IGOR HAYALA SOUSA TEREZA",
+      "primaryName": "IGOR HAYALA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "ITALO GABRIEL DE SOUZA",
+      "primaryName": "ITALO GABRIEL DE SOUZA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "JOAO PEDRO TORRES LISBOA DE ANDRADE",
+      "primaryName": "JOÃO PEDRO TORRES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "KEVIN FELIPE DE SOUZA SILVA",
+      "primaryName": "KEVIN FELIPE DE SOUZA SILVA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "LUCAS RYAN BARBOSA DA COSTA",
+      "primaryName": "LUCAS RYAN BARBOSA DA COSTA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "LUIS MIGUEL MARQUES MARTINS",
+      "primaryName": "LUIS MIGUEL MARTINS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "PEDRO LUCAS RODRIGUES ROCHA",
+      "primaryName": "PEDRO LUCAS RODRIGUES ROCHA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "RIQUELME VICTOR MENDELSSONHN MOREIRA",
+      "primaryName": "RIQUELME VICTOR",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "RYAN FELIPE GANDRA",
+      "primaryName": "RYAN FELIPE GANDRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "SAMUEL LACERDA DOS SANTOS",
+      "primaryName": "SAMUEL LACERDA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "THIAGO AUGUSTO REZENDE ALVES",
+      "primaryName": "THIAGO AUGUSTO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "VINICIUS PAULINO DOS SANTOS GONCALVES",
+      "primaryName": "VINICIUS PAULINO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "YAGO GABRIEL DE PAULA BARBOSA",
+      "primaryName": "YAGO BARBOSA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "FUTSAL SUB17",
+      "attendanceName": "YURI MIGUEL DA ROCHA ANDRADE",
+      "primaryName": "YURI MIGUEL",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "ANNA BEATRIZ AZEVEDO NOVAES",
+      "primaryName": "ANNA BEATRIZ",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "ANTÔNIO MIGUEL LAUREANO SOBRINHO",
+      "primaryName": "ANTÔNIO MIGUEL LAUREANO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "ARTHUR ALMEIDA SORRENTINO",
+      "primaryName": "ARTHUR ALMEIDA SORRENTINO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "CAMILA DUTRA CORRÊA PINTO",
+      "primaryName": "CAMILA DUTRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "CLARA TORRES GOMES",
+      "primaryName": "CLARA TORRES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "NICOLAS MALTA CANGUSSU SILVA",
+      "primaryName": "NICOLAS MALTA SILVA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "PEDRO GONTIJO DA MATTA",
+      "primaryName": "PEDRO GONTIJO DA MATTA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "SAMUEL DA SILVA SANTOS",
+      "primaryName": "SAMUEL DA SILVA SANTOS",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "NATAÇÃO JR",
+      "attendanceName": "THALITA EMANUELLE DE JESUS",
+      "primaryName": "THALITA EMANUELLE DE JESUS",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "ANA CLARA SILVA",
+      "primaryName": "ANA CLARA RODRIGUES LAGE DA SILVA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "ANNA CLARA GOMES PEREIRA",
+      "primaryName": "ANNA CLARA GOMES PEREIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "ARTHUR LEMOS ARAÚJO",
+      "primaryName": "ARTHUR LEMOS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "DANIEL PAULINO BASTOS",
+      "primaryName": "DANIEL PAULINO BASTOS",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "FERNANDA GONÇALVES MELO",
+      "primaryName": "FERNANDA GONÇALVES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "FERNANDA STEPHANIE DOMINGOS CÂNDIDO",
+      "primaryName": "FERNANDA STEPHANIE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "ISABELLY EDUARDA FERREIRA GOMES",
+      "primaryName": "ISABELLY GOMES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "MARCELA FERREIRA MARTINS",
+      "primaryName": "MARCELA MARTINS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "MARIA EDUARDA PIMENTA DAVITE",
+      "primaryName": "MARIA EDUARDA PIMENTA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "PEDRO EMERICK REIS DELECRODI GOMES",
+      "primaryName": "PEDRO GOMES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "NATAÇÃO JUV",
+      "attendanceName": "SAMUEL BRAGA NASCIMENTO",
+      "primaryName": "SAMUEL BRAGA NASCIMENTO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "ANNA BEATRIZ NOCE THEODORO",
+      "primaryName": "ANNA BEATRIZ NOCE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "BEATRIZ CAMPOS DE FIGUEIREDO BERNARDES",
+      "primaryName": "BEATRIZ CAMPOS DE FIGUEIREDO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "GIOVANA DE OLIVEIRA GONÇALVES",
+      "primaryName": "GIOVANA DE OLIVEIRA GONÇALVES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "GIOVANNA GUIMARAES RIBEIRO DE OLIVEIRA",
+      "primaryName": "GIOVANNA GUIMARÃES RIBEIRO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "JULIANA VALÉRIO PAULARIE",
+      "primaryName": "JULIANA VALERIO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "SARAH CRISTINA LOPES MACHADO",
+      "primaryName": "SARAH CRISTINA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "STELLA SOLANO LUZ COELHO",
+      "primaryName": "STELLA SOLANO LUZ COELHO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "VALENTINA DA SILVA DE JESUS",
+      "primaryName": "VALENTINA DA SILVA DE JESUS",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB15",
+      "attendanceName": "ZARA ROCHA PIRES GENEROSO",
+      "primaryName": "ZARA ROCHA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "ANA JULIA ROCHA RODRIGUES",
+      "primaryName": "ANA JÚLIA ROCHA RODRIGUES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "BRUNA FERNANDES CARRIERI",
+      "primaryName": "BRUNA FERNANDES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "CLARA COSTA PERIGO",
+      "primaryName": "CLARA COSTA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "ISABELA PEDROSA DE CAMPANINI",
+      "primaryName": "ISABELA PEDROSA CAMPANINI",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "ISIS MARINA DIAS DE OLIVEIRA SAK",
+      "primaryName": "ISIS MARINA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "JULIA CASTRO OLIVER",
+      "primaryName": "JULIA OLIVER",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "JULIANA FISICARO BORGES",
+      "primaryName": "JULIANA FISICARO BORGES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "LETICIA GONÇALVES DOS SANTOS",
+      "primaryName": "LETÍCIA GONÇALVES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "MARIA FERNANDA LADEIRA RESENDE",
+      "primaryName": "MARIA FERNANDA LADEIRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "NICOLLY COELHO DE ARAUJO",
+      "primaryName": "NICOLLY COELHO ARAÚJO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "REBECA MEIRELES DE SOUZA SILVA",
+      "primaryName": "REBECA MEIRELES DE SOUZA SILVA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "TAINA EBERT PESSOA FERREIRA",
+      "primaryName": "TAINA EBERT",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "VALENTINA SANTANA NEBIAS ROCHA",
+      "primaryName": "VALENTINA NEBIAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB16",
+      "attendanceName": "VITORIA LUZIA VILELA",
+      "primaryName": "VITÓRIA LUZIA VILELA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "ADRIELLY LUANA PEREIRA DOS SANTOS",
+      "primaryName": "ADRIELLY LUANA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "ANA DE PAIVA VIEIRA",
+      "primaryName": "ANA DE PAIVA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "EMELLY ENDY RIBEIRO BATISTA",
+      "primaryName": "EMELLY ENDY",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "HELENA SILVA CAMPOS",
+      "primaryName": "HELENA CAMPOS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "LARAH JULIA AYRES VIANA FREITAS",
+      "primaryName": "LARAH JULIA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "LIDIA AYALLA AYRES VIANA FREITAS",
+      "primaryName": "LIDIA AYALLA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "MARIA PAULA COSTA DIAS MOREIRA",
+      "primaryName": "MARIA PAULA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "MELISSA XAVIER COELHO",
+      "primaryName": "MELISSA XAVIER",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "MILENA MONTEIRO SANTIAGO",
+      "primaryName": "MILENA MONTEIRO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB17",
+      "attendanceName": "SOFIA KOCHMANN DE FREITAS",
+      "primaryName": "SOFIA KOCHMANN",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "EVELLYN CRISTINA FERREIRA DE PAULA",
+      "primaryName": "EVELLYN CRISTINA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "FERNANDA OLIVEIRA TAVARES",
+      "primaryName": "FERNANDA OLIVEIRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "HELENA DE CARVALHO DESTEFANI",
+      "primaryName": "HELENA DE CARVALHO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "HELENA LOURENÇO ROCHA DE SOUZA",
+      "primaryName": "HELENA LOURENÇO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "IASMYN CRISTINA PEREIRA DE SOUZA",
+      "primaryName": "IASMYN CRISTINA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "JULIA MAINENTI CABRAL",
+      "primaryName": "JULIA MAINENTI CABRAL",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "LARYSSA RAYENNE SANTOS FREITAS",
+      "primaryName": "LARYSSA FREITAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "MARIA CLARA FERREIRA DE JESUS",
+      "primaryName": "MARIA CLARA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "MARIA EDUARDA FERREIRA FRAGA",
+      "primaryName": "MARIA EDUARDA FERREIRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "MARIANA ISABELA DE OLIVEIRA SANTOS",
+      "primaryName": "MARIANA SANTOS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "SHELLEY BORGES MOREIRA",
+      "primaryName": "SHELLEY BORGES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "TAMARA PINTO GONCALVES PEREIRA",
+      "primaryName": "TAMARA PINTO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI FEM SUB19",
+      "attendanceName": "VITORIA EMANUELLY LOPES OLIVEIRA",
+      "primaryName": "VITORIA EMANUELLY",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "ARTHUR DE SOUSA COSTA GONÇALVES",
+      "primaryName": "ARTHUR DE SOUSA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "ARTHUR GAMA FERNANDES",
+      "primaryName": "ARTHUR GAMA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "ARTHUR MARTINS RODRIGUES",
+      "primaryName": "ARTHUR MARTINS RODRIGUES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "BENICIO ANTUNES MATIAS DOS SANTOS",
+      "primaryName": "BENICIO ANTUNES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "DAVI DIAS VILELA",
+      "primaryName": "DAVI DIAS VILELA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "DAVI LUCAS PAIVA SILVA",
+      "primaryName": "DAVI LUCAS PAIVA SILVA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "EDUARDO FRANÇA CAVALIERI",
+      "primaryName": "EDUARDO FRANÇA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "GABRIEL ANDRE SILVA URIAS CHAGAS",
+      "primaryName": "GABRIEL ANDRÉ",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "LUIZ GUSTAVO DOS SANTOS SILVA",
+      "primaryName": "LUIZ GUSTAVO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "PEDRO HENRIQUE AMARAL MASSUCATI",
+      "primaryName": "PEDRO HENRIQUE AMARAL",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB16",
+      "attendanceName": "THIAGO ANDRE COSTA ALMEIDA",
+      "primaryName": "THIAGO ANDRÉ",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "CAIO HENRIQUE DE SOUZA MOREIRA",
+      "primaryName": "CAIO HENRIQUE",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "DAVI ALVES DE OLIVEIRA SOARES ALCÂNTARA",
+      "primaryName": "DAVI ALVES DE OLIVEIRA SOARES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "Gabriel Antônio",
+      "primaryName": "GABRIEL ANTÔNIO",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "GABRIEL LUCCA TARABAL SILVA",
+      "primaryName": "GABRIEL LUCCA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "JOÃO GABRIEL MARÇAL MASSENSINI",
+      "primaryName": "JOÃO GABRIEL MARÇAL",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "JOAO LUCAS SILVA DA CRUZ ANDRADE",
+      "primaryName": "JOÃO LUCAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "LUCAS PHILIPPE CARVALHO DE MELO",
+      "primaryName": "LUCAS MELO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "MARCOS PAULO SOUZA SILVA",
+      "primaryName": "MARCOS PAULO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "MARCUS PAULO AMARAL MASSUCATI",
+      "primaryName": "MARCUS PAULO AMARAL",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "NICHOLLAS XAVIER BATISTA (não vem quinta)",
+      "primaryName": "NICHOLLAS XAVIER",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "NOAH EDUARDO LUCCAS",
+      "primaryName": "NOAH LUCCAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "OTAVIO VASCONCELOS ANTUNES BRAGA",
+      "primaryName": "OTÁVIO VASCONCELOS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "PEDRO FREITAS PLAZA",
+      "primaryName": "PEDRO FREITAS",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "Rafael Falqueto",
+      "primaryName": "RAFAEL FALQUETO FEU GOMES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "TIAGO MARRA DE PAULA (não vem terça)",
+      "primaryName": "TIAGO MARRA DE PAULA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB17",
+      "attendanceName": "VITOR MANINI RIBEIRO",
+      "primaryName": "VITOR MANINI",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "ARTHUR COURA ROCHA",
+      "primaryName": "ARTHUR COURA ROCHA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "ARTHUR FRANCISCO QUARESMA GUEDES SANTOS",
+      "primaryName": "ARTHUR FRANCISCO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "BERNARDO BEZERRA MATHEUS",
+      "primaryName": "BERNARDO BEZERRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "DIEGO DE PAULA LAMAS",
+      "primaryName": "DIEGO DE PAULA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "EMANUEL ARAÚJO FRAGA SOUZA",
+      "primaryName": "EMANUEL ARAÚJO",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "GUSTAVO DOS SANTOS SOUZA",
+      "primaryName": "GUSTAVO DOS SANTOS SOUZA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "HEITOR ALVES FERNANDES DE OLIVEIRA JUSCELINO",
+      "primaryName": "HEITOR ALVES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "IGOR RODRIGUES RAMALHO",
+      "primaryName": "IGOR RODRIGUES",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "LUCAS BEZERRA MATHEUS",
+      "primaryName": "LUCAS BEZERRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "LUIGI SENA OLIVEIRA",
+      "primaryName": "LUIGI SENA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "MARCOS GABRIEL FRAGA BASTOS",
+      "primaryName": "MARCOS GABRIEL FRAGA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "MURILO BEZERRA MATHEUS",
+      "primaryName": "MURILO BEZERRA",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "PEDRO HENRIQUE EUGENIO DE OLIVEIRA",
+      "primaryName": "PEDRO HENRIQUE EUGÊNIO DE OLIVEIRA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "PEDRO LUKAS MENDES FERNANDES",
+      "primaryName": "PEDRO LUKAS MENDES FERNANDES",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "RAFAEL ERNANY DE PAULA SILVA",
+      "primaryName": "RAFAEL ERNANY",
+      "matchType": "ABREVIACAO_UNICA"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "SAMUEL FELIPE DE MOURA",
+      "primaryName": "SAMUEL FELIPE DE MOURA",
+      "matchType": "EXATO"
+    },
+    {
+      "teamName": "VÔLEI MASC SUB19",
+      "attendanceName": "VITOR BEVILACQUA",
+      "primaryName": "VITOR BEVILACQUA",
+      "matchType": "EXATO"
+    }
+  ]
+}
