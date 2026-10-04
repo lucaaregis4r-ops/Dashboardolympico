@@ -1,5 +1,5 @@
 const METRICS = [
-  { key: "loadScore", label: "Carga", max: 5, color: "#4246a6" },
+  { key: "loadScore", label: "Desgaste percebido", max: 5, color: "#4246a6" },
   { key: "recoveryScore", label: "Recuperação", max: 5, color: "#168a64" },
   { key: "painLevel", label: "Dor", max: 10, color: "#df3046" },
   { key: "fatigueScore", label: "Fadiga", max: 5, color: "#d98418" },
@@ -43,11 +43,11 @@ const state = {
   },
   controls: {
     timeline: {
-      period: "90",
+      period: String(OlympicoAnalysis.ANALYSIS_CONFIG.trendDays),
       metrics: ["loadScore", "recoveryScore", "painLevel", "stressScore"],
     },
     profile: {
-      period: "90",
+      period: String(OlympicoAnalysis.ANALYSIS_CONFIG.trendDays),
       metrics: ["loadScore", "recoveryScore", "fatigueScore", "sleepScore", "stressScore"],
     },
     distribution: {
@@ -70,7 +70,6 @@ const state = {
   staffDrawerOpen: false,
   staffReturnFocus: null,
   staffModality: "all",
-  staffPeriod: "30",
   exportInFlight: false,
   selectedTrainingDate: null,
   physiotherapy: {
@@ -192,10 +191,7 @@ const elements = {
   staffCloseButton: document.querySelector("#staff-close-button"),
   staffCloseBackdrop: document.querySelector("#staff-close-backdrop"),
   staffModalityFilter: document.querySelector("#staff-modality-filter"),
-  staffPeriodFilter: document.querySelector("#staff-period-filter"),
-  staffFatigueList: document.querySelector("#staff-fatigue-list"),
-  staffStressList: document.querySelector("#staff-stress-list"),
-  staffRecoveryList: document.querySelector("#staff-recovery-list"),
+  staffAttentionList: document.querySelector("#staff-attention-list"),
 };
 
 if (!DEPLOYMENT.reportsEnabled) {
@@ -609,16 +605,7 @@ function inferModalityLabel(category) {
 }
 
 function computeRecoveryFromEntry(entry) {
-  const values = [
-    Number.isFinite(entry.fatigueScore) ? 6 - entry.fatigueScore : null,
-    Number.isFinite(entry.stressScore) ? 6 - entry.stressScore : null,
-    Number.isFinite(entry.muscleScore) ? 6 - entry.muscleScore : null,
-    Number.isFinite(entry.sleepScore) ? 6 - entry.sleepScore : null,
-    Number.isFinite(entry.moodScore) ? entry.moodScore : null,
-    Number.isFinite(entry.painLevel) ? 6 - Math.min(5, entry.painLevel / 2) : null,
-  ];
-
-  return roundNumber(average(values));
+  return OlympicoAnalysis.computeRecoveryScore(entry);
 }
 
 function hydrateAthletes(athletes) {
@@ -772,26 +759,23 @@ function classifyPercentileBand(percentileValue) {
 }
 
 function buildAthleteLoadBaseline(athlete) {
-  const baselineSeries = buildRollingWindowValues(athlete.entries, "loadScore", 3);
-  const currentMovingAverage = getCurrentMovingAverage(athlete.entries, "loadScore", 3);
-  const ownPercentile = percentile(baselineSeries, currentMovingAverage);
-  const teamCurrentMovingAverages = getAthletesByTeam(athlete.category)
-    .map((teamAthlete) => getCurrentMovingAverage(teamAthlete.entries, "loadScore", 3))
-    .filter((value) => Number.isFinite(value));
-  const teamPercentile = percentile(teamCurrentMovingAverages, currentMovingAverage);
-
+  const personal = OlympicoAnalysis.personalBaseline(athlete, "loadScore");
+  const eligible = OlympicoAnalysis.getAnalysisEligibleAthletes(getAthletesByTeam(athlete.category), state.updatedAt);
+  const teamValues = eligible.map((item) => OlympicoAnalysis.personalBaseline(item, "loadScore").current).filter(Number.isFinite);
+  const teamPercentile = teamValues.length >= OlympicoAnalysis.ANALYSIS_CONFIG.minTeamPercentileN
+    ? percentile(teamValues, personal.current) : null;
   return {
-    currentMovingAverage,
-    ownPercentile,
-    ownBand: classifyPercentileBand(ownPercentile),
+    currentMovingAverage: personal.current,
+    ownPercentile: personal.percentile,
+    ownBand: classifyPercentileBand(personal.percentile),
     teamPercentile,
     teamBand: classifyPercentileBand(teamPercentile),
-    baselineCount: baselineSeries.length,
+    baselineCount: personal.baselineCount,
   };
 }
 
 function buildTeamLoadBaseline(teamName) {
-  const teamAthletes = getAthletesByTeam(teamName);
+  const teamAthletes = OlympicoAnalysis.getAnalysisEligibleAthletes(getAthletesByTeam(teamName), state.updatedAt, { days: OlympicoAnalysis.ANALYSIS_CONFIG.reportWeekDays });
   const currentMovingAverages = teamAthletes
     .map((athlete) => getCurrentMovingAverage(athlete.entries, "loadScore", 3))
     .filter((value) => Number.isFinite(value));
@@ -820,21 +804,23 @@ function buildTeamLoadBaseline(teamName) {
     .filter((value) => Number.isFinite(value));
 
   const teamBaselineSeries = buildRollingWindowValues(
-    teamAggregatedSeries.map((value) => ({ loadScore: value })),
+    teamAggregatedSeries.slice().reverse().map((value) => ({ loadScore: value })),
     "loadScore",
     3
   );
 
   const clubCurrentTeamAverages = state.categories
     .map((category) => {
-      const values = getAthletesByTeam(category)
+      const values = OlympicoAnalysis.getAnalysisEligibleAthletes(getAthletesByTeam(category), state.updatedAt, { days: OlympicoAnalysis.ANALYSIS_CONFIG.reportWeekDays })
         .map((athlete) => getCurrentMovingAverage(athlete.entries, "loadScore", 3))
         .filter((value) => Number.isFinite(value));
       return roundNumber(average(values), 2);
     })
     .filter((value) => Number.isFinite(value));
 
-  const teamHistoryPercentile = percentile(teamBaselineSeries, currentTeamAverage);
+  const historicalWindows = teamBaselineSeries.slice(0, -1);
+  const teamHistoryPercentile = historicalWindows.length >= OlympicoAnalysis.ANALYSIS_CONFIG.minPersonalBaselineWindows
+    ? percentile(historicalWindows, currentTeamAverage) : null;
   const clubPercentile = percentile(clubCurrentTeamAverages, currentTeamAverage);
 
   return {
@@ -843,7 +829,7 @@ function buildTeamLoadBaseline(teamName) {
     teamHistoryBand: classifyPercentileBand(teamHistoryPercentile),
     clubPercentile,
     clubBand: classifyPercentileBand(clubPercentile),
-    baselineCount: teamBaselineSeries.length,
+    baselineCount: historicalWindows.length,
   };
 }
 
@@ -857,15 +843,22 @@ function getAthletesByTeam(teamName) {
 }
 
 function getTeamDistribution(teamName, metricKey, period) {
-  return getAthletesByTeam(teamName)
+  return (period === "all" ? getAthletesByTeam(teamName) : OlympicoAnalysis.getAnalysisEligibleAthletes(getAthletesByTeam(teamName), state.updatedAt))
     .map((athlete) => aggregateAthlete(athlete, metricKey, period))
     .filter((value) => Number.isFinite(value));
 }
 
 function getBaseDistribution(metricKey, period) {
-  return state.athletes
+  return (period === "all" ? state.athletes : OlympicoAnalysis.getAnalysisEligibleAthletes(state.athletes, state.updatedAt))
     .map((athlete) => aggregateAthlete(athlete, metricKey, period))
     .filter((value) => Number.isFinite(value));
+}
+
+function getDescriptiveTeamPercentile(teamName, metricKey, period, athlete) {
+  const values = getTeamDistribution(teamName, metricKey, period);
+  if (values.length < OlympicoAnalysis.ANALYSIS_CONFIG.minTeamPercentileN ||
+      !OlympicoAnalysis.getAnalysisEligibleAthletes([athlete], state.updatedAt).length) return null;
+  return percentile(values, aggregateAthlete(athlete, metricKey, period));
 }
 
 function getTeamAggregate(teamName, metricKey, period) {
@@ -936,260 +929,32 @@ function filterAthletes() {
   });
 }
 
-function computeCardSummaryLegacy(athlete) {
-  const teamValues = getTeamDistribution(athlete.category, "loadScore", "latest");
-  const percentileValue = percentile(teamValues, athlete.latest.loadScore);
-
-  return {
-    teamPercentile: percentileValue,
-    text: `Carga ${formatRatio(athlete.latest.loadScore)} · recuperação ${formatRatio(
-      athlete.latest.recoveryScore
-    )}`,
-  };
-}
-
 function computeCardSummary(athlete) {
   const baseline = buildAthleteLoadBaseline(athlete);
-
+  const eligible = OlympicoAnalysis.getAnalysisEligibleAthletes([athlete], state.updatedAt).length > 0;
   return {
     teamPercentile: baseline.teamPercentile,
-    text: `MM3 ${formatRatio(baseline.currentMovingAverage)} · ${baseline.ownBand.toLowerCase()} pessoal`,
+    text: eligible
+      ? `Desgaste ${formatRatio(baseline.currentMovingAverage)} · Média das 3 últimas respostas · ${baseline.ownPercentile === null ? "Base histórica insuficiente" : `${baseline.ownBand.toLowerCase()} no padrão pessoal`}`
+      : "Sem check-in recente para comparação atual · histórico disponível",
   };
-}
-
-function computeStaffRanking(athletes, period) {
-  const current = athletes.map((athlete) => {
-    const recentEntries = filterEntriesByPeriod(athlete.entries, period);
-    const teamAthletes = athletes.filter((item) => item.category === athlete.category);
-    const loadBaseline = buildAthleteLoadBaseline({
-      ...athlete,
-      entries: recentEntries.length ? recentEntries : athlete.entries,
-    });
-    const sustainedFatigue = average(
-      recentEntries.map((entry) => entry.fatigueScore)
-    );
-    const sustainedStress = average(
-      recentEntries.map((entry) => entry.stressScore)
-    );
-    const sustainedRecovery = average(
-      recentEntries.map((entry) => entry.recoveryScore)
-    );
-    const fatigueHighCount = recentEntries.filter(
-      (entry) => Number.isFinite(entry.fatigueScore) && entry.fatigueScore >= 4
-    ).length;
-    const recoveryLowCount = recentEntries.filter(
-      (entry) => Number.isFinite(entry.recoveryScore) && entry.recoveryScore <= 2.5
-    ).length;
-
-    return {
-      ...athlete,
-      fatigueValue: sustainedFatigue,
-      stressValue: sustainedStress,
-      recoveryValue: sustainedRecovery,
-      fatigueHighCount,
-      recoveryLowCount,
-      recentWindow: recentEntries.length,
-      loadBaseline,
-      stressHighCount: recentEntries.filter(
-        (entry) => Number.isFinite(entry.stressScore) && entry.stressScore >= 4
-      ).length,
-    };
-  });
-
-  const fatigueMeans = current.map((item) => item.fatigueValue).filter(Number.isFinite);
-  const stressMeans = current.map((item) => item.stressValue).filter(Number.isFinite);
-  const recoveryMeans = current.map((item) => item.recoveryValue).filter(Number.isFinite);
-  const fatigueMean = average(fatigueMeans);
-  const stressMean = average(stressMeans);
-  const recoveryMean = average(recoveryMeans);
-  const fatigueSd = standardDeviation(fatigueMeans) || 1;
-  const stressSd = standardDeviation(stressMeans) || 1;
-  const recoverySd = standardDeviation(recoveryMeans) || 1;
-
-  current.forEach((item) => {
-    const fatigueZ = Number.isFinite(item.fatigueValue)
-      ? (item.fatigueValue - fatigueMean) / fatigueSd
-      : null;
-    const stressZ = Number.isFinite(item.stressValue)
-      ? (item.stressValue - stressMean) / stressSd
-      : null;
-    const recoveryZ = Number.isFinite(item.recoveryValue)
-      ? (recoveryMean - item.recoveryValue) / recoverySd
-      : null;
-
-    item.fatigueRiskScore = roundNumber(
-      (Number.isFinite(item.loadBaseline.teamPercentile) ? Math.max(0, (item.loadBaseline.teamPercentile - 65) / 20) : 0) +
-        (Number.isFinite(fatigueZ) ? fatigueZ * 0.45 : 0) +
-        (item.fatigueHighCount / Math.max(1, item.recentWindow)) * 1.35 +
-        (item.recoveryLowCount / Math.max(1, item.recentWindow)) * 0.7,
-      2
-    );
-    item.stressRiskScore = roundNumber(
-      (Number.isFinite(stressZ) ? stressZ * 0.65 : 0) +
-        (item.stressHighCount / Math.max(1, item.recentWindow)) * 1.2,
-      2
-    );
-    item.recoveryRiskScore = roundNumber(
-      (Number.isFinite(recoveryZ) ? recoveryZ * 0.55 : 0) +
-        (item.recoveryLowCount / Math.max(1, item.recentWindow)) * 1.4 +
-        (item.fatigueHighCount / Math.max(1, item.recentWindow)) * 0.55,
-      2
-    );
-  });
-
-  return {
-    fatigue: current
-      .filter(
-        (item) =>
-          Number.isFinite(item.fatigueValue) &&
-          Number.isFinite(item.loadBaseline.teamPercentile) &&
-          item.loadBaseline.teamPercentile >= 65
-      )
-      .sort((left, right) => right.fatigueRiskScore - left.fatigueRiskScore)
-      .slice(0, 8),
-    stress: current
-      .filter(
-        (item) =>
-          Number.isFinite(item.stressValue) &&
-          (item.stressHighCount >= 2 || item.stressRiskScore >= 1)
-      )
-      .sort((left, right) => right.stressRiskScore - left.stressRiskScore)
-      .slice(0, 8),
-    recovery: current
-      .filter(
-        (item) =>
-          Number.isFinite(item.recoveryValue) &&
-          (item.recoveryLowCount >= 2 || item.fatigueHighCount >= 2)
-      )
-      .sort((left, right) => right.recoveryRiskScore - left.recoveryRiskScore)
-      .slice(0, 8),
-  };
-}
-
-function getRiskLevel(score) {
-  if (!Number.isFinite(score)) {
-    return { label: "Sem base", tone: "low" };
-  }
-  if (score >= 1.9) {
-    return { label: "Crítico", tone: "high" };
-  }
-  if (score >= 1.1) {
-    return { label: "Atenção", tone: "medium" };
-  }
-  return { label: "Monitorar", tone: "low" };
-}
-
-function renderStaffList(container, items, valueFormatter, scoreGetter, noteGetter) {
-  if (!items.length) {
-    container.innerHTML = '<div class="staff-empty">Sem base suficiente.</div>';
-    return;
-  }
-
-  container.innerHTML = items
-    .map(
-      (athlete, index) => {
-        const score = scoreGetter(athlete);
-        const risk = getRiskLevel(score);
-        return `
-        <article class="staff-item">
-          <div>
-            <span class="staff-item__rank">#${index + 1}</span>
-            <h4>${athlete.name}</h4>
-            <p>${athlete.category} · janela ${athlete.recentWindow}</p>
-            <div class="staff-item__bar">
-              <span class="staff-item__bar-fill staff-item__bar-fill--${risk.tone}" style="width:${Math.max(
-                18,
-                Math.min(100, ((score || 0) / 2.6) * 100)
-              )}%"></span>
-            </div>
-            <small>${noteGetter(athlete)}</small>
-          </div>
-          <div class="staff-item__aside">
-            <strong>${valueFormatter(athlete)}</strong>
-            <span class="staff-item__risk staff-item__risk--${risk.tone}">${risk.label}</span>
-          </div>
-        </article>
-      `;
-      }
-    )
-    .join("");
-
-  container.querySelectorAll(".staff-item").forEach((item, index) => {
-    const meta = item.querySelector("p");
-    if (meta) {
-      meta.textContent = `${items[index].category} · ${items[index].recentWindow} respostas`;
-    }
-  });
-}
-
-function renderStaffDrawerLegacy() {
-  const filtered =
-    state.staffModality === "all"
-      ? state.athletes
-      : state.athletes.filter((athlete) => athlete.modalityId === state.staffModality);
-  const ranking = computeStaffRanking(filtered, state.staffPeriod);
-
-  renderStaffList(
-    elements.staffFatigueList,
-    ranking.fatigue,
-    (athlete) => formatRatio(athlete.fatigueValue),
-    (athlete) => athlete.fatigueRiskScore,
-    (athlete) =>
-      `${athlete.fatigueHighCount} fadiga alta + ${athlete.recoveryLowCount} recuperação baixa em ${formatPeriodLabel(
-        state.staffPeriod
-      )}`
-  );
-  renderStaffList(
-    elements.staffStressList,
-    ranking.stress,
-    (athlete) => formatRatio(athlete.stressValue),
-    (athlete) => athlete.stressRiskScore,
-    (athlete) =>
-      `${athlete.stressHighCount} respostas altas em ${formatPeriodLabel(state.staffPeriod)}`
-  );
-  renderStaffList(
-    elements.staffRecoveryList,
-    ranking.recovery,
-    (athlete) => formatRatio(athlete.recoveryValue),
-    (athlete) => athlete.recoveryRiskScore,
-    (athlete) =>
-      `${athlete.recoveryLowCount} recuperação baixa + ${athlete.fatigueHighCount} fadiga alta em ${formatPeriodLabel(
-        state.staffPeriod
-      )}`
-  );
 }
 
 function renderStaffDrawer() {
-  const filtered =
-    state.staffModality === "all"
-      ? state.athletes
-      : state.athletes.filter((athlete) => athlete.modalityId === state.staffModality);
-  const ranking = computeStaffRanking(filtered, state.staffPeriod);
-
-  renderStaffList(
-    elements.staffFatigueList,
-    ranking.fatigue,
-    (athlete) => formatRatio(athlete.fatigueValue),
-    (athlete) => athlete.fatigueRiskScore,
-    (athlete) =>
-      `Baseline ${formatPercentile(athlete.loadBaseline.teamPercentile)} · ${athlete.loadBaseline.teamBand} na equipe`
-  );
-  renderStaffList(
-    elements.staffStressList,
-    ranking.stress,
-    (athlete) => formatRatio(athlete.stressValue),
-    (athlete) => athlete.stressRiskScore,
-    (athlete) =>
-      `${athlete.stressHighCount} respostas altas em ${formatPeriodLabel(state.staffPeriod)}`
-  );
-  renderStaffList(
-    elements.staffRecoveryList,
-    ranking.recovery,
-    (athlete) => formatRatio(athlete.recoveryValue),
-    (athlete) => athlete.recoveryRiskScore,
-    (athlete) =>
-      `${athlete.recoveryLowCount} recuperação baixa + ${athlete.fatigueHighCount} fadiga alta`
-  );
+  const filtered = state.staffModality === "all"
+    ? state.athletes : state.athletes.filter((athlete) => athlete.modalityId === state.staffModality);
+  const items = OlympicoAnalysis.buildAttentionItems(filtered, state.updatedAt);
+  elements.staffAttentionList.innerHTML = items.length ? items.map((item) => `
+    <article class="staff-item staff-item--${item.tone}">
+      <div>
+        <h4>${escapeHtml(item.athlete.name)}</h4>
+        <p>${escapeHtml(item.athlete.category)} · ${item.dataQuality.recentCount} respostas recentes</p>
+        <strong>${escapeHtml(item.primaryReason)}</strong>
+        <small>${item.secondaryReasons.map(escapeHtml).join(" · ")}</small>
+        <small>${escapeHtml(item.dataQuality.note)}</small>
+      </div>
+      <span class="staff-item__risk staff-item__risk--${item.tone === "watch" ? "low" : item.tone}">${escapeHtml(item.level)}</span>
+    </article>`).join("") : '<div class="staff-empty">Nenhum atleta atende aos critérios de atenção na semana.</div>';
 }
 
 function openStaffDrawer() {
@@ -1326,21 +1091,21 @@ function renderStats() {
       label: "Equipe em foco",
       value: teamAthletes.length || 0,
       note: teamBaseline
-        ? `${activeTeam} · MM3 ${formatRatio(teamBaseline.currentTeamAverage)}`
+        ? `${activeTeam} · Média 3 respostas ${formatRatio(teamBaseline.currentTeamAverage)}`
         : activeTeam || "Sem equipe selecionada",
     },
     {
-      label: "Baseline atleta",
-      value: athleteBaseline ? formatRatio(athleteBaseline.currentMovingAverage) : "Sem base",
+      label: "Padrão pessoal",
+      value: athleteBaseline && selectedAthlete && OlympicoAnalysis.getAnalysisEligibleAthletes([selectedAthlete], state.updatedAt).length ? formatRatio(athleteBaseline.currentMovingAverage) : "Sem dado atual",
       note: athleteBaseline
-        ? `${athleteBaseline.ownBand} · P ${formatPercentile(athleteBaseline.ownPercentile)}`
+        ? athleteBaseline.ownPercentile === null ? "Base histórica insuficiente" : `${athleteBaseline.ownBand} · P ${formatPercentile(athleteBaseline.ownPercentile)}`
         : "Selecione um atleta para leitura pessoal",
     },
     {
-      label: "Baseline equipe",
-      value: teamBaseline ? formatPercentile(teamBaseline.teamHistoryPercentile) : "Sem base",
+      label: "Contexto histórico da equipe",
+      value: teamBaseline ? teamBaseline.teamHistoryPercentile === null ? "Base histórica insuficiente" : formatPercentile(teamBaseline.teamHistoryPercentile) : "Sem base",
       note: teamBaseline
-        ? `${teamBaseline.teamHistoryBand} · clube ${formatPercentile(teamBaseline.clubPercentile)}`
+        ? `${teamBaseline.teamHistoryBand} · ${teamBaseline.baselineCount} janelas anteriores`
         : `Faixa global ${formatRatio(globalSummary.p25)} a ${formatRatio(globalSummary.p75)}`,
     },
   ];
@@ -1381,7 +1146,6 @@ function populateCategorySelects() {
       (item) => `<option value="${item.id}">${item.label}</option>`
     ).join("");
   elements.staffModalityFilter.value = state.staffModality;
-  elements.staffPeriodFilter.value = state.staffPeriod;
 }
 
 function renderExportButtons() {
@@ -1753,10 +1517,7 @@ function createDistributionChartForAthlete(athlete, teamName) {
         {
           label: "Percentil na equipe",
           data: metrics.map((metricKey) =>
-            percentile(
-              getTeamDistribution(teamName, metricKey, period),
-              aggregateAthlete(athlete, metricKey, period)
-            )
+            getDescriptiveTeamPercentile(teamName, metricKey, period, athlete)
           ),
           backgroundColor: "rgba(66, 70, 166, 0.92)",
           borderRadius: 999,
@@ -2024,193 +1785,29 @@ function renderDistributionReport(values, metricKey, scopeLabel) {
   `;
 }
 
-function renderHighlightsForAthleteLegacy(athlete, teamName) {
-  const period = state.controls.distribution.period;
-  const loadBaseline = buildAthleteLoadBaseline(athlete);
-  const teamLoadPercentile = percentile(
-    getTeamDistribution(teamName, "loadScore", period),
-    aggregateAthlete(athlete, "loadScore", period)
-  );
-  const baseLoadPercentile = percentile(
-    getBaseDistribution("loadScore", period),
-    aggregateAthlete(athlete, "loadScore", period)
-  );
-
+function renderHighlightsForAthlete(athlete) {
+  const baseline = buildAthleteLoadBaseline(athlete);
+  const eligible = OlympicoAnalysis.getAnalysisEligibleAthletes([athlete], state.updatedAt).length > 0;
   const cards = [
-    {
-      label: "Carga MM3",
-      value: formatRatio(loadBaseline.currentMovingAverage),
-      note: `${loadBaseline.ownBand} · percentil pessoal ${formatPercentile(loadBaseline.ownPercentile)}`,
-    },
-    {
-      label: "Recuperação",
-      value: formatRatio(aggregateAthlete(athlete, "recoveryScore", period)),
-      note: `Último ${formatRatio(athlete.latest.recoveryScore)}`,
-    },
-    {
-      label: "Percentil equipe",
-      value: formatPercentile(teamLoadPercentile),
-      note: `${getAthletesByTeam(teamName).length} atletas na equipe`,
-    },
-    {
-      label: "Percentil base",
-      value: formatPercentile(baseLoadPercentile),
-      note: athlete.modalityLabel,
-    },
+    { label: "Desgaste percebido", value: eligible ? formatRatio(baseline.currentMovingAverage) : "Sem dado atual", note: "Média das 3 últimas respostas" },
+    { label: "Recuperação", value: eligible ? formatRatio(athlete.latest.recoveryScore) : "Sem dado atual", note: "Último check-in" },
+    { label: "Último check-in", value: athlete.lastCheckIn || "Sem data", note: eligible ? "Elegível para leitura atual" : "Histórico disponível; fora da comparação atual" },
+    { label: "Padrão pessoal", value: eligible && baseline.ownPercentile !== null ? baseline.ownBand : "Base histórica insuficiente", note: `${baseline.baselineCount} janelas anteriores` },
   ];
-
-  elements.detailHighlights.innerHTML = cards
-    .map(
-      (card) => `
-        <article class="highlight">
-          <p>${card.label}</p>
-          <strong>${card.value}</strong>
-          <span>${card.note}</span>
-        </article>
-      `
-    )
-    .join("");
-}
-
-function renderHighlightsForAthlete(athlete, teamName) {
-  const period = state.controls.distribution.period;
-  const loadBaseline = buildAthleteLoadBaseline(athlete);
-  const teamLoadPercentile = percentile(
-    getTeamDistribution(teamName, "loadScore", period),
-    aggregateAthlete(athlete, "loadScore", period)
-  );
-  const baseLoadPercentile = percentile(
-    getBaseDistribution("loadScore", period),
-    aggregateAthlete(athlete, "loadScore", period)
-  );
-
-  const cards = [
-    {
-      label: "Carga MM3",
-      value: formatRatio(loadBaseline.currentMovingAverage),
-      note: `${loadBaseline.ownBand} · percentil pessoal ${formatPercentile(loadBaseline.ownPercentile)}`,
-    },
-    {
-      label: "Leitura na equipe",
-      value: formatPercentile(loadBaseline.teamPercentile),
-      note: `${loadBaseline.teamBand} na distribuicao atual da equipe`,
-    },
-    {
-      label: "Percentil equipe",
-      value: formatPercentile(teamLoadPercentile),
-      note: `${getAthletesByTeam(teamName).length} atletas · baseline ${loadBaseline.baselineCount} janelas`,
-    },
-    {
-      label: "Percentil base",
-      value: formatPercentile(baseLoadPercentile),
-      note: athlete.modalityLabel,
-    },
-  ];
-
-  elements.detailHighlights.innerHTML = cards
-    .map(
-      (card) => `
-        <article class="highlight">
-          <p>${card.label}</p>
-          <strong>${card.value}</strong>
-          <span>${card.note}</span>
-        </article>
-      `
-    )
-    .join("");
-}
-
-function renderHighlightsForTeamLegacy(teamName) {
-  const period = state.controls.distribution.period;
-  const teamLoadValues = getTeamDistribution(teamName, "loadScore", period);
-  const teamRecoveryValues = getTeamDistribution(teamName, "recoveryScore", period);
-  const teamSummary = buildDistributionSummary(teamLoadValues);
-  const teamMedianPercentile = percentile(
-    getAllTeamsAggregate("loadScore", period),
-    getTeamAggregate(teamName, "loadScore", period)
-  );
-
-  const cards = [
-    {
-      label: "Mediana da equipe",
-      value: formatRatio(teamSummary.median),
-      note: `Faixa ${formatRatio(teamSummary.p25)} a ${formatRatio(teamSummary.p75)}`,
-    },
-    {
-      label: "Recuperação média",
-      value: formatRatio(average(teamRecoveryValues)),
-      note: `${teamRecoveryValues.length} atletas válidos`,
-    },
-    {
-      label: "Percentil entre equipes",
-      value: formatPercentile(teamMedianPercentile),
-      note: "Comparativo por carga",
-    },
-    {
-      label: "Treinos marcados",
-      value: `${getTrainingDatesForTeam(teamName).filter((item) => item.checked).length}`,
-      note: "Dias com treino confirmado",
-    },
-  ];
-
-  elements.detailHighlights.innerHTML = cards
-    .map(
-      (card) => `
-        <article class="highlight">
-          <p>${card.label}</p>
-          <strong>${card.value}</strong>
-          <span>${card.note}</span>
-        </article>
-      `
-    )
-    .join("");
+  elements.detailHighlights.innerHTML = cards.map((card) => `<article class="highlight"><p>${escapeHtml(card.label)}</p><strong>${escapeHtml(card.value)}</strong><span>${escapeHtml(card.note)}</span></article>`).join("");
 }
 
 function renderHighlightsForTeam(teamName) {
-  const period = state.controls.distribution.period;
-  const teamLoadValues = getTeamDistribution(teamName, "loadScore", period);
-  const teamRecoveryValues = getTeamDistribution(teamName, "recoveryScore", period);
-  const teamSummary = buildDistributionSummary(teamLoadValues);
-  const teamMedianPercentile = percentile(
-    getAllTeamsAggregate("loadScore", period),
-    getTeamAggregate(teamName, "loadScore", period)
-  );
-  const loadBaseline = buildTeamLoadBaseline(teamName);
-
+  const athletes = getAthletesByTeam(teamName);
+  const weekly = OlympicoAnalysis.getAnalysisEligibleAthletes(athletes, state.updatedAt, { days: OlympicoAnalysis.ANALYSIS_CONFIG.reportWeekDays });
+  const baseline = buildTeamLoadBaseline(teamName);
   const cards = [
-    {
-      label: "Carga MM3 equipe",
-      value: formatRatio(loadBaseline.currentTeamAverage),
-      note: `${loadBaseline.teamHistoryBand} · percentil historico ${formatPercentile(loadBaseline.teamHistoryPercentile)}`,
-    },
-    {
-      label: "Recuperacao media",
-      value: formatRatio(average(teamRecoveryValues)),
-      note: `${teamRecoveryValues.length} atletas validos`,
-    },
-    {
-      label: "Percentil entre equipes",
-      value: formatPercentile(loadBaseline.clubPercentile),
-      note: `${loadBaseline.clubBand} no comparativo atual entre equipes`,
-    },
-    {
-      label: "Faixa central",
-      value: formatRatio(teamSummary.median),
-      note: `P25-P75 ${formatRatio(teamSummary.p25)} a ${formatRatio(teamSummary.p75)}`,
-    },
+    { label: "Desgaste percebido", value: formatRatio(average(weekly.map((athlete) => average(OlympicoAnalysis.recentEntries(athlete, state.updatedAt).map((entry) => entry.loadScore))))), note: "Média da semana · 7 dias" },
+    { label: "Recuperação", value: formatRatio(average(weekly.map((athlete) => average(OlympicoAnalysis.recentEntries(athlete, state.updatedAt).map((entry) => entry.recoveryScore))))), note: "Média da semana · 7 dias" },
+    { label: "Estresse", value: formatRatio(average(weekly.map((athlete) => average(OlympicoAnalysis.recentEntries(athlete, state.updatedAt).map((entry) => entry.stressScore))))), note: "Média da semana · 7 dias" },
+    { label: "Contexto histórico", value: baseline.teamHistoryPercentile === null ? "Base histórica insuficiente" : baseline.teamHistoryBand, note: `${baseline.baselineCount} janelas anteriores` },
   ];
-
-  elements.detailHighlights.innerHTML = cards
-    .map(
-      (card) => `
-        <article class="highlight">
-          <p>${card.label}</p>
-          <strong>${card.value}</strong>
-          <span>${card.note}</span>
-        </article>
-      `
-    )
-    .join("");
+  elements.detailHighlights.innerHTML = cards.map((card) => `<article class="highlight"><p>${escapeHtml(card.label)}</p><strong>${escapeHtml(card.value)}</strong><span>${escapeHtml(card.note)}</span></article>`).join("");
 }
 
 function getTrainingDatesForTeam(teamName) {
@@ -3083,20 +2680,20 @@ function renderAthletes() {
     card.classList.toggle("card--inactive", athlete.activityStatus === "inactive");
     card.classList.toggle("card--unverified", athlete.activityStatus === "unverified");
     const activityLabel = athlete.activityStatus === "inactive"
-      ? " Â· INATIVO"
+      ? " · INATIVO"
       : athlete.activityStatus === "unverified"
-        ? " Â· A CONFIRMAR"
+        ? " · A CONFIRMAR"
         : "";
     card.querySelector(".card__category").textContent = `${athlete.category}${activityLabel}`;
     card.querySelector(".card__name").textContent = athlete.name;
-    card.querySelector(".card__team-percentile").textContent = formatPercentile(summary.teamPercentile);
+    card.querySelector(".card__team-percentile").textContent = Number.isFinite(summary.teamPercentile) ? `Contexto da equipe: ${formatPercentile(summary.teamPercentile)}` : "Contexto da equipe: amostra reduzida";
     card.querySelector(".card__checkin").textContent = athlete.lastCheckIn || "Sem data";
     card.querySelector(".card__entries").textContent = `${athlete.totalEntries} respostas`;
     card.querySelector(".card__summary").textContent = summary.text;
     card.querySelector(".card__load").textContent = formatRatio(athlete.latest.loadScore);
+    card.querySelector(".card__recovery").textContent = formatRatio(athlete.latest.recoveryScore);
     card.querySelector(".card__pain").textContent = formatRatio(athlete.latest.painLevel, 10);
-    card.querySelector(".card__sleep").textContent = formatRatio(athlete.latest.sleepScore);
-    card.querySelector(".card__mood").textContent = formatRatio(athlete.latest.moodScore);
+    card.querySelector(".card__stress").textContent = formatRatio(athlete.latest.stressScore);
 
     const historyList = card.querySelector(".history__list");
     athlete.recentHistory.forEach((entry) => {
@@ -3104,7 +2701,7 @@ function renderAthletes() {
       const left = document.createElement("span");
       const right = document.createElement("span");
       left.textContent = entry.timestampDisplay || "Sem horário";
-      right.textContent = `Carga ${formatRatio(entry.loadScore)} · Recuperação ${formatRatio(
+      right.textContent = `Desgaste percebido ${formatRatio(entry.loadScore)} · Recuperação ${formatRatio(
         entry.recoveryScore
       )}`;
       item.append(left, right);
@@ -3690,10 +3287,7 @@ elements.staffModalityFilter.addEventListener("change", (event) => {
   renderStaffDrawer();
 });
 
-elements.staffPeriodFilter.addEventListener("change", (event) => {
-  state.staffPeriod = event.target.value;
-  renderStaffDrawer();
-});
+
 
 elements.navPanelButton.addEventListener("click", () => {
   state.activeSection = "panel";

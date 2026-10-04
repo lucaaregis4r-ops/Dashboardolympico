@@ -8,7 +8,7 @@
 
 2. Rode o atalho:
 
-`PREPARAR-ENVIO-RELATORIOS.cmd`
+`PREPARAR-ENVIO-RELATORIOS.sh`
 
 Ou pelo terminal:
 

@@ -9,3 +9,7 @@ archive/legacy-snapshots/
 *.log
 _server_out.log
 _server_err.log
+
+dist-linux/
+.env
+.env.*

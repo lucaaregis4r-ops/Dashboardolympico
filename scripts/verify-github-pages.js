@@ -19,6 +19,7 @@ const required = [
   "styles.css",
   "theme-flat.css",
   "app.js",
+  "analysis.js",
   "deployment-config.js",
   "manifest.webmanifest",
   "service-worker.js",
@@ -42,6 +43,9 @@ const { listAttendanceTeams } = require("../src/server/config/data-sources");
 
 if (html.indexOf('src="deployment-config.js"') > html.indexOf('src="app.js"')) {
   throw new Error("A configuracao precisa carregar antes do app.js.");
+}
+if (!(html.indexOf('src="deployment-config.js"') < html.indexOf('src="analysis.js"') && html.indexOf('src="analysis.js"') < html.indexOf('src="app.js"'))) {
+  throw new Error("As regras compartilhadas precisam carregar antes do app.js.");
 }
 if (!config.includes("reportsEnabled: false")) {
   throw new Error("A geracao de relatorios nao foi desativada.");

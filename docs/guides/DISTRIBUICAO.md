@@ -1,29 +1,17 @@
-# Distribuicao do Dashboard Olympico
+# Distribuição do Dashboard Olympico no Linux
 
-## Executavel Windows
+## Uso direto
 
-Use uma maquina com Node.js instalado para montar o pacote.
+Com Node.js 22 recomendado (mínimo 18), execute `./ABRIR-DASHBOARD.sh`. O script funciona mesmo quando chamado de outro diretório. Também é possível usar `npm start` e abrir o endereço mostrado no terminal.
 
-1. Abra a pasta do projeto.
-2. De duplo clique em `COMPILAR-EXECUTAVEL.cmd`.
-3. Aguarde a criacao da pasta `dist`.
-4. Copie a pasta `dist` inteira para o computador de destino.
-5. No computador de destino, abra `Dashboard-Olympico.exe`.
+## Pacote Linux
 
-O executavel e um launcher amigavel. Ele usa `runtime/node.exe`, que fica dentro da propria pasta `dist`, sobe o servidor local e abre o navegador automaticamente.
+Execute `./COMPILAR-EXECUTAVEL.sh` ou `npm run build:linux`. O resultado é `dist-linux/`, com `Dashboard-Olympico`, `src/`, `assets/`, `data/` e `docs/`. Copie a pasta inteira ao destino. O launcher requer Node.js instalado na máquina de destino e abre o navegador automaticamente. Use `./ABRIR-EXECUTAVEL.sh` na pasta do projeto, ou `./Dashboard-Olympico` dentro do pacote.
 
-## Uso em celulares
+O pacote não inclui runtime: sua compatibilidade depende da instalação de Node 18+ no destino. Para PDFs, instale Chrome ou Chromium. `CHROME_PATH` aceita um caminho personalizado.
 
-O celular nao executa o `.exe`. Ele acessa o dashboard pelo navegador.
+## Celular
 
-1. Abra o dashboard no computador.
-2. Mantenha computador e celular na mesma rede Wi-Fi.
-3. No terminal, procure o link `Celular na mesma rede`, por exemplo `http://192.168.0.20:3000`.
-4. Abra esse link no navegador do celular.
-5. Use a opcao do navegador `Adicionar a tela inicial`.
+Mantenha computador e celular na mesma rede. Use no celular o endereço mostrado como `Celular na mesma rede` no terminal. O PWA pode ser instalado pelo navegador; o servidor continua rodando no computador.
 
-## Observacoes
-
-- A exportacao de PDF continua acontecendo pelo computador que esta rodando o servidor.
-- As planilhas do Google precisam estar acessiveis pela internet.
-- Se o firewall do Windows bloquear o acesso do celular, libere o acesso de rede para o dashboard/Node.
+Os scripts `.cmd`, `start.ps1` e o pacote Windows antigo permanecem no repositório apenas para compatibilidade legada.

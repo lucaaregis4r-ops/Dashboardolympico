@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -Eeuo pipefail
 
 PROJECT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd -- "$PROJECT_DIR"
@@ -8,7 +8,11 @@ cd -- "$PROJECT_DIR"
 if ! command -v node >/dev/null 2>&1; then
   export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
   if [ -s "$NVM_DIR/nvm.sh" ]; then
+    set +u
+    set +u
     . "$NVM_DIR/nvm.sh"
+    set -u
+    set -u
   fi
 fi
 

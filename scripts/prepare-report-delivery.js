@@ -4,8 +4,6 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const REPORTS_ROOT = path.join(ROOT, "output", "reports");
-const DEFAULT_REPORTS_DIR = path.join(REPORTS_ROOT, "2026-06-18-original");
-const FALLBACK_REPORTS_DIR = path.join(REPORTS_ROOT, "2026-06-18-copy");
 const OUTPUT_DIR_NAME = "_envio";
 const MANIFEST_FILE = "controle-envio-relatorios.csv";
 const WHATSAPP_FILE = "links-whatsapp.md";
@@ -183,11 +181,18 @@ function resolveReportsDir() {
     return path.resolve(ROOT, argPath);
   }
 
-  if (fsSync.existsSync(FALLBACK_REPORTS_DIR)) {
-    return FALLBACK_REPORTS_DIR;
+  if (!fsSync.existsSync(REPORTS_ROOT)) {
+    throw new Error("Nenhum kit encontrado. Gere os relatórios primeiro.");
   }
-
-  return DEFAULT_REPORTS_DIR;
+  const folders = fsSync.readdirSync(REPORTS_ROOT, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(REPORTS_ROOT, entry.name))
+    .filter((directory) => fsSync.readdirSync(directory).some((file) => file.toLowerCase().endsWith(".pdf")))
+    .sort((left, right) => fsSync.statSync(right).mtimeMs - fsSync.statSync(left).mtimeMs);
+  if (!folders.length) {
+    throw new Error("Nenhum kit com PDF encontrado. Gere os relatórios primeiro.");
+  }
+  return folders[0];
 }
 
 async function main() {

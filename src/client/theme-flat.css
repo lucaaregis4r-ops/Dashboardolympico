@@ -884,3 +884,15 @@ summary:focus-visible,
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Hierarquia da revisão v3: leitura pessoal antes da comparação relativa. */
+.card__team-percentile { margin: -8px 0 0; color: var(--text-muted, #68758f); font-size: .76rem; }
+.staff-columns { display: block; }
+.staff-item { border-bottom: 1px solid #dce3ef; align-items: start; }
+.staff-item h4 { margin: 0 0 4px; }
+.staff-item strong { display: block; font-size: .92rem; font-family: inherit; }
+.staff-item small:empty { display: none; }
+.staff-item__risk--high { color: #a51e31; background: #fff0f2; }
+.staff-item__risk--medium { color: #8c5c18; background: #fff4df; }
+.staff-item__risk--low { color: #315ea8; background: #eaf0fa; }
+@media (max-width: 680px) { .staff-item { grid-template-columns: 1fr; } }

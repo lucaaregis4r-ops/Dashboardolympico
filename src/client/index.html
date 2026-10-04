@@ -117,7 +117,7 @@
         </nav>
 
         <div class="sidebar__meta">
-          <span class="sidebar__meta-label">Última carga</span>
+          <span class="sidebar__meta-label">Último check-in</span>
           <strong id="updated-at">Carregando...</strong>
           <button class="sidebar__logout" id="logout-button" type="button">Sair</button>
         </div>
@@ -344,7 +344,7 @@
               <div>
                 <p class="chart-card__eyebrow">Frequência semanal</p>
                 <h3>Preparação física</h3>
-                <p>Presenças registradas nas chamadas, separadas da base principal de carga e check-ins.</p>
+                <p>Presenças registradas nas chamadas, separadas da base principal de check-ins.</p>
               </div>
               <div class="physio-hero__status">
                 <span>Última sessão</span>
@@ -492,7 +492,7 @@
         <div class="staff-drawer__head">
           <div>
             <p class="detail__eyebrow">Comissão técnica</p>
-            <h3 id="staff-drawer-title">Alertas prioritários</h3>
+            <h3 id="staff-drawer-title">Atletas em atenção</h3>
           </div>
           <button class="staff-drawer__close" id="staff-close-button" type="button">
             Fechar
@@ -504,33 +504,9 @@
             <span>Modalidade</span>
             <select id="staff-modality-filter"></select>
           </label>
-          <label class="field">
-            <span>Período</span>
-            <select id="staff-period-filter">
-              <option value="15">15 dias</option>
-              <option value="30" selected>30 dias</option>
-              <option value="45">45 dias</option>
-              <option value="60">60 dias</option>
-              <option value="90">90 dias</option>
-              <option value="all">Todo o histórico</option>
-            </select>
-          </label>
         </div>
 
-        <div class="staff-columns">
-          <section class="staff-card">
-            <p class="chart-card__eyebrow">Fadiga</p>
-            <div id="staff-fatigue-list"></div>
-          </section>
-          <section class="staff-card">
-            <p class="chart-card__eyebrow">Estresse</p>
-            <div id="staff-stress-list"></div>
-          </section>
-          <section class="staff-card">
-            <p class="chart-card__eyebrow">Recuperação</p>
-            <div id="staff-recovery-list"></div>
-          </section>
-        </div>
+        <div class="staff-columns"><section class="staff-card"><p class="chart-card__eyebrow">Critérios da semana · 7 dias</p><div id="staff-attention-list"></div></section></div>
       </div>
     </aside>
 
@@ -541,10 +517,6 @@
           <div>
             <p class="card__category"></p>
             <h2 class="card__name"></h2>
-          </div>
-          <div class="mini-rank">
-            <span class="mini-rank__label">Percentil equipe</span>
-            <strong class="mini-rank__value card__team-percentile"></strong>
           </div>
         </div>
 
@@ -560,23 +532,24 @@
         </div>
 
         <p class="card__summary"></p>
+        <p class="card__team-percentile"></p>
 
         <div class="signals">
           <div class="signal">
-            <span>Carga</span>
+            <span>Desgaste percebido</span>
             <strong class="card__load"></strong>
+          </div>
+          <div class="signal">
+            <span>Recuperação</span>
+            <strong class="card__recovery"></strong>
           </div>
           <div class="signal">
             <span>Dor</span>
             <strong class="card__pain"></strong>
           </div>
           <div class="signal">
-            <span>Insônia</span>
-            <strong class="card__sleep"></strong>
-          </div>
-          <div class="signal">
-            <span>Humor</span>
-            <strong class="card__mood"></strong>
+            <span>Estresse</span>
+            <strong class="card__stress"></strong>
           </div>
         </div>
 
@@ -588,6 +561,7 @@
     </template>
 
     <script src="deployment-config.js"></script>
+    <script src="analysis.js" defer></script>
     <script src="app.js" defer></script>
     <script>
       if ("serviceWorker" in navigator) {
