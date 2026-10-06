@@ -5,12 +5,13 @@
 - `src/server/index.js` fornece API, integrações de planilhas e HTML/PDF dos relatórios.
 - `src/client/` contém dashboard, PWA e `analysis.js`, módulo de regras analíticas compartilhado pelo servidor e pelo navegador.
 - `src/server/integrations/attendance.js` e `domain/attendance-reconciliation.js` conciliam presença da preparação física com o elenco.
+- `src/server/integrations/wellness.js` lê as respostas de bem-estar nas abas PSR/PSE das cinco planilhas de modalidade.
 - `scripts/create-report-kit.js` produz os PDFs das 16 categorias. `scripts/create-github-pages.js` cria a edição estática e `scripts/verify-github-pages.js` a valida.
 - `output/`, `dist/` e `dist-linux/` são artefatos gerados e ignorados pelo Git.
 
 ## Fontes e identidade
 
-A fonte principal é a planilha pública de check-ins configurada em `src/server/config/data-sources.js`. Cinco planilhas suplementares de presença cobrem 16 categorias. Fisioterapia é lida por modalidade; psicologia permanece em sua fonte separada. A conciliação de nomes preserva identidades aprovadas e o alias `NATAÇÃO JUV` / `NATAÇÃO JUVENIL`. Equipes clínicas sem base de check-in continuam recebendo relatório clínico.
+A fonte principal são as 16 abas PSR/PSE de bem-estar nas cinco planilhas de modalidade configuradas em `src/server/config/data-sources.js`. As 16 abas de chamada dessas mesmas planilhas fornecem presença. Fisioterapia é lida por modalidade; psicologia permanece em sua fonte separada. A conciliação de nomes preserva identidades aprovadas e o alias `NATAÇÃO JUV` / `NATAÇÃO JUVENIL`. Equipes clínicas sem base de check-in continuam recebendo relatório clínico.
 
 Atletas inativos e com status ainda não confirmado continuam na API, na busca e no histórico. Elegibilidade analítica depende exclusivamente do check-in primário, não do status de presença. A janela de atividade do elenco é de 20 dias. Indicadores da semana e atenção usam 7 dias; a evolução usa 90 dias.
 

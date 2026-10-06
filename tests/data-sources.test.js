@@ -6,15 +6,17 @@ const {
   ATHLETE_IDENTITY_REVIEW_SOURCE,
   PRIMARY_ATHLETES_SOURCE,
   listAttendanceTeams,
+  listWellnessTeams,
   validateDataSourceConfiguration,
 } = require("../src/server/config/data-sources");
 const { buildAttendanceProbeUrl, probeAttendanceSheet } = require("../scripts/validate-data-sources");
 
-test("mantem a base atual como fonte principal separada da presenca", () => {
+test("usa as abas PSR/PSE como fonte principal de bem-estar", () => {
   assert.equal(PRIMARY_ATHLETES_SOURCE.role, "primary");
-  assert.match(PRIMARY_ATHLETES_SOURCE.csvUrl, /15B29MdEXNsDVq4fCJVUffznul--C1Mb5B7pZtmWqmOY/);
+  assert.equal(PRIMARY_ATHLETES_SOURCE.id, "wellness-multi-sheet");
   assert.ok(ATTENDANCE_SOURCES.every((source) => source.role === "supplementary"));
-  assert.ok(ATTENDANCE_SOURCES.every((source) => !PRIMARY_ATHLETES_SOURCE.csvUrl.includes(source.id)));
+  assert.equal(listWellnessTeams().length, 16);
+  assert.ok(listWellnessTeams().every((team) => team.sheetName && team.spreadsheetId));
 });
 
 test("mapeia cinco planilhas e dezesseis categorias de presenca", () => {

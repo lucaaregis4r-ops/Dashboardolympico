@@ -21,3 +21,9 @@ Os PDFs de Basquete Sub-14, Basquete Sub-15 com seis demandas de fisioterapia e 
 A fonte principal tinha atualização mais recente em 25/09/2026 durante a validação. A maioria das equipes estava sem check-in na janela semanal; o relatório mostra a cobertura e não interpreta ausência de respostas como condição favorável. A autorização OAuth e o envio ao Google Drive não foram executados porque dependem das credenciais e da conta operacional.
 
 O pacote Linux usa o Node instalado no destino. Os scripts Windows e `.cmd` permanecem apenas como legado. O GitHub Pages é público e os JSONs estáticos contêm dados de atletas e áreas clínicas, como já ocorria antes desta revisão.
+
+## Correção das fontes de bem-estar — 05/10/2026
+
+As respostas de bem-estar foram movidas para as abas PSR/PSE das cinco planilhas de modalidade. O servidor e o exportador de atletas agora leem essas 16 abas como fonte principal. As outras 16 abas continuam fornecendo presença. A validação online confirmou acesso às 32 abas.
+
+Na leitura de verificação, as abas PSR/PSE tinham 2.111 respostas válidas, 243 atletas em 16 equipes e resposta mais recente em 05/10/2026 às 19:11. A API local retornou esses números; um PDF de Basquete Sub-14 foi gerado com período de 28/09 a 05/10, oito atletas com resposta na semana e indicador de presença. O build do GitHub Pages e sua verificação passaram com os dados novos. PDFs já gerados antes desta correção precisam ser recriados; o kit agora atualiza arquivos existentes por padrão.

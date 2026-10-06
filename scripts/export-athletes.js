@@ -1,12 +1,10 @@
 const fs = require("fs/promises");
 const path = require("path");
-const https = require("https");
+const { getWellnessRows } = require("../src/server/integrations/wellness");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUTPUT_DIR = path.join(ROOT, "data", "reference");
 const OUTPUT_FILE = path.join(OUTPUT_DIR, "athletes.csv");
-const SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/15B29MdEXNsDVq4fCJVUffznul--C1Mb5B7pZtmWqmOY/export?format=csv&gid=1847097737";
 const ACTIVE_ATHLETE_WINDOW_DAYS = 70;
 
 function normalizeText(value) {
@@ -341,54 +339,8 @@ function toCsv(rows) {
   return `${lines.join("\n")}\n`;
 }
 
-function downloadText(url, redirectCount = 0) {
-  return new Promise((resolve, reject) => {
-    if (redirectCount > 5) {
-      reject(new Error("Muitas redirecoes ao tentar baixar a planilha."));
-      return;
-    }
-
-    https
-      .get(
-        url,
-        {
-          headers: {
-            "User-Agent": "Dashboard Olympico",
-          },
-        },
-        (response) => {
-          const { statusCode = 0, headers } = response;
-
-          if (statusCode >= 300 && statusCode < 400 && headers.location) {
-            response.resume();
-            resolve(downloadText(headers.location, redirectCount + 1));
-            return;
-          }
-
-          if (statusCode !== 200) {
-            response.resume();
-            reject(new Error(`Falha ao ler a planilha publica (${statusCode})`));
-            return;
-          }
-
-          const chunks = [];
-          response.on("data", (chunk) => {
-            chunks.push(chunk);
-          });
-          response.on("end", () => {
-            resolve(Buffer.concat(chunks).toString("utf8"));
-          });
-        }
-      )
-      .on("error", (error) => {
-        reject(error);
-      });
-  });
-}
-
 async function main() {
-  const csv = await downloadText(SHEET_CSV_URL);
-  const athletes = transformRows(parseCsv(csv));
+  const athletes = transformRows(await getWellnessRows());
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   await fs.writeFile(OUTPUT_FILE, toCsv(athletes), "utf8");
   console.log(`Arquivo gerado: ${OUTPUT_FILE}`);

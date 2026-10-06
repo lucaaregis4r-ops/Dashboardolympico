@@ -8,8 +8,9 @@ const { execFile } = require("child_process");
 const { randomUUID } = require("crypto");
 const { URL, pathToFileURL } = require("url");
 const paths = require("./config/paths");
-const { PRIMARY_ATHLETES_SOURCE, listAttendanceTeams } = require("./config/data-sources");
+const { listAttendanceTeams } = require("./config/data-sources");
 const { getAttendanceData } = require("./integrations/attendance");
+const { getWellnessRows } = require("./integrations/wellness");
 const { applyAttendanceActivity } = require("./domain/attendance-reconciliation");
 const Analysis = require("../client/analysis");
 
@@ -19,7 +20,6 @@ const ROOT = paths.projectRoot;
 const CLIENT_DIR = paths.clientDir;
 const ASSETS_DIR = paths.assetsDir;
 const DOCS_DIR = paths.docsDir;
-const SHEET_CSV_URL = PRIMARY_ATHLETES_SOURCE.csvUrl;
 const PHYSIO_DEMANDS_SHEET_ID = "1RzfD3RM0PEBXCPZdthVeIWu7G0mYIENlsP1_ToV6Xzs";
 const PSYCHOLOGY_DEMANDS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/1ZUFyKxUvvxZ41sVGIwr3ophT39SSKjrXDdlnq_S2vI0/export?format=csv&gid=1746478381";
@@ -624,8 +624,8 @@ function extractPrimaryAthleteRoster(rows) {
 }
 
 async function fetchAthletesData() {
-  const [csv, attendanceData] = await Promise.all([downloadText(SHEET_CSV_URL), getAttendanceData()]);
-  return transformRows(parseCsv(csv), { attendanceData });
+  const [wellnessRows, attendanceData] = await Promise.all([getWellnessRows(), getAttendanceData()]);
+  return transformRows(wellnessRows, { attendanceData });
 }
 
 function normalizeHeaderKey(value) {

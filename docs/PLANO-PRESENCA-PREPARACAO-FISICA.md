@@ -2,6 +2,8 @@
 
 > Criado em 2026-08-21. Este documento registra o escopo e o andamento da integracao das novas planilhas de presenca.
 
+> Atualização em 2026-10-05: as abas PSR/PSE dessas mesmas cinco planilhas passaram a ser a fonte principal das respostas de bem-estar. As decisões abaixo descrevem a implantação original de agosto; `Página6` continua fora da importação.
+
 ## Decisao de arquitetura
 
 A base atual de atletas, carga e check-ins sera mantida como fonte principal. Ela nao sera substituida, mesclada fisicamente ou reinterpretada pelas planilhas de presenca.

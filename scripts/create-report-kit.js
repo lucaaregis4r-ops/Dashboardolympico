@@ -150,11 +150,11 @@ function buildReportList(categories) {
 async function downloadReport(baseUrl, report, outputDir) {
   const timeoutMs = getPositiveIntegerArg("timeout-seconds", DEFAULT_REPORT_TIMEOUT_MS / 1000) * 1000;
   const retries = getPositiveIntegerArg("retries", DEFAULT_RETRIES);
-  const force = hasFlag("force");
+  const resume = hasFlag("resume") && !hasFlag("force");
   const outputPath = path.join(outputDir, report.fileName);
   const partialPath = `${outputPath}.partial`;
 
-  if (!force) {
+  if (resume) {
     const current = await fs.stat(outputPath).catch(() => null);
     if (current?.isFile() && current.size >= 1000) {
       console.log(`  Ja existe (${Math.round(current.size / 1024)} KB); pulando.`);

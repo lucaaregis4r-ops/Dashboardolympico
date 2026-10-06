@@ -2,6 +2,8 @@
 
 Painel do Olympico Club para acompanhar check-ins de atletas, presença na preparação física e registros de fisioterapia e psicologia. A execução local em Linux oferece PDFs e kit semanal; a edição GitHub Pages é estática e não oferece relatórios.
 
+As cinco planilhas de modalidade fornecem os dois tipos de dado: as abas `PSR`/`PSE` contêm respostas de bem-estar e as abas de chamada contêm presenças. O dashboard e os relatórios leem as respostas diretamente das 16 abas de bem-estar configuradas em `src/server/config/data-sources.js`.
+
 ## Iniciar no Linux
 
 Recomendado: Node.js 22. A versão mínima suportada é 18.

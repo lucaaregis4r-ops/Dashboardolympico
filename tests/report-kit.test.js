@@ -48,7 +48,7 @@ test("endereco OAuth inclui os parametros exigidos pelo Google", () => {
   assert.equal(url.searchParams.get("redirect_uri"), "http://127.0.0.1:3210/oauth2callback");
 });
 
-test("download valida PDF e retoma sem baixar novamente", async (context) => {
+test("download valida PDF e atualiza arquivo existente", async (context) => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), "dashboard-kit-"));
   context.after(() => fs.rm(directory, { recursive: true, force: true }));
   let requests = 0;
@@ -66,8 +66,8 @@ test("download valida PDF e retoma sem baixar novamente", async (context) => {
   const second = await downloadReport(baseUrl, report, directory);
 
   assert.equal(first.skipped, false);
-  assert.equal(second.skipped, true);
-  assert.equal(requests, 1);
+  assert.equal(second.skipped, false);
+  assert.equal(requests, 2);
   assert.ok((await fs.stat(path.join(directory, report.fileName))).size > 1000);
 });
 

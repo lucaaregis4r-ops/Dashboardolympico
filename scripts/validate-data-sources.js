@@ -2,6 +2,7 @@ const {
   ATTENDANCE_SOURCES,
   PRIMARY_ATHLETES_SOURCE,
   listAttendanceTeams,
+  listWellnessTeams,
   validateDataSourceConfiguration,
 } = require("../src/server/config/data-sources");
 
@@ -57,7 +58,28 @@ async function probeAttendanceSheet(target, fetchImpl = fetch) {
 }
 
 async function validateOnlineAccess(fetchImpl = fetch) {
-  return Promise.all(listAttendanceTeams().map((target) => probeAttendanceSheet(target, fetchImpl)));
+  return Promise.all([
+    ...listAttendanceTeams().map((target) => probeAttendanceSheet(target, fetchImpl)),
+    ...listWellnessTeams().map(async (target) => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
+      try {
+        const params = new URLSearchParams({ tqx: "out:csv", headers: "0", sheet: target.sheetName, range: "A1:J3" });
+        const response = await fetchImpl(`https://docs.google.com/spreadsheets/d/${target.spreadsheetId}/gviz/tq?${params}`, {
+          redirect: "follow",
+          signal: controller.signal,
+        });
+        const content = await response.text();
+        const accessible = response.ok && /NOME/i.test(content) && /FADIGA/i.test(content) &&
+          !/accounts\.google\.com/i.test(response.url || "");
+        return { ...target, kind: "bem-estar", accessible, reason: accessible ? "ok" : `cabecalho ausente ou HTTP ${response.status}` };
+      } catch (error) {
+        return { ...target, kind: "bem-estar", accessible: false, reason: error.message };
+      } finally {
+        clearTimeout(timeout);
+      }
+    }),
+  ]);
 }
 
 async function main() {
@@ -68,7 +90,7 @@ async function main() {
     return;
   }
 
-  console.log(`Base principal preservada: ${PRIMARY_ATHLETES_SOURCE.label}`);
+  console.log(`Base principal: ${PRIMARY_ATHLETES_SOURCE.label}`);
   console.log(
     `Configuracao valida: ${configuration.attendanceSourceCount} fontes suplementares e ${configuration.attendanceTeamCount} categorias.`
   );
@@ -81,14 +103,14 @@ async function main() {
   const results = await validateOnlineAccess();
   const failures = results.filter((result) => !result.accessible);
   for (const result of results) {
-    console.log(`${result.accessible ? "OK" : "FALHA"} ${result.teamName} (${result.sheetName}): ${result.reason}`);
+    console.log(`${result.accessible ? "OK" : "FALHA"} ${result.kind || "presenca"} ${result.teamName} (${result.sheetName}): ${result.reason}`);
   }
 
   if (failures.length) {
     console.error(`${failures.length} aba(s) nao podem ser lidas publicamente pelo dashboard.`);
     process.exitCode = 1;
   } else {
-    console.log(`Acesso publico confirmado nas ${results.length} abas de presenca.`);
+    console.log(`Acesso publico confirmado nas ${results.length} abas de presenca e bem-estar.`);
   }
 }
 
